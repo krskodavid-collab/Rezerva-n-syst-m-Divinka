@@ -892,15 +892,17 @@
   <div class="header-top">
     <div class="logo-section">
       <div class="logo-icon" title="Erb obce Divinka">
-        <!-- Erb obce Divinka (štylizovaný — zelený štít so zlatým prvkom) -->
-        <svg viewBox="0 0 100 120" xmlns="http://www.w3.org/2000/svg">
+        <!-- Skutočné logo obce — vlož súbor 'logo.png' (alebo logo.jpg) do priečinka stránky -->
+        <img src="logo.png" alt="Erb obce Divinka"
+             style="width:100%; height:100%; object-fit:contain;"
+             onerror="this.style.display='none'; document.getElementById('logoFallback').style.display='block';" />
+        <!-- Záložný SVG erb (zobrazí sa, ak chýba logo.png) -->
+        <svg id="logoFallback" viewBox="0 0 100 120" xmlns="http://www.w3.org/2000/svg" style="display:none;">
           <path d="M10 10 L90 10 L90 70 Q90 105 50 115 Q10 105 10 70 Z"
                 fill="#1a8a3e" stroke="#003d82" stroke-width="3"/>
-          <!-- Veža/kostol -->
           <rect x="44" y="40" width="12" height="40" fill="#f5ecd1" stroke="#003d82" stroke-width="1.5"/>
           <polygon points="50,28 40,45 60,45" fill="#003d82"/>
           <circle cx="50" cy="32" r="2" fill="#f5ecd1"/>
-          <!-- Vlnovka pod -->
           <path d="M22 90 Q35 96 50 90 Q65 84 78 90" stroke="#f5ecd1" stroke-width="2.5" fill="none"/>
         </svg>
       </div>
@@ -944,8 +946,13 @@
 
     <div class="ihrisko-grid">
       <div class="ihrisko-photo" id="photoBox">
-        <!-- Placeholder ihriska – ak chcete vlastnú fotku, vložte do priečinka 'ihrisko.jpg' -->
-        <svg viewBox="0 0 600 400" xmlns="http://www.w3.org/2000/svg" preserveAspectRatio="xMidYMid slice">
+        <!-- Skutočná fotka ihriska — vlož súbor 'ihrisko.jpg' (alebo .png) do priečinka stránky -->
+        <img src="ihrisko.jpg" alt="Multifunkčné ihrisko Divinka"
+             style="width:100%; height:100%; object-fit:cover; display:block;"
+             onerror="this.style.display='none'; document.getElementById('photoFallback').style.display='block';" />
+        <!-- Záložná ilustrácia (zobrazí sa, ak chýba ihrisko.jpg) -->
+        <svg id="photoFallback" viewBox="0 0 600 400" xmlns="http://www.w3.org/2000/svg"
+             preserveAspectRatio="xMidYMid slice" style="display:none; width:100%; height:100%;">
           <defs>
             <linearGradient id="grass" x1="0" y1="0" x2="0" y2="1">
               <stop offset="0%" stop-color="#2eaa4d"/>
@@ -957,29 +964,24 @@
             </linearGradient>
           </defs>
           <rect width="600" height="180" fill="url(#sky)"/>
-          <!-- Hory -->
           <path d="M0 180 L80 110 L140 150 L220 80 L320 140 L420 100 L500 150 L600 120 L600 180 Z"
                 fill="#5d8a6d" opacity="0.7"/>
           <path d="M0 180 L60 140 L150 170 L260 120 L360 160 L480 130 L600 160 L600 180 Z"
                 fill="#3d6b4d" opacity="0.8"/>
-          <!-- Trávnik -->
           <rect y="180" width="600" height="220" fill="url(#grass)"/>
-          <!-- Ihrisko -->
           <rect x="80" y="220" width="440" height="160" fill="#2a8a3e" stroke="#ffffff" stroke-width="3"/>
           <line x1="300" y1="220" x2="300" y2="380" stroke="white" stroke-width="3"/>
           <circle cx="300" cy="300" r="35" fill="none" stroke="white" stroke-width="3"/>
           <rect x="80" y="260" width="60" height="80" fill="none" stroke="white" stroke-width="3"/>
           <rect x="460" y="260" width="60" height="80" fill="none" stroke="white" stroke-width="3"/>
-          <!-- Bránky -->
           <rect x="70" y="280" width="10" height="40" fill="white"/>
           <rect x="520" y="280" width="10" height="40" fill="white"/>
-          <!-- Stĺpy s LED -->
           <rect x="60" y="200" width="4" height="60" fill="#444"/>
           <circle cx="62" cy="198" r="6" fill="#f9c200"/>
           <rect x="536" y="200" width="4" height="60" fill="#444"/>
           <circle cx="538" cy="198" r="6" fill="#f9c200"/>
         </svg>
-        <div class="photo-label">📸 Multifunkčné ihrisko Lalinok – Divinka</div>
+        <div class="photo-label">📸 Multifunkčné ihrisko Divinka</div>
       </div>
 
       <div class="ihrisko-text">
