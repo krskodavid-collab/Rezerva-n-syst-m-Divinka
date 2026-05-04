@@ -3,42 +3,54 @@
 <head>
 <meta charset="UTF-8">
 <meta name="viewport" content="width=device-width, initial-scale=1.0">
-<title>Rezervačný systém – Multifunkčné ihrisko Divinka</title>
+<title>Multifunkčné ihrisko Divinka – Lalinok</title>
 <style>
   :root {
-    --divinka-green: #1f7a3a;
-    --divinka-green-dark: #155a29;
-    --divinka-yellow: #f9c200;
-    --divinka-yellow-dark: #d9a700;
-    --divinka-bg: #f5f8f4;
-    --divinka-card: #ffffff;
-    --divinka-text: #1d2a1f;
-    --divinka-border: #d8e2d6;
+    --green: #1f7a3a;
+    --green-dark: #155a29;
+    --green-light: #eaf5ec;
+    --yellow: #f9c200;
+    --yellow-dark: #d9a700;
+    --bg: #f5f8f4;
+    --card: #ffffff;
+    --text: #1d2a1f;
+    --text-soft: #4a5a4d;
+    --border: #d8e2d6;
     --occupied: #c0392b;
     --occupied-bg: #fdecea;
+    --free: #2a8a3e;
+    --shadow: 0 2px 12px rgba(0,0,0,0.08);
+    --shadow-lg: 0 8px 30px rgba(0,0,0,0.12);
   }
 
   * { box-sizing: border-box; }
 
+  html { scroll-behavior: smooth; }
+
   body {
     margin: 0;
     font-family: -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, Helvetica, Arial, sans-serif;
-    background: var(--divinka-bg);
-    color: var(--divinka-text);
+    background: var(--bg);
+    color: var(--text);
     min-height: 100vh;
+    line-height: 1.55;
   }
 
+  /* === HEADER === */
   header {
-    background: linear-gradient(135deg, var(--divinka-green), var(--divinka-green-dark));
+    background: linear-gradient(135deg, var(--green), var(--green-dark));
     color: white;
-    padding: 24px 16px;
     box-shadow: 0 2px 8px rgba(0,0,0,0.1);
-    border-bottom: 4px solid var(--divinka-yellow);
+    border-bottom: 4px solid var(--yellow);
+    position: sticky;
+    top: 0;
+    z-index: 50;
   }
 
-  .header-inner {
+  .header-top {
     max-width: 1200px;
     margin: 0 auto;
+    padding: 14px 16px;
     display: flex;
     justify-content: space-between;
     align-items: center;
@@ -49,25 +61,28 @@
   .logo-section {
     display: flex;
     align-items: center;
-    gap: 16px;
+    gap: 14px;
   }
 
   .logo-icon {
     width: 56px;
     height: 56px;
-    background: var(--divinka-yellow);
+    background: var(--yellow);
     border-radius: 50%;
     display: flex;
     align-items: center;
     justify-content: center;
-    font-size: 28px;
     border: 3px solid white;
+    overflow: hidden;
+    flex-shrink: 0;
   }
+  .logo-icon svg { width: 38px; height: 38px; }
 
-  h1 {
+  h1.header-title {
     margin: 0;
-    font-size: 22px;
+    font-size: 20px;
     font-weight: 700;
+    line-height: 1.2;
   }
 
   .subtitle {
@@ -77,8 +92,8 @@
   }
 
   .admin-btn {
-    background: var(--divinka-yellow);
-    color: var(--divinka-text);
+    background: var(--yellow);
+    color: var(--text);
     border: none;
     padding: 10px 18px;
     border-radius: 6px;
@@ -87,31 +102,257 @@
     font-size: 14px;
     transition: background 0.2s;
   }
-  .admin-btn:hover { background: var(--divinka-yellow-dark); }
+  .admin-btn:hover { background: var(--yellow-dark); }
   .admin-btn.active {
     background: white;
-    color: var(--divinka-green-dark);
-    border: 2px solid white;
+    color: var(--green-dark);
   }
 
-  main {
+  /* Navigation */
+  nav.main-nav {
+    background: var(--green-dark);
+    border-top: 1px solid rgba(255,255,255,0.1);
+  }
+  .nav-inner {
     max-width: 1200px;
     margin: 0 auto;
-    padding: 24px 16px;
+    display: flex;
+    gap: 4px;
+    padding: 0 8px;
+    overflow-x: auto;
+  }
+  .nav-link {
+    color: white;
+    text-decoration: none;
+    padding: 12px 18px;
+    font-size: 14px;
+    font-weight: 500;
+    border-bottom: 3px solid transparent;
+    white-space: nowrap;
+    transition: border-color 0.2s, background 0.2s;
+  }
+  .nav-link:hover {
+    background: rgba(255,255,255,0.08);
+    border-bottom-color: var(--yellow);
   }
 
+  /* === HERO === */
+  .hero {
+    background: linear-gradient(135deg, rgba(31,122,58,0.85), rgba(21,90,41,0.92)),
+                url("data:image/svg+xml;utf8,<svg xmlns='http://www.w3.org/2000/svg' width='800' height='400' viewBox='0 0 800 400'><rect fill='%231f7a3a' width='800' height='400'/><circle cx='400' cy='200' r='80' fill='none' stroke='%23ffffff' stroke-width='3' opacity='0.3'/><line x1='400' y1='120' x2='400' y2='280' stroke='%23ffffff' stroke-width='3' opacity='0.3'/><rect x='100' y='100' width='600' height='200' fill='none' stroke='%23ffffff' stroke-width='3' opacity='0.3'/></svg>");
+    background-size: cover;
+    background-position: center;
+    color: white;
+    padding: 60px 16px;
+    text-align: center;
+  }
+  .hero-inner {
+    max-width: 800px;
+    margin: 0 auto;
+  }
+  .hero h2 {
+    font-size: 32px;
+    margin: 0 0 12px;
+    font-weight: 700;
+    text-shadow: 0 2px 8px rgba(0,0,0,0.3);
+  }
+  .hero p {
+    font-size: 16px;
+    opacity: 0.95;
+    margin: 0 0 24px;
+  }
+  .hero .cta {
+    display: inline-block;
+    background: var(--yellow);
+    color: var(--text);
+    text-decoration: none;
+    padding: 14px 28px;
+    border-radius: 8px;
+    font-weight: 700;
+    font-size: 16px;
+    box-shadow: 0 4px 14px rgba(0,0,0,0.2);
+    transition: transform 0.2s, background 0.2s;
+  }
+  .hero .cta:hover { transform: translateY(-2px); background: var(--yellow-dark); }
+
+  /* === SECTIONS === */
+  main { max-width: 1200px; margin: 0 auto; padding: 0 16px; }
+
+  section { padding: 50px 0; scroll-margin-top: 130px; }
+  section + section { border-top: 1px solid var(--border); }
+
+  .section-header {
+    display: flex;
+    align-items: center;
+    gap: 14px;
+    margin-bottom: 24px;
+  }
+  .section-icon {
+    width: 44px;
+    height: 44px;
+    background: var(--green);
+    border-radius: 10px;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    color: white;
+    font-size: 22px;
+    flex-shrink: 0;
+  }
+  .section-header h3 {
+    font-size: 26px;
+    margin: 0;
+    color: var(--green-dark);
+    font-weight: 700;
+  }
+  .section-header .accent {
+    height: 4px;
+    flex: 1;
+    background: linear-gradient(to right, var(--yellow), transparent);
+    border-radius: 2px;
+  }
+
+  /* === O IHRISKU / FOTO === */
+  .ihrisko-grid {
+    display: grid;
+    grid-template-columns: 1fr 1fr;
+    gap: 30px;
+    align-items: center;
+  }
+  .ihrisko-photo {
+    width: 100%;
+    height: 320px;
+    border-radius: 12px;
+    box-shadow: var(--shadow-lg);
+    overflow: hidden;
+    position: relative;
+    background: linear-gradient(135deg, #2a8a3e, #1f7a3a);
+    display: flex;
+    align-items: center;
+    justify-content: center;
+  }
+  .ihrisko-photo svg {
+    width: 100%;
+    height: 100%;
+  }
+  .ihrisko-photo .photo-label {
+    position: absolute;
+    bottom: 12px;
+    left: 12px;
+    background: rgba(0,0,0,0.6);
+    color: white;
+    padding: 6px 12px;
+    border-radius: 6px;
+    font-size: 12px;
+  }
+
+  .ihrisko-text p {
+    font-size: 15px;
+    color: var(--text-soft);
+    margin: 0 0 14px;
+  }
+
+  .info-cards {
+    display: grid;
+    grid-template-columns: repeat(2, 1fr);
+    gap: 12px;
+    margin-top: 18px;
+  }
+  .info-card {
+    background: var(--card);
+    border: 1px solid var(--border);
+    border-radius: 8px;
+    padding: 12px 14px;
+    border-left: 4px solid var(--yellow);
+  }
+  .info-card .label {
+    font-size: 11px;
+    color: var(--text-soft);
+    text-transform: uppercase;
+    letter-spacing: 0.5px;
+    font-weight: 600;
+  }
+  .info-card .value {
+    font-size: 15px;
+    font-weight: 600;
+    color: var(--green-dark);
+    margin-top: 2px;
+  }
+
+  /* === PRAVIDLÁ === */
+  .rules-grid {
+    display: grid;
+    grid-template-columns: repeat(auto-fit, minmax(280px, 1fr));
+    gap: 16px;
+  }
+  .rule-card {
+    background: var(--card);
+    border-radius: 10px;
+    padding: 20px;
+    box-shadow: var(--shadow);
+    border-top: 4px solid var(--green);
+    transition: transform 0.2s, box-shadow 0.2s;
+  }
+  .rule-card:hover { transform: translateY(-3px); box-shadow: var(--shadow-lg); }
+  .rule-card .rule-icon {
+    width: 40px;
+    height: 40px;
+    background: var(--green-light);
+    color: var(--green);
+    border-radius: 8px;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    font-size: 20px;
+    margin-bottom: 12px;
+  }
+  .rule-card h4 {
+    margin: 0 0 8px;
+    font-size: 16px;
+    color: var(--green-dark);
+  }
+  .rule-card p {
+    margin: 0;
+    font-size: 14px;
+    color: var(--text-soft);
+  }
+
+  .rules-list {
+    background: var(--card);
+    border-radius: 10px;
+    padding: 22px 28px;
+    box-shadow: var(--shadow);
+    margin-top: 20px;
+    border-left: 4px solid var(--yellow);
+  }
+  .rules-list h4 {
+    margin: 0 0 12px;
+    color: var(--green-dark);
+    font-size: 16px;
+  }
+  .rules-list ol {
+    margin: 0;
+    padding-left: 20px;
+    color: var(--text-soft);
+  }
+  .rules-list li {
+    margin-bottom: 8px;
+    font-size: 14px;
+  }
+
+  /* === KALENDÁR === */
   .info-bar {
-    background: var(--divinka-card);
-    border-left: 4px solid var(--divinka-yellow);
+    background: var(--card);
+    border-left: 4px solid var(--yellow);
     padding: 14px 18px;
     border-radius: 6px;
     margin-bottom: 20px;
-    box-shadow: 0 1px 3px rgba(0,0,0,0.06);
+    box-shadow: var(--shadow);
     font-size: 14px;
   }
   .info-bar.admin-mode {
-    border-left-color: var(--divinka-green);
-    background: #eaf5ec;
+    border-left-color: var(--green);
+    background: var(--green-light);
   }
 
   .calendar-controls {
@@ -119,14 +360,13 @@
     align-items: center;
     justify-content: space-between;
     margin-bottom: 16px;
-    background: var(--divinka-card);
+    background: var(--card);
     padding: 12px 16px;
     border-radius: 8px;
-    box-shadow: 0 1px 3px rgba(0,0,0,0.06);
+    box-shadow: var(--shadow);
   }
-
   .nav-btn {
-    background: var(--divinka-green);
+    background: var(--green);
     color: white;
     border: none;
     width: 38px;
@@ -136,18 +376,16 @@
     font-size: 18px;
     font-weight: bold;
   }
-  .nav-btn:hover { background: var(--divinka-green-dark); }
-
+  .nav-btn:hover { background: var(--green-dark); }
   .month-title {
     font-size: 20px;
     font-weight: 700;
-    color: var(--divinka-green-dark);
+    color: var(--green-dark);
     text-transform: capitalize;
   }
-
   .today-btn {
-    background: var(--divinka-yellow);
-    color: var(--divinka-text);
+    background: var(--yellow);
+    color: var(--text);
     border: none;
     padding: 8px 14px;
     border-radius: 6px;
@@ -157,55 +395,49 @@
   }
 
   .calendar {
-    background: var(--divinka-card);
-    border-radius: 8px;
+    background: var(--card);
+    border-radius: 10px;
     overflow: hidden;
-    box-shadow: 0 2px 8px rgba(0,0,0,0.08);
+    box-shadow: var(--shadow);
   }
-
   .weekdays {
     display: grid;
     grid-template-columns: repeat(7, 1fr);
-    background: var(--divinka-green);
+    background: var(--green);
     color: white;
     text-align: center;
     font-weight: 600;
     font-size: 13px;
   }
   .weekdays div { padding: 10px 4px; }
-
   .days {
     display: grid;
     grid-template-columns: repeat(7, 1fr);
   }
-
   .day {
-    min-height: 90px;
-    border-right: 1px solid var(--divinka-border);
-    border-bottom: 1px solid var(--divinka-border);
+    min-height: 100px;
+    border-right: 1px solid var(--border);
+    border-bottom: 1px solid var(--border);
     padding: 6px;
-    position: relative;
     cursor: pointer;
     transition: background 0.15s;
     background: white;
   }
-  .day:hover { background: #f0f7f1; }
+  .day:hover { background: var(--green-light); }
   .day.other-month { background: #fafafa; color: #bbb; }
   .day.today { background: #fff8d8; }
-  .day.today .day-num { color: var(--divinka-green-dark); font-weight: 800; }
-
+  .day.today .day-num { color: var(--green-dark); font-weight: 800; }
+  .day.has-bookings { border-left: 3px solid var(--occupied); }
   .day-num {
     font-size: 14px;
     font-weight: 600;
     margin-bottom: 4px;
   }
-
   .day-bookings {
     display: flex;
     flex-direction: column;
     gap: 2px;
   }
-
   .booking-pill {
     background: var(--occupied);
     color: white;
@@ -222,238 +454,559 @@
     font-weight: 600;
   }
 
-  /* Modal */
-  .modal-overlay {
-    display: none;
-    position: fixed;
-    inset: 0;
-    background: rgba(0,0,0,0.5);
-    z-index: 100;
-    align-items: center;
-    justify-content: center;
-    padding: 16px;
-  }
-  .modal-overlay.show { display: flex; }
-
-  .modal {
-    background: white;
-    border-radius: 10px;
-    max-width: 520px;
-    width: 100%;
-    max-height: 90vh;
-    overflow-y: auto;
-    box-shadow: 0 10px 40px rgba(0,0,0,0.2);
-  }
-
-  .modal-header {
-    background: var(--divinka-green);
-    color: white;
-    padding: 16px 20px;
-    border-radius: 10px 10px 0 0;
-    border-bottom: 3px solid var(--divinka-yellow);
-    display: flex;
-    justify-content: space-between;
-    align-items: center;
-  }
-  .modal-header h2 { margin: 0; font-size: 18px; }
-
-  .close-btn {
-    background: transparent;
-    border: none;
-    color: white;
-    font-size: 24px;
-    cursor: pointer;
-    line-height: 1;
-    padding: 0 4px;
-  }
-
-  .modal-body { padding: 20px; }
-
-  .timeslots {
-    display: grid;
-    grid-template-columns: repeat(2, 1fr);
-    gap: 6px;
-    margin-top: 12px;
-  }
-
-  .timeslot {
-    padding: 10px 8px;
-    border: 2px solid var(--divinka-border);
-    border-radius: 6px;
-    text-align: center;
-    font-size: 13px;
-    font-weight: 500;
-    background: white;
-    transition: all 0.15s;
-  }
-  .timeslot.free { color: #2a8a3e; }
-  .timeslot.occupied {
-    background: var(--occupied-bg);
-    border-color: var(--occupied);
-    color: var(--occupied);
-    font-weight: 600;
-  }
-  .timeslot.admin { cursor: pointer; }
-  .timeslot.admin:hover { transform: scale(1.03); }
-  .timeslot.admin.free:hover { border-color: var(--divinka-green); }
-
-  .booking-note {
-    font-size: 11px;
-    color: #666;
-    margin-top: 2px;
-    font-style: italic;
-  }
-
-  .form-row {
-    margin-top: 16px;
-    padding-top: 16px;
-    border-top: 1px solid var(--divinka-border);
-  }
-  .form-row label {
-    display: block;
-    font-size: 13px;
-    font-weight: 600;
-    margin-bottom: 6px;
-  }
-  .form-row input, .form-row textarea {
-    width: 100%;
-    padding: 8px 10px;
-    border: 1px solid var(--divinka-border);
-    border-radius: 6px;
-    font-family: inherit;
-    font-size: 14px;
-  }
-  .form-row textarea { min-height: 60px; resize: vertical; }
-
-  .btn-primary {
-    background: var(--divinka-green);
-    color: white;
-    border: none;
-    padding: 10px 18px;
-    border-radius: 6px;
-    cursor: pointer;
-    font-weight: 600;
-    margin-top: 10px;
-  }
-  .btn-primary:hover { background: var(--divinka-green-dark); }
-
   .legend {
     display: flex;
     gap: 16px;
     flex-wrap: wrap;
     font-size: 13px;
     margin-top: 16px;
-    padding: 12px;
-    background: var(--divinka-card);
+    padding: 12px 16px;
+    background: var(--card);
     border-radius: 6px;
+    box-shadow: var(--shadow);
   }
   .legend-item { display: flex; align-items: center; gap: 6px; }
   .legend-box {
     width: 16px; height: 16px; border-radius: 3px;
-    border: 1px solid var(--divinka-border);
+    border: 1px solid var(--border);
   }
 
-  footer {
+  /* === MODAL — DAY VIEW === */
+  .modal-overlay {
+    display: none;
+    position: fixed;
+    inset: 0;
+    background: rgba(0,0,0,0.55);
+    z-index: 100;
+    align-items: center;
+    justify-content: center;
+    padding: 16px;
+  }
+  .modal-overlay.show { display: flex; }
+  .modal {
+    background: white;
+    border-radius: 12px;
+    max-width: 720px;
+    width: 100%;
+    max-height: 92vh;
+    overflow: hidden;
+    display: flex;
+    flex-direction: column;
+    box-shadow: 0 20px 60px rgba(0,0,0,0.3);
+  }
+  .modal-header {
+    background: linear-gradient(135deg, var(--green), var(--green-dark));
+    color: white;
+    padding: 18px 22px;
+    border-bottom: 3px solid var(--yellow);
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+  }
+  .modal-header h2 { margin: 0; font-size: 18px; }
+  .close-btn {
+    background: transparent;
+    border: none;
+    color: white;
+    font-size: 28px;
+    cursor: pointer;
+    line-height: 1;
+    padding: 0 4px;
+  }
+  .modal-body { padding: 20px 22px; overflow-y: auto; }
+
+  /* Day timeline */
+  .day-summary {
+    display: flex;
+    gap: 12px;
+    margin-bottom: 16px;
+    flex-wrap: wrap;
+  }
+  .summary-pill {
+    flex: 1;
+    min-width: 130px;
+    background: var(--green-light);
+    border-radius: 8px;
+    padding: 10px 14px;
     text-align: center;
-    padding: 20px;
+  }
+  .summary-pill.occupied-pill { background: var(--occupied-bg); }
+  .summary-pill .num {
+    font-size: 22px;
+    font-weight: 700;
+    color: var(--green-dark);
+    line-height: 1;
+  }
+  .summary-pill.occupied-pill .num { color: var(--occupied); }
+  .summary-pill .lbl {
     font-size: 12px;
-    color: #666;
-    border-top: 1px solid var(--divinka-border);
-    margin-top: 30px;
+    color: var(--text-soft);
+    margin-top: 4px;
   }
 
-  /* Mobile */
-  @media (max-width: 640px) {
-    h1 { font-size: 18px; }
+  .timeline {
+    display: flex;
+    flex-direction: column;
+    gap: 6px;
+  }
+  .slot {
+    display: flex;
+    align-items: stretch;
+    border: 1px solid var(--border);
+    border-radius: 8px;
+    overflow: hidden;
+    background: white;
+    transition: transform 0.1s, box-shadow 0.15s;
+  }
+  .slot.admin-mode { cursor: pointer; }
+  .slot.admin-mode:hover { box-shadow: var(--shadow); }
+  .slot.occupied { background: var(--occupied-bg); border-color: var(--occupied); }
+  .slot-time {
+    background: var(--green);
+    color: white;
+    padding: 12px 14px;
+    font-weight: 700;
+    font-size: 14px;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    min-width: 100px;
+    flex-shrink: 0;
+  }
+  .slot.occupied .slot-time { background: var(--occupied); }
+  .slot-info {
+    flex: 1;
+    padding: 10px 14px;
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+    gap: 10px;
+  }
+  .slot-status {
+    font-weight: 600;
+    font-size: 14px;
+    color: var(--free);
+  }
+  .slot.occupied .slot-status { color: var(--occupied); }
+  .slot-name {
+    font-size: 13px;
+    color: var(--text-soft);
+    margin-top: 2px;
+  }
+  .slot-action {
+    font-size: 12px;
+    color: var(--text-soft);
+    font-style: italic;
+  }
+
+  /* Admin form inside slot */
+  .reservation-form {
+    background: white;
+    padding: 12px 14px;
+    border-top: 1px dashed var(--border);
+    display: none;
+  }
+  .reservation-form.open { display: block; }
+  .reservation-form input {
+    width: 100%;
+    padding: 8px 10px;
+    border: 1px solid var(--border);
+    border-radius: 6px;
+    font-size: 14px;
+    font-family: inherit;
+  }
+  .reservation-form .row {
+    display: flex;
+    gap: 8px;
+    margin-top: 8px;
+  }
+  .btn {
+    border: none;
+    padding: 9px 16px;
+    border-radius: 6px;
+    cursor: pointer;
+    font-weight: 600;
+    font-size: 13px;
+  }
+  .btn-primary { background: var(--green); color: white; }
+  .btn-primary:hover { background: var(--green-dark); }
+  .btn-danger { background: var(--occupied); color: white; }
+  .btn-danger:hover { background: #a02818; }
+  .btn-ghost { background: transparent; color: var(--text-soft); }
+
+  /* === KONTAKT === */
+  .contact-grid {
+    display: grid;
+    grid-template-columns: repeat(auto-fit, minmax(260px, 1fr));
+    gap: 16px;
+  }
+  .contact-card {
+    background: var(--card);
+    border-radius: 10px;
+    padding: 22px;
+    box-shadow: var(--shadow);
+    border-left: 4px solid var(--green);
+  }
+  .contact-card h4 {
+    margin: 0 0 12px;
+    color: var(--green-dark);
+    font-size: 16px;
+  }
+  .contact-row {
+    display: flex;
+    align-items: center;
+    gap: 10px;
+    margin-bottom: 8px;
+    font-size: 14px;
+    color: var(--text-soft);
+  }
+  .contact-icon {
+    width: 32px; height: 32px;
+    background: var(--green-light);
+    color: var(--green);
+    border-radius: 6px;
+    display: flex; align-items: center; justify-content: center;
+    flex-shrink: 0;
+    font-size: 16px;
+  }
+  .contact-row a { color: var(--green-dark); text-decoration: none; font-weight: 500; }
+  .contact-row a:hover { text-decoration: underline; }
+
+  /* === FOOTER === */
+  footer {
+    background: var(--green-dark);
+    color: white;
+    padding: 30px 16px 20px;
+    margin-top: 60px;
+    text-align: center;
+    border-top: 4px solid var(--yellow);
+  }
+  footer p { margin: 4px 0; font-size: 13px; opacity: 0.9; }
+
+  /* === MOBILE === */
+  @media (max-width: 720px) {
+    h1.header-title { font-size: 16px; }
+    .subtitle { font-size: 11px; }
+    .hero h2 { font-size: 22px; }
+    .hero { padding: 40px 16px; }
+    .ihrisko-grid { grid-template-columns: 1fr; }
+    .ihrisko-photo { height: 240px; }
     .day { min-height: 65px; padding: 4px; }
     .day-num { font-size: 12px; }
     .booking-pill { font-size: 9px; padding: 1px 3px; }
     .weekdays div { font-size: 11px; padding: 8px 2px; }
-    .timeslots { grid-template-columns: 1fr; }
     .month-title { font-size: 16px; }
-    .logo-icon { width: 44px; height: 44px; font-size: 22px; }
+    .logo-icon { width: 44px; height: 44px; }
+    .logo-icon svg { width: 30px; height: 30px; }
+    .slot-time { min-width: 80px; padding: 10px; font-size: 13px; }
+    .section-header h3 { font-size: 20px; }
+    .info-cards { grid-template-columns: 1fr; }
   }
 </style>
 </head>
 <body>
 
 <header>
-  <div class="header-inner">
+  <div class="header-top">
     <div class="logo-section">
-      <div class="logo-icon">⚽</div>
+      <div class="logo-icon" title="Erb obce Divinka">
+        <!-- Erb obce Divinka (štylizovaný) -->
+        <svg viewBox="0 0 100 120" xmlns="http://www.w3.org/2000/svg">
+          <path d="M10 10 L90 10 L90 70 Q90 105 50 115 Q10 105 10 70 Z"
+                fill="#1f7a3a" stroke="#155a29" stroke-width="3"/>
+          <circle cx="50" cy="50" r="18" fill="#f9c200" stroke="#d9a700" stroke-width="2"/>
+          <path d="M50 38 L52 46 L60 46 L54 51 L56 59 L50 54 L44 59 L46 51 L40 46 L48 46 Z"
+                fill="#155a29"/>
+          <path d="M30 80 Q50 95 70 80" stroke="#f9c200" stroke-width="3" fill="none"/>
+        </svg>
+      </div>
       <div>
-        <h1>Multifunkčné ihrisko Divinka – Lalinok</h1>
-        <div class="subtitle">Rezervačný kalendár obecného ihriska</div>
+        <h1 class="header-title">Multifunkčné ihrisko Lalinok</h1>
+        <div class="subtitle">Obec Divinka · Rezervačný systém</div>
       </div>
     </div>
     <button class="admin-btn" id="adminBtn" onclick="toggleAdmin()">🔒 Admin prihlásenie</button>
   </div>
+  <nav class="main-nav">
+    <div class="nav-inner">
+      <a class="nav-link" href="#o-ihrisku">O ihrisku</a>
+      <a class="nav-link" href="#kalendar">Kalendár rezervácií</a>
+      <a class="nav-link" href="#pravidla">Pravidlá užívania</a>
+      <a class="nav-link" href="#kontakt">Kontakt</a>
+    </div>
+  </nav>
 </header>
 
+<!-- HERO -->
+<div class="hero">
+  <div class="hero-inner">
+    <h2>Vitajte na ihrisku Lalinok</h2>
+    <p>Multifunkčné ihrisko obce Divinka pre futbal, volejbal, basketbal a tenis. Rezervácie spravuje obec.</p>
+    <a href="#kalendar" class="cta">Zobraziť kalendár obsadenosti</a>
+  </div>
+</div>
+
 <main>
-  <div class="info-bar" id="infoBar">
-    Kliknite na deň pre zobrazenie obsadenosti ihriska. Rezervácie zapisuje výhradne správca obecného ihriska.
-  </div>
 
-  <div class="calendar-controls">
-    <button class="nav-btn" onclick="changeMonth(-1)">‹</button>
-    <div style="display:flex; align-items:center; gap:12px;">
-      <div class="month-title" id="monthTitle"></div>
-      <button class="today-btn" onclick="goToToday()">Dnes</button>
+  <!-- ====== O IHRISKU ====== -->
+  <section id="o-ihrisku">
+    <div class="section-header">
+      <div class="section-icon">🏟</div>
+      <h3>O ihrisku</h3>
+      <div class="accent"></div>
     </div>
-    <button class="nav-btn" onclick="changeMonth(1)">›</button>
-  </div>
 
-  <div class="calendar">
-    <div class="weekdays">
-      <div>Po</div><div>Ut</div><div>St</div><div>Št</div><div>Pi</div><div>So</div><div>Ne</div>
+    <div class="ihrisko-grid">
+      <div class="ihrisko-photo" id="photoBox">
+        <!-- Placeholder ihriska – ak chcete vlastnú fotku, vložte do priečinka 'ihrisko.jpg' -->
+        <svg viewBox="0 0 600 400" xmlns="http://www.w3.org/2000/svg" preserveAspectRatio="xMidYMid slice">
+          <defs>
+            <linearGradient id="grass" x1="0" y1="0" x2="0" y2="1">
+              <stop offset="0%" stop-color="#2eaa4d"/>
+              <stop offset="100%" stop-color="#196b30"/>
+            </linearGradient>
+            <linearGradient id="sky" x1="0" y1="0" x2="0" y2="1">
+              <stop offset="0%" stop-color="#88c5e8"/>
+              <stop offset="100%" stop-color="#cde8f5"/>
+            </linearGradient>
+          </defs>
+          <rect width="600" height="180" fill="url(#sky)"/>
+          <!-- Hory -->
+          <path d="M0 180 L80 110 L140 150 L220 80 L320 140 L420 100 L500 150 L600 120 L600 180 Z"
+                fill="#5d8a6d" opacity="0.7"/>
+          <path d="M0 180 L60 140 L150 170 L260 120 L360 160 L480 130 L600 160 L600 180 Z"
+                fill="#3d6b4d" opacity="0.8"/>
+          <!-- Trávnik -->
+          <rect y="180" width="600" height="220" fill="url(#grass)"/>
+          <!-- Ihrisko -->
+          <rect x="80" y="220" width="440" height="160" fill="#2a8a3e" stroke="#ffffff" stroke-width="3"/>
+          <line x1="300" y1="220" x2="300" y2="380" stroke="white" stroke-width="3"/>
+          <circle cx="300" cy="300" r="35" fill="none" stroke="white" stroke-width="3"/>
+          <rect x="80" y="260" width="60" height="80" fill="none" stroke="white" stroke-width="3"/>
+          <rect x="460" y="260" width="60" height="80" fill="none" stroke="white" stroke-width="3"/>
+          <!-- Bránky -->
+          <rect x="70" y="280" width="10" height="40" fill="white"/>
+          <rect x="520" y="280" width="10" height="40" fill="white"/>
+          <!-- Stĺpy s LED -->
+          <rect x="60" y="200" width="4" height="60" fill="#444"/>
+          <circle cx="62" cy="198" r="6" fill="#f9c200"/>
+          <rect x="536" y="200" width="4" height="60" fill="#444"/>
+          <circle cx="538" cy="198" r="6" fill="#f9c200"/>
+        </svg>
+        <div class="photo-label">📸 Multifunkčné ihrisko Lalinok – Divinka</div>
+      </div>
+
+      <div class="ihrisko-text">
+        <p>Multifunkčné ihrisko <strong>Lalinok</strong> v obci Divinka slúži všetkým občanom, mládeži a športovým klubom. Ihrisko je vhodné na <strong>futbal, volejbal, basketbal a tenis</strong>.</p>
+        <p>Rezerváciu vyhradeného času zapisuje výhradne <strong>správca obecného ihriska</strong> – občania a kluby si dohodnú termín priamo s obcou.</p>
+
+        <div class="info-cards">
+          <div class="info-card">
+            <div class="label">Otváracie hodiny</div>
+            <div class="value">8:00 – 22:00</div>
+          </div>
+          <div class="info-card">
+            <div class="label">Povrch</div>
+            <div class="value">Umelá tráva</div>
+          </div>
+          <div class="info-card">
+            <div class="label">Osvetlenie</div>
+            <div class="value">LED reflektory</div>
+          </div>
+          <div class="info-card">
+            <div class="label">Vstup</div>
+            <div class="value">Bezplatne pre obyvateľov</div>
+          </div>
+        </div>
+      </div>
     </div>
-    <div class="days" id="daysGrid"></div>
-  </div>
+  </section>
 
-  <div class="legend">
-    <div class="legend-item"><div class="legend-box" style="background:white;"></div> Voľné</div>
-    <div class="legend-item"><div class="legend-box" style="background:#c0392b; border-color:#c0392b;"></div> Obsadené</div>
-    <div class="legend-item"><div class="legend-box" style="background:#fff8d8;"></div> Dnes</div>
-  </div>
+  <!-- ====== KALENDÁR ====== -->
+  <section id="kalendar">
+    <div class="section-header">
+      <div class="section-icon">📅</div>
+      <h3>Kalendár rezervácií</h3>
+      <div class="accent"></div>
+    </div>
 
-  <footer>
-    Obec Divinka © 2026 · Rezervačný systém ihriska Lalinok
-  </footer>
+    <div class="info-bar" id="infoBar">
+      Kliknite na ľubovoľný deň pre zobrazenie obsadenosti. Rezervácie zapisuje výhradne správca obecného ihriska.
+    </div>
+
+    <div class="calendar-controls">
+      <button class="nav-btn" onclick="changeMonth(-1)">‹</button>
+      <div style="display:flex; align-items:center; gap:12px;">
+        <div class="month-title" id="monthTitle"></div>
+        <button class="today-btn" onclick="goToToday()">Dnes</button>
+      </div>
+      <button class="nav-btn" onclick="changeMonth(1)">›</button>
+    </div>
+
+    <div class="calendar">
+      <div class="weekdays">
+        <div>Po</div><div>Ut</div><div>St</div><div>Št</div><div>Pi</div><div>So</div><div>Ne</div>
+      </div>
+      <div class="days" id="daysGrid"></div>
+    </div>
+
+    <div class="legend">
+      <div class="legend-item"><div class="legend-box" style="background:white;"></div> Voľné</div>
+      <div class="legend-item"><div class="legend-box" style="background:#c0392b; border-color:#c0392b;"></div> Obsadené</div>
+      <div class="legend-item"><div class="legend-box" style="background:#fff8d8;"></div> Dnešný deň</div>
+    </div>
+  </section>
+
+  <!-- ====== PRAVIDLÁ ====== -->
+  <section id="pravidla">
+    <div class="section-header">
+      <div class="section-icon">📋</div>
+      <h3>Pravidlá užívania ihriska</h3>
+      <div class="accent"></div>
+    </div>
+
+    <div class="rules-grid">
+      <div class="rule-card">
+        <div class="rule-icon">⏰</div>
+        <h4>Otváracia doba</h4>
+        <p>Ihrisko je k dispozícii denne od <strong>8:00 do 22:00</strong>. Mimo tohto času je vstup zakázaný.</p>
+      </div>
+      <div class="rule-card">
+        <div class="rule-icon">📞</div>
+        <h4>Rezervácia termínu</h4>
+        <p>Rezervovať si termín je možné výhradne u <strong>správcu obecného ihriska</strong>. Záväzný termín bude zapísaný do kalendára.</p>
+      </div>
+      <div class="rule-card">
+        <div class="rule-icon">👟</div>
+        <h4>Vhodná obuv</h4>
+        <p>Vstup výlučne v <strong>športovej obuvi</strong>. Zakázaná je obuv s kovovými alebo dlhými kolíkmi, ktorá poškodzuje povrch.</p>
+      </div>
+      <div class="rule-card">
+        <div class="rule-icon">🚭</div>
+        <h4>Zákaz fajčenia a alkoholu</h4>
+        <p>Na celom areáli je <strong>zakázané fajčenie</strong>, konzumácia alkoholu a iných omamných látok.</p>
+      </div>
+      <div class="rule-card">
+        <div class="rule-icon">🐕</div>
+        <h4>Zákaz vstupu psov</h4>
+        <p>Vstup so zvieratami je <strong>zakázaný</strong>. Ihrisko je určené výhradne na športové aktivity.</p>
+      </div>
+      <div class="rule-card">
+        <div class="rule-icon">♻️</div>
+        <h4>Čistota a poriadok</h4>
+        <p>Po skončení hry zanechajte ihrisko v <strong>čistom stave</strong>. Odpadky odhadzujte do pripravených košov.</p>
+      </div>
+    </div>
+
+    <div class="rules-list">
+      <h4>Ďalšie podmienky užívania</h4>
+      <ol>
+        <li>Užívateľ ihriska zodpovedá za bezpečnosť svoju aj ostatných hráčov.</li>
+        <li>Deti do 12 rokov môžu ihrisko používať len v sprievode dospelej osoby.</li>
+        <li>Akékoľvek poškodenie ihriska alebo jeho zariadenia je užívateľ povinný bezodkladne nahlásiť správcovi.</li>
+        <li>Obec Divinka nezodpovedá za odložené veci ani za úrazy spôsobené nesprávnym používaním ihriska.</li>
+        <li>V prípade nepriaznivého počasia (silný dážď, búrka, sneh) môže byť vstup obmedzený.</li>
+        <li>Pri opakovanom porušení pravidiel môže byť osobe odopretý prístup na ihrisko.</li>
+      </ol>
+    </div>
+  </section>
+
+  <!-- ====== KONTAKT ====== -->
+  <section id="kontakt">
+    <div class="section-header">
+      <div class="section-icon">📞</div>
+      <h3>Kontakt</h3>
+      <div class="accent"></div>
+    </div>
+
+    <div class="contact-grid">
+      <div class="contact-card">
+        <h4>Obecný úrad Divinka</h4>
+        <div class="contact-row">
+          <div class="contact-icon">📍</div>
+          <div>Divinka 142<br>013 31 Divinka</div>
+        </div>
+        <div class="contact-row">
+          <div class="contact-icon">📧</div>
+          <div><a href="mailto:obec@divinka.sk">obec@divinka.sk</a></div>
+        </div>
+        <div class="contact-row">
+          <div class="contact-icon">📞</div>
+          <div><a href="tel:+421415971001">041 / 597 10 01</a></div>
+        </div>
+        <div class="contact-row">
+          <div class="contact-icon">🌐</div>
+          <div><a href="https://www.divinka.sk" target="_blank">www.divinka.sk</a></div>
+        </div>
+      </div>
+
+      <div class="contact-card">
+        <h4>Správca ihriska</h4>
+        <div class="contact-row">
+          <div class="contact-icon">👤</div>
+          <div>Meno správcu (doplniť)</div>
+        </div>
+        <div class="contact-row">
+          <div class="contact-icon">📞</div>
+          <div><a href="tel:+421900000000">+421 / 000 000 000</a></div>
+        </div>
+        <div class="contact-row">
+          <div class="contact-icon">📧</div>
+          <div><a href="mailto:ihrisko@divinka.sk">ihrisko@divinka.sk</a></div>
+        </div>
+        <div class="contact-row">
+          <div class="contact-icon">🕒</div>
+          <div>Rezervácie počas pracovných dní 8:00 – 16:00</div>
+        </div>
+      </div>
+
+      <div class="contact-card">
+        <h4>Úradné hodiny obecného úradu</h4>
+        <div class="contact-row"><div class="contact-icon">📅</div><div><strong>Po:</strong> 7:30 – 15:30</div></div>
+        <div class="contact-row"><div class="contact-icon">📅</div><div><strong>Ut:</strong> 7:30 – 15:30</div></div>
+        <div class="contact-row"><div class="contact-icon">📅</div><div><strong>St:</strong> 7:30 – 17:00</div></div>
+        <div class="contact-row"><div class="contact-icon">📅</div><div><strong>Št:</strong> nestránkový deň</div></div>
+        <div class="contact-row"><div class="contact-icon">📅</div><div><strong>Pi:</strong> 7:30 – 13:30</div></div>
+      </div>
+    </div>
+  </section>
 </main>
 
-<!-- Modal -->
+<footer>
+  <p><strong>Obec Divinka</strong> · Multifunkčné ihrisko Lalinok</p>
+  <p>© 2026 Rezervačný systém · Všetky práva vyhradené</p>
+</footer>
+
+<!-- ====== MODAL — DAY VIEW ====== -->
 <div class="modal-overlay" id="modal" onclick="closeModalOnOverlay(event)">
   <div class="modal">
     <div class="modal-header">
       <h2 id="modalTitle">Obsadenosť dňa</h2>
       <button class="close-btn" onclick="closeModal()">×</button>
     </div>
-    <div class="modal-body">
-      <div id="modalContent"></div>
-    </div>
+    <div class="modal-body" id="modalContent"></div>
   </div>
 </div>
 
 <script>
   // ==== KONFIGURÁCIA ====
-  const ADMIN_PASSWORD = "divinka2026"; // Zmeňte podľa potreby
+  const ADMIN_PASSWORD = "divinka2026"; // ZMEŇ podľa potreby
   const HOURS = ["08:00","09:00","10:00","11:00","12:00","13:00","14:00","15:00",
                  "16:00","17:00","18:00","19:00","20:00","21:00"];
   const MONTH_NAMES = ["Január","Február","Marec","Apríl","Máj","Jún",
                        "Júl","August","September","Október","November","December"];
+  const DAY_NAMES = ["Nedeľa","Pondelok","Utorok","Streda","Štvrtok","Piatok","Sobota"];
 
-  let currentDate = new Date();
-  let viewYear = currentDate.getFullYear();
-  let viewMonth = currentDate.getMonth();
+  let viewYear = new Date().getFullYear();
+  let viewMonth = new Date().getMonth();
   let isAdmin = false;
   let selectedDate = null;
+  let openFormHour = null;
 
   // === STORAGE ===
   function loadBookings() {
-    try {
-      return JSON.parse(localStorage.getItem("divinka_bookings") || "{}");
-    } catch (e) { return {}; }
+    try { return JSON.parse(localStorage.getItem("divinka_bookings") || "{}"); }
+    catch (e) { return {}; }
   }
   function saveBookings(b) {
     localStorage.setItem("divinka_bookings", JSON.stringify(b));
@@ -466,7 +1019,8 @@
       document.getElementById("adminBtn").textContent = "🔒 Admin prihlásenie";
       document.getElementById("adminBtn").classList.remove("active");
       document.getElementById("infoBar").classList.remove("admin-mode");
-      document.getElementById("infoBar").innerHTML = "Kliknite na deň pre zobrazenie obsadenosti ihriska. Rezervácie zapisuje výhradne správca obecného ihriska.";
+      document.getElementById("infoBar").innerHTML =
+        "Kliknite na ľubovoľný deň pre zobrazenie obsadenosti. Rezervácie zapisuje výhradne správca obecného ihriska.";
     } else {
       const pwd = prompt("Zadajte administrátorské heslo:");
       if (pwd === ADMIN_PASSWORD) {
@@ -474,7 +1028,8 @@
         document.getElementById("adminBtn").textContent = "✓ Admin režim (odhlásiť)";
         document.getElementById("adminBtn").classList.add("active");
         document.getElementById("infoBar").classList.add("admin-mode");
-        document.getElementById("infoBar").innerHTML = "<strong>Admin režim aktívny.</strong> Kliknite na deň, potom na hodinu pre pridanie alebo zrušenie rezervácie.";
+        document.getElementById("infoBar").innerHTML =
+          "<strong>Admin režim aktívny.</strong> Kliknite na hodinu, zadajte meno rezervujúceho a uložte.";
       } else if (pwd !== null) {
         alert("Nesprávne heslo.");
       }
@@ -493,33 +1048,25 @@
 
     const firstDay = new Date(viewYear, viewMonth, 1);
     const lastDay = new Date(viewYear, viewMonth + 1, 0);
-    let startWeekday = firstDay.getDay(); // 0=Ne
-    startWeekday = startWeekday === 0 ? 6 : startWeekday - 1; // posun: Po=0
+    let startWeekday = firstDay.getDay();
+    startWeekday = startWeekday === 0 ? 6 : startWeekday - 1;
     const daysInMonth = lastDay.getDate();
-
     const prevLastDay = new Date(viewYear, viewMonth, 0).getDate();
     const bookings = loadBookings();
-    const today = new Date();
-    const todayKey = dateKey(today);
+    const todayKey = dateKey(new Date());
 
-    // Predošlý mesiac
     for (let i = startWeekday - 1; i >= 0; i--) {
       const d = prevLastDay - i;
-      const dt = new Date(viewYear, viewMonth - 1, d);
-      grid.appendChild(createDayCell(dt, true, bookings, todayKey));
+      grid.appendChild(createDayCell(new Date(viewYear, viewMonth - 1, d), true, bookings, todayKey));
     }
-    // Aktuálny mesiac
     for (let d = 1; d <= daysInMonth; d++) {
-      const dt = new Date(viewYear, viewMonth, d);
-      grid.appendChild(createDayCell(dt, false, bookings, todayKey));
+      grid.appendChild(createDayCell(new Date(viewYear, viewMonth, d), false, bookings, todayKey));
     }
-    // Doplnenie do 6 týždňov
     const totalCells = grid.children.length;
     const needed = Math.ceil(totalCells / 7) * 7;
     let nextD = 1;
     for (let i = totalCells; i < needed; i++) {
-      const dt = new Date(viewYear, viewMonth + 1, nextD++);
-      grid.appendChild(createDayCell(dt, true, bookings, todayKey));
+      grid.appendChild(createDayCell(new Date(viewYear, viewMonth + 1, nextD++), true, bookings, todayKey));
     }
   }
 
@@ -537,15 +1084,16 @@
     const dayBookings = bookings[key] || {};
     const occupiedHours = Object.keys(dayBookings).filter(h => dayBookings[h]);
     if (occupiedHours.length > 0) {
+      cell.classList.add("has-bookings");
       const wrap = document.createElement("div");
       wrap.className = "day-bookings";
       const sortedHours = occupiedHours.sort();
-      // Zobraz prvé 2 obsadenia
       sortedHours.slice(0, 2).forEach(h => {
         const pill = document.createElement("div");
         pill.className = "booking-pill";
-        const note = dayBookings[h].note;
-        pill.textContent = h + (note ? " " + note : "");
+        const name = dayBookings[h].name || "";
+        pill.textContent = h + (name ? " " + name : "");
+        pill.title = h + (name ? " – " + name : "");
         wrap.appendChild(pill);
       });
       if (sortedHours.length > 2) {
@@ -556,98 +1104,135 @@
       }
       cell.appendChild(wrap);
     }
-
     cell.onclick = () => openDay(dt);
     return cell;
   }
 
   function dateKey(dt) {
-    const y = dt.getFullYear();
-    const m = String(dt.getMonth() + 1).padStart(2, "0");
-    const d = String(dt.getDate()).padStart(2, "0");
-    return y + "-" + m + "-" + d;
+    return dt.getFullYear() + "-" +
+           String(dt.getMonth() + 1).padStart(2, "0") + "-" +
+           String(dt.getDate()).padStart(2, "0");
   }
 
-  // === MODAL / DAY VIEW ===
+  // === DAY VIEW ===
   function openDay(dt) {
     selectedDate = new Date(dt);
     const key = dateKey(dt);
     const bookings = loadBookings();
     const dayBookings = bookings[key] || {};
 
-    const dayNames = ["Nedeľa","Pondelok","Utorok","Streda","Štvrtok","Piatok","Sobota"];
-    const title = dayNames[dt.getDay()] + " " + dt.getDate() + ". " +
+    const title = DAY_NAMES[dt.getDay()] + " " + dt.getDate() + ". " +
                   MONTH_NAMES[dt.getMonth()].toLowerCase() + " " + dt.getFullYear();
     document.getElementById("modalTitle").textContent = title;
 
-    let html = '<div style="font-size:13px; color:#666; margin-bottom:6px;">Časové sloty (1 hodina):</div>';
-    html += '<div class="timeslots">';
-    HOURS.forEach(h => {
-      const booking = dayBookings[h];
-      const isOccupied = !!booking;
-      const cls = "timeslot " + (isOccupied ? "occupied" : "free") + (isAdmin ? " admin" : "");
-      const noteHtml = isOccupied && booking.note
-        ? '<div class="booking-note">' + escapeHtml(booking.note) + '</div>' : '';
-      const status = isOccupied ? "Obsadené" : "Voľné";
-      html += '<div class="' + cls + '" ' +
-              (isAdmin ? 'onclick="toggleSlot(\'' + key + '\', \'' + h + '\')"' : '') +
-              '>' + h + '<div style="font-size:11px;font-weight:400;">' + status + '</div>' +
-              noteHtml + '</div>';
-    });
+    const occupiedCount = Object.keys(dayBookings).filter(h => dayBookings[h]).length;
+    const freeCount = HOURS.length - occupiedCount;
+
+    let html = '<div class="day-summary">';
+    html += '<div class="summary-pill"><div class="num">' + freeCount + '</div><div class="lbl">Voľných hodín</div></div>';
+    html += '<div class="summary-pill occupied-pill"><div class="num">' + occupiedCount + '</div><div class="lbl">Obsadených hodín</div></div>';
     html += '</div>';
 
-    if (isAdmin) {
-      html += '<div class="form-row">' +
-              '<label>Pridať poznámku k poslednej rezervácii (voliteľné):</label>' +
-              '<input type="text" id="bookingNote" placeholder="napr. FK Divinka tréning" />' +
-              '<div style="font-size:11px; color:#888; margin-top:4px;">' +
-              'Najprv kliknite na hodinu (zmení sa na obsadenú), potom napíšte poznámku a stlačte Uložiť.</div>' +
-              '<button class="btn-primary" onclick="saveLastNote(\'' + key + '\')">Uložiť poznámku</button>' +
-              '</div>';
-    }
+    html += '<div class="timeline">';
+    HOURS.forEach((h, idx) => {
+      const booking = dayBookings[h];
+      const isOccupied = !!booking;
+      const slotEnd = HOURS[idx + 1] || "22:00";
+      const formOpen = openFormHour === h && isAdmin;
+      const adminCls = isAdmin ? " admin-mode" : "";
+
+      html += '<div class="slot' + (isOccupied ? " occupied" : "") + adminCls + '"' +
+              (isAdmin ? ' onclick="toggleForm(\'' + h + '\')"' : '') + '>';
+      html += '<div class="slot-time">' + h + '–' + slotEnd + '</div>';
+      html += '<div class="slot-info">';
+      html += '<div>';
+      html += '<div class="slot-status">' + (isOccupied ? "🔴 Obsadené" : "🟢 Voľné") + '</div>';
+      if (isOccupied && booking.name) {
+        html += '<div class="slot-name">👥 ' + escapeHtml(booking.name) + '</div>';
+      }
+      if (isOccupied && booking.note) {
+        html += '<div class="slot-name">📝 ' + escapeHtml(booking.note) + '</div>';
+      }
+      html += '</div>';
+      if (isAdmin) {
+        html += '<div class="slot-action">' + (formOpen ? "▲ Zatvoriť" : "✏️ Upraviť") + '</div>';
+      }
+      html += '</div></div>';
+
+      if (isAdmin && formOpen) {
+        html += '<div class="reservation-form open" onclick="event.stopPropagation()">';
+        if (isOccupied) {
+          html += '<input type="text" id="resName_' + h + '" placeholder="Meno / klub" value="' +
+                  escapeHtml(booking.name || "") + '" />';
+          html += '<input type="text" id="resNote_' + h + '" placeholder="Poznámka (voliteľné)" value="' +
+                  escapeHtml(booking.note || "") + '" style="margin-top:6px;" />';
+          html += '<div class="row">';
+          html += '<button class="btn btn-primary" onclick="saveReservation(\'' + key + '\', \'' + h + '\')">💾 Uložiť zmeny</button>';
+          html += '<button class="btn btn-danger" onclick="deleteReservation(\'' + key + '\', \'' + h + '\')">🗑 Zrušiť rezerváciu</button>';
+          html += '</div>';
+        } else {
+          html += '<input type="text" id="resName_' + h + '" placeholder="Meno / klub (napr. FK Divinka)" autofocus />';
+          html += '<input type="text" id="resNote_' + h + '" placeholder="Poznámka (voliteľné)" style="margin-top:6px;" />';
+          html += '<div class="row">';
+          html += '<button class="btn btn-primary" onclick="saveReservation(\'' + key + '\', \'' + h + '\')">✓ Pridať rezerváciu</button>';
+          html += '<button class="btn btn-ghost" onclick="toggleForm(null)">Zrušiť</button>';
+          html += '</div>';
+        }
+        html += '</div>';
+      }
+    });
+    html += '</div>';
 
     document.getElementById("modalContent").innerHTML = html;
     document.getElementById("modal").classList.add("show");
   }
 
-  let lastToggledSlot = null;
-
-  function toggleSlot(key, hour) {
+  function toggleForm(hour) {
     if (!isAdmin) return;
+    openFormHour = (openFormHour === hour) ? null : hour;
+    openDay(selectedDate);
+  }
+
+  function saveReservation(key, hour) {
+    const nameInput = document.getElementById("resName_" + hour);
+    const noteInput = document.getElementById("resNote_" + hour);
+    const name = (nameInput?.value || "").trim();
+    const note = (noteInput?.value || "").trim();
+    if (!name) {
+      alert("Zadajte meno alebo názov klubu.");
+      return;
+    }
     const bookings = loadBookings();
     if (!bookings[key]) bookings[key] = {};
-    if (bookings[key][hour]) {
-      delete bookings[key][hour];
-      if (Object.keys(bookings[key]).length === 0) delete bookings[key];
-      lastToggledSlot = null;
-    } else {
-      bookings[key][hour] = { note: "", created: new Date().toISOString() };
-      lastToggledSlot = { key, hour };
-    }
+    bookings[key][hour] = {
+      name: name,
+      note: note,
+      created: bookings[key][hour]?.created || new Date().toISOString(),
+      updated: new Date().toISOString()
+    };
     saveBookings(bookings);
+    openFormHour = null;
     openDay(selectedDate);
     renderCalendar();
   }
 
-  function saveLastNote(key) {
-    const noteInput = document.getElementById("bookingNote");
-    if (!noteInput || !lastToggledSlot || lastToggledSlot.key !== key) {
-      alert("Najprv kliknite na hodinu, ktorú chcete označiť ako obsadenú.");
-      return;
-    }
+  function deleteReservation(key, hour) {
+    if (!confirm("Naozaj chcete zrušiť túto rezerváciu?")) return;
     const bookings = loadBookings();
-    if (bookings[key] && bookings[key][lastToggledSlot.hour]) {
-      bookings[key][lastToggledSlot.hour].note = noteInput.value.trim();
+    if (bookings[key] && bookings[key][hour]) {
+      delete bookings[key][hour];
+      if (Object.keys(bookings[key]).length === 0) delete bookings[key];
       saveBookings(bookings);
-      openDay(selectedDate);
-      renderCalendar();
     }
+    openFormHour = null;
+    openDay(selectedDate);
+    renderCalendar();
   }
 
   function closeModal() {
     document.getElementById("modal").classList.remove("show");
     selectedDate = null;
-    lastToggledSlot = null;
+    openFormHour = null;
   }
   function closeModalOnOverlay(e) {
     if (e.target.id === "modal") closeModal();
@@ -672,7 +1257,11 @@
     })[c]);
   }
 
-  // Init
+  // ESC zatvorí modal
+  document.addEventListener("keydown", e => {
+    if (e.key === "Escape") closeModal();
+  });
+
   renderCalendar();
 </script>
 
