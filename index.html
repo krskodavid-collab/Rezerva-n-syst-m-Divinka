@@ -711,6 +711,83 @@
     margin-top: 8px;
   }
 
+  /* === CENNÍK === */
+  .pricing-table {
+    width: 100%;
+    border-collapse: collapse;
+    background: var(--card);
+    border-radius: 10px;
+    overflow: hidden;
+    box-shadow: var(--shadow);
+    margin-bottom: 16px;
+  }
+  .pricing-table th {
+    background: var(--blue);
+    color: white;
+    padding: 14px 16px;
+    text-align: left;
+    font-size: 14px;
+    font-weight: 600;
+  }
+  .pricing-table td {
+    padding: 14px 16px;
+    border-bottom: 1px solid var(--border);
+    font-size: 14px;
+  }
+  .pricing-table tr:last-child td { border-bottom: none; }
+  .pricing-table tr:nth-child(even) td { background: var(--bg-soft); }
+  .pricing-table .sport { font-weight: 600; color: var(--blue); }
+  .pricing-table .free { color: var(--green); font-weight: 700; }
+  .pricing-table .price { font-weight: 700; color: var(--text); }
+
+  .pricing-note {
+    background: var(--blue-light);
+    border-left: 4px solid var(--blue);
+    padding: 14px 18px;
+    border-radius: 6px;
+    font-size: 13px;
+    color: var(--text);
+    margin-top: 12px;
+  }
+  .pricing-note strong { color: var(--blue); }
+
+  /* === PREVÁDZKOVÝ PORIADOK === */
+  .poriadok-doc {
+    background: var(--card);
+    border-radius: 10px;
+    padding: 28px 32px;
+    box-shadow: var(--shadow);
+    border-top: 4px solid var(--blue);
+  }
+  .poriadok-doc h4 {
+    color: var(--blue);
+    margin: 24px 0 8px;
+    font-size: 16px;
+    border-bottom: 2px solid var(--green);
+    padding-bottom: 4px;
+    display: inline-block;
+  }
+  .poriadok-doc h4:first-child { margin-top: 0; }
+  .poriadok-doc p, .poriadok-doc li {
+    font-size: 14px;
+    color: var(--text);
+    line-height: 1.6;
+  }
+  .poriadok-doc ol, .poriadok-doc ul {
+    padding-left: 22px;
+    margin: 8px 0;
+  }
+  .poriadok-doc li { margin-bottom: 6px; }
+  .poriadok-meta {
+    margin-top: 24px;
+    padding-top: 16px;
+    border-top: 1px solid var(--border);
+    font-size: 13px;
+    color: var(--text-soft);
+    font-style: italic;
+  }
+  .poriadok-meta strong { color: var(--blue); font-style: normal; }
+
   /* Notice card – telefonická rezervácia */
   .phone-notice {
     background: var(--blue-light);
@@ -828,8 +905,8 @@
         </svg>
       </div>
       <div>
-        <h1 class="header-title">Multifunkčné ihrisko Lalinok</h1>
-        <div class="subtitle">Obec Divinka · Rezervačný systém</div>
+        <h1 class="header-title">Multifunkčné ihrisko Divinka</h1>
+        <div class="subtitle">Obec Divinka · Prehľad obsadenosti ihriska</div>
       </div>
     </div>
     <button class="admin-btn" id="adminBtn" onclick="toggleAdmin()">🔒 Admin prihlásenie</button>
@@ -838,7 +915,9 @@
     <div class="nav-inner">
       <a class="nav-link" href="#o-ihrisku">O ihrisku</a>
       <a class="nav-link" href="#kalendar">Kalendár rezervácií</a>
+      <a class="nav-link" href="#cennik">Cenník</a>
       <a class="nav-link" href="#pravidla">Pravidlá užívania</a>
+      <a class="nav-link" href="#poriadok">Prevádzkový poriadok</a>
       <a class="nav-link" href="#kontakt">Kontakt</a>
     </div>
   </nav>
@@ -847,8 +926,8 @@
 <!-- HERO -->
 <div class="hero">
   <div class="hero-inner">
-    <h2>Vitajte na ihrisku Lalinok</h2>
-    <p>Multifunkčné ihrisko obce Divinka pre futbal, volejbal, basketbal a tenis. Táto stránka slúži <strong>iba na informáciu o obsadenosti ihriska</strong> – rezerváciu termínu si dohodnete telefonicky u správcu.</p>
+    <h2>Multifunkčné ihrisko Divinka</h2>
+    <p>Mini-futbal, volejbal, basketbal, tenis a nohejbal. Táto stránka slúži <strong>iba na informáciu o obsadenosti ihriska</strong> – rezerváciu termínu si dohodnete telefonicky u správcu.</p>
     <a href="#kalendar" class="cta">Zobraziť kalendár obsadenosti</a>
   </div>
 </div>
@@ -904,13 +983,17 @@
       </div>
 
       <div class="ihrisko-text">
-        <p>Multifunkčné ihrisko <strong>Lalinok</strong> v obci Divinka slúži všetkým občanom, mládeži a športovým klubom. Ihrisko je vhodné na <strong>futbal, volejbal, basketbal a tenis</strong>.</p>
-        <p>Rezerváciu vyhradeného času zapisuje výhradne <strong>správca obecného ihriska</strong> – občania a kluby si dohodnú termín priamo s obcou.</p>
+        <p>Multifunkčné ihrisko obce Divinka je <strong>nekryté ihrisko s rozmermi 36 × 18 m</strong> s umelým trávnatým povrchom, mantinelovým systémom do výšky 1 m, ochrannou sieťou do výšky 4 m a umelým osvetlením.</p>
+        <p>Ihrisko je vybavené pre <strong>mini-futbal, tenis, volejbal, basketbal a nohejbal</strong> a je určené na športové vyžitie obyvateľov obce, telovýchovných oddielov, záujmových združení i návštevníkov z iných obcí.</p>
 
         <div class="info-cards">
           <div class="info-card">
-            <div class="label">Otváracie hodiny</div>
+            <div class="label">Prevádzková doba</div>
             <div class="value">8:00 – 22:00</div>
+          </div>
+          <div class="info-card">
+            <div class="label">Rozmery</div>
+            <div class="value">36 × 18 m</div>
           </div>
           <div class="info-card">
             <div class="label">Povrch</div>
@@ -918,11 +1001,7 @@
           </div>
           <div class="info-card">
             <div class="label">Osvetlenie</div>
-            <div class="value">LED reflektory</div>
-          </div>
-          <div class="info-card">
-            <div class="label">Vstup</div>
-            <div class="value">Bezplatne pre obyvateľov</div>
+            <div class="value">Áno (poplatok 2 €/hod)</div>
           </div>
         </div>
       </div>
@@ -941,7 +1020,7 @@
       <div class="phone-icon">📞</div>
       <div class="phone-text">
         <strong>Rezerváciu nie je možné vytvoriť cez túto stránku.</strong><br>
-        Termín si dohodnite telefonicky u správcu ihriska na čísle <a href="tel:+421900000000">+421 / 000 000 000</a>. Tento kalendár slúži <em>iba na zobrazenie obsadenosti</em>.
+        Termín si dohodnite osobne alebo telefonicky u správcu ihriska <strong>Stanislav Rišo st.</strong> na čísle <a href="tel:+421907576495">0907 576 495</a> (mimoriadne <a href="tel:+421907831617">0907 831 617</a>). Tento kalendár slúži <em>iba na zobrazenie obsadenosti</em>.
       </div>
     </div>
 
@@ -972,6 +1051,52 @@
     </div>
   </section>
 
+  <!-- ====== CENNÍK ====== -->
+  <section id="cennik">
+    <div class="section-header">
+      <div class="section-icon">💶</div>
+      <h3>Cenník prenájmu</h3>
+      <div class="accent"></div>
+    </div>
+
+    <table class="pricing-table">
+      <thead>
+        <tr>
+          <th>Šport</th>
+          <th>Občania obce Divinka</th>
+          <th>Ostatní</th>
+        </tr>
+      </thead>
+      <tbody>
+        <tr>
+          <td class="sport">⚽ Mini-futbal, volejbal</td>
+          <td class="free">zdarma</td>
+          <td class="price">8 € / hod.</td>
+        </tr>
+        <tr>
+          <td class="sport">🎾 Tenis, nohejbal, basketbal</td>
+          <td class="free">zdarma</td>
+          <td class="price">4 € / hod.</td>
+        </tr>
+        <tr>
+          <td class="sport">💡 Použitie osvetlenia</td>
+          <td class="price" colspan="2" style="text-align:center;">2 € / hod. (pre všetkých)</td>
+        </tr>
+      </tbody>
+    </table>
+
+    <div class="pricing-note">
+      <strong>Dôležité upozornenia k cenníku:</strong>
+      <ul style="margin: 8px 0 0; padding-left: 20px;">
+        <li>Pri futbale/volejbale: skupina s viac ako 4 účastníkmi, ktorí <strong>nemajú trvalý pobyt v obci Divinka</strong>, sa považuje za cudziu (poplatok 8 €/hod.).</li>
+        <li>Pri tenise/nohejbale/basketbale: pri <strong>2 a viac účastníkoch bez trvalého pobytu v obci</strong> sa účtuje 4 €/hod.</li>
+        <li>Poplatok sa účtuje vždy <strong>za každú aj začatú pol hodinu</strong>.</li>
+        <li>Platba prebieha v hotovosti u správcu, ktorý vydá doklad o zaplatení.</li>
+        <li>Pri dlhodobom pravidelnom prenájme sa platí <strong>vopred</strong> – v prípade nevyužitia sa nájomné nevracia.</li>
+      </ul>
+    </div>
+  </section>
+
   <!-- ====== PRAVIDLÁ ====== -->
   <section id="pravidla">
     <div class="section-header">
@@ -983,46 +1108,151 @@
     <div class="rules-grid">
       <div class="rule-card">
         <div class="rule-icon">⏰</div>
-        <h4>Otváracia doba</h4>
-        <p>Ihrisko je k dispozícii denne od <strong>8:00 do 22:00</strong>. Mimo tohto času je vstup zakázaný.</p>
+        <h4>Prevádzková doba</h4>
+        <p>Ihrisko je v prevádzke denne od <strong>8:00 do 22:00</strong>. V prípade nepriaznivého počasia môže správca rozhodnúť o zatvorení.</p>
       </div>
       <div class="rule-card">
         <div class="rule-icon">📞</div>
         <h4>Rezervácia termínu</h4>
-        <p>Rezervácia je možná <strong>iba telefonicky</strong> u správcu ihriska. Cez túto stránku <strong>nie je možné rezervovať</strong> – slúži len na prehľad obsadenosti.</p>
+        <p>Prenájom je možné objednať <strong>osobne alebo telefonicky u správcu</strong>. Cez túto stránku <strong>nie je možné rezervovať</strong> – slúži len na prehľad obsadenosti.</p>
       </div>
       <div class="rule-card">
         <div class="rule-icon">👟</div>
         <h4>Vhodná obuv</h4>
-        <p>Vstup výlučne v <strong>športovej obuvi</strong>. Zakázaná je obuv s kovovými alebo dlhými kolíkmi, ktorá poškodzuje povrch.</p>
+        <p>Zakázaný je vstup v <strong>kopačkách s oceľovými klincami</strong>, atletických tretrách, kolieskových korčuliach, topánkach na podpätku alebo v <strong>znečistenej obuvi</strong>.</p>
       </div>
       <div class="rule-card">
         <div class="rule-icon">🚭</div>
         <h4>Zákaz fajčenia a alkoholu</h4>
-        <p>Na celom areáli je <strong>zakázané fajčenie</strong>, konzumácia alkoholu a iných omamných látok.</p>
+        <p>V areáli je <strong>zakázané fajčiť</strong>, požívať alkohol a iné návykové látky. Vstup pod vplyvom alkoholu nie je dovolený.</p>
       </div>
       <div class="rule-card">
         <div class="rule-icon">🐕</div>
-        <h4>Zákaz vstupu psov</h4>
-        <p>Vstup so zvieratami je <strong>zakázaný</strong>. Ihrisko je určené výhradne na športové aktivity.</p>
+        <h4>Zákaz vstupu so psami a bicyklami</h4>
+        <p>Do areálu je <strong>zakázané vodiť psov</strong>, vstupovať s bicyklom a znečisťovať areál odpadkami.</p>
       </div>
       <div class="rule-card">
-        <div class="rule-icon">♻️</div>
-        <h4>Čistota a poriadok</h4>
-        <p>Po skončení hry zanechajte ihrisko v <strong>čistom stave</strong>. Odpadky odhadzujte do pripravených košov.</p>
+        <div class="rule-icon">🧗</div>
+        <h4>Bezpečnosť</h4>
+        <p>Zakázané je <strong>liezť na konštrukcie</strong>, basketbalový kôš, futbalové brány a preliezať ploty a brány.</p>
+      </div>
+      <div class="rule-card">
+        <div class="rule-icon">👨‍👧</div>
+        <h4>Vstup detí</h4>
+        <p><strong>Deti do 12 rokov</strong> musia byť sprevádzané osobou nad 18 rokov. Žiaci ZŠ a MŠ vstupujú v sprievode učiteľa.</p>
+      </div>
+      <div class="rule-card">
+        <div class="rule-icon">⏱️</div>
+        <h4>Meškanie na rezerváciu</h4>
+        <p>Ak sa nájomca nedostaví do <strong>15 minút</strong> od začiatku rezervácie, môže správca prenajať ihrisko inému záujemcovi.</p>
+      </div>
+      <div class="rule-card">
+        <div class="rule-icon">🛡️</div>
+        <h4>Zodpovednosť</h4>
+        <p>Majiteľ ani správca <strong>nenesie zodpovednosť za zdravie</strong> užívateľa. Plnú zodpovednosť nesie nájomca / užívateľ.</p>
       </div>
     </div>
 
     <div class="rules-list">
-      <h4>Ďalšie podmienky užívania</h4>
+      <h4>Sankcie za porušenie pravidiel</h4>
       <ol>
-        <li>Užívateľ ihriska zodpovedá za bezpečnosť svoju aj ostatných hráčov.</li>
-        <li>Deti do 12 rokov môžu ihrisko používať len v sprievode dospelej osoby.</li>
-        <li>Akékoľvek poškodenie ihriska alebo jeho zariadenia je užívateľ povinný bezodkladne nahlásiť správcovi.</li>
-        <li>Obec Divinka nezodpovedá za odložené veci ani za úrazy spôsobené nesprávnym používaním ihriska.</li>
-        <li>V prípade nepriaznivého počasia (silný dážď, búrka, sneh) môže byť vstup obmedzený.</li>
-        <li>Pri opakovanom porušení pravidiel môže byť osobe odopretý prístup na ihrisko.</li>
+        <li>Pri porušení prevádzkového poriadku alebo nerešpektovaní pokynov správcu môže starosta obce uložiť <strong>pokutu až do výšky 33 €</strong>.</li>
+        <li>Alternatívne môže byť osobe uložený <strong>zákaz vstupu do areálu až na 12 mesiacov</strong>.</li>
+        <li>Pri poškodení majetku ihriska bude voči zodpovednej osobe uplatnená <strong>náhrada škody v plnej výške</strong>.</li>
+        <li>Úmyselné poškodzovanie ihriska a jeho zariadenia je považované za <strong>vážne porušenie</strong> prevádzkového poriadku.</li>
       </ol>
+    </div>
+  </section>
+
+  <!-- ====== PREVÁDZKOVÝ PORIADOK ====== -->
+  <section id="poriadok">
+    <div class="section-header">
+      <div class="section-icon">📜</div>
+      <h3>Prevádzkový poriadok</h3>
+      <div class="accent"></div>
+    </div>
+
+    <div class="poriadok-doc">
+      <h4>§1 Úvodné ustanovenia</h4>
+      <ol>
+        <li>Účelom prevádzkového poriadku je stanoviť práva a povinnosti fyzických a právnických osôb využívajúcich multifunkčné ihrisko (ďalej „MI"), ako aj povinnosti obce Divinka, ktorá je vlastníkom a prevádzkovateľom ihriska.</li>
+        <li>Prevádzkový poriadok je záväzný pre všetky osoby zabezpečujúce prevádzku, ako aj pre osoby vykonávajúce športovú alebo rekreačno-športovú činnosť na ihrisku.</li>
+        <li>Prevádzkový poriadok je vyvesený na verejne prístupnom mieste pri vstupe na ihrisko.</li>
+      </ol>
+
+      <h4>§2 Charakteristika zariadenia</h4>
+      <p>MI je nekryté ihrisko s rozmermi <strong>36 × 18 m</strong> s umelým trávnatým povrchom, vlastným oplotením tvoriacim mantinelový systém do výšky 1 m, PE oplotením z ochrannej siete do celkovej výšky 4 m, umelým osvetlením a komplexným vybavením pre <strong>mini-futbal, tenis, volejbal, basketbal a nohejbal</strong>. Ihrisko je určené pre obyvateľov obce Divinka aj iných obcí, telovýchovné a športové oddiely a záujmové združenia.</p>
+
+      <h4>§3 Čas prevádzky</h4>
+      <ol>
+        <li>MI je v prevádzke od <strong>8:00 do 22:00 hod</strong>.</li>
+        <li>V prípade nepriaznivého počasia (dážď, silný vietor, sneh a pod.) môže správca rozhodnúť o zatvorení ihriska.</li>
+      </ol>
+
+      <h4>§4 Prenájom a cenník</h4>
+      <p>Prenájom je možné objednať osobne alebo telefonicky u správcu (Stanislav Rišo st., 0907 576 495, mimoriadne 0907 831 617). Nájomca platí cenu do pokladne správcu, ktorý vystaví doklad. Pri dlhodobom prenájme sa platí vopred – v prípade nevyužitia sa nájomné nevracia. Aktuálny cenník nájdete v sekcii <a href="#cennik" style="color:var(--green); font-weight:600;">Cenník prenájmu</a>.</p>
+
+      <h4>§5 Vstup na MI</h4>
+      <ul>
+        <li>Žiaci ZŠ a MŠ v sprievode učiteľa alebo poverenej zodpovednej osoby.</li>
+        <li>Organizované skupiny pod dozorom zodpovednej osoby vo veku <strong>min. 18 rokov</strong>.</li>
+        <li>Deti do 12 rokov musia byť sprevádzané osobou nad 18 rokov.</li>
+      </ul>
+
+      <h4>§6 Povinnosti užívateľov</h4>
+      <ol>
+        <li>Vstup na ihrisko je možný len so súhlasom správcu po zaplatení nájomného a len cez vstupnú bránku.</li>
+        <li>Spôsobilosť ihriska na používanie posudzuje správca.</li>
+        <li>Užívateľ je povinný dodržiavať zásady BOZP a požiarnej ochrany.</li>
+        <li>Majiteľ ani správca nenesie zodpovednosť za zdravie užívateľa – plnú zodpovednosť nesie nájomca.</li>
+        <li>Treba sa riadiť pravidlami slušného správania a pokynmi správcu.</li>
+        <li>V areáli je <strong>zakázané</strong>:
+          <ul>
+            <li>liezť na konštrukcie, basketbalový kôš a futbalové brány,</li>
+            <li>preliezať ploty a brány,</li>
+            <li>fajčiť, požívať alkohol a iné návykové látky,</li>
+            <li>používať športovisko na iné účely ako je určené,</li>
+            <li>vstupovať pod vplyvom alkoholu alebo omamných látok,</li>
+            <li>vstupovať v kopačkách s oceľovými klincami, tretrách, kolieskových korčuliach, topánkach na podpätkoch alebo v inej nevhodnej obuvi,</li>
+            <li>vstupovať v znečistenej obuvi,</li>
+            <li>vstupovať s bicyklom, vodiť psov, znečisťovať areál odpadkami.</li>
+          </ul>
+        </li>
+        <li>Pri nevhodnom správaní (vulgárne vyjadrovanie, hlučnosť, poškodzovanie majetku) je správca oprávnený osobu okamžite vykázať z areálu. Úmyselné poškodzovanie je vážne porušenie poriadku.</li>
+        <li>Časový harmonogram zostavuje správca – uprednostňované sú organizované skupiny s objednaným termínom.</li>
+        <li>Ak sa nájomca nedostaví na rezerváciu do <strong>15 minút</strong>, správca môže ihrisko prenajať inému záujemcovi.</li>
+      </ol>
+      <p><em>Vstupom do areálu vyjadruje každá osoba súhlas s týmto prevádzkovým poriadkom a zaväzuje sa ním riadiť.</em></p>
+
+      <h4>§7 Povinnosti správcu</h4>
+      <ul>
+        <li>Evidovať žiadosti o prenájom ihriska.</li>
+        <li>Vyberať hotovosť podľa prevádzkového poriadku a odovzdávať do pokladne Obecného úradu.</li>
+        <li>Odomykať a uzatvárať športový areál.</li>
+        <li>Dbať o starostlivosť, údržbu a efektívne využitie osvetlenia.</li>
+        <li>Spolupracovať s nájomcami pri zabezpečení verejného poriadku.</li>
+        <li>Podieľať sa na organizácii školských a verejných športových podujatí.</li>
+        <li>Dbať o dodržiavanie BOZP a v prípade úrazu poskytnúť pomoc.</li>
+        <li>Viesť záznamy o opravách a údržbe, informovať starostu o vzniknutých škodách.</li>
+        <li>Starať sa o čistotu okolia ihriska.</li>
+      </ul>
+
+      <h4>§8 Sankcie</h4>
+      <ol>
+        <li>Pri porušení záväzného poriadku môže starosta uložiť pokutu <strong>až do výšky 33 €</strong>, alebo zákaz vstupu do areálu <strong>až na 12 mesiacov</strong>.</li>
+        <li>Pri poškodení majetku bude voči zodpovednej osobe uplatnená náhrada v plnej výške.</li>
+      </ol>
+
+      <h4>§9 Záverečné ustanovenia</h4>
+      <ol>
+        <li>Kontrolu dodržiavania poriadku vykonáva starosta obce, hlavný kontrolór, poslanci OZ alebo poverení zamestnanci OcÚ.</li>
+        <li>Tento prevádzkový poriadok bol schválený Obecným zastupiteľstvom v Divinke dňa <strong>16.12.2011 uznesením č. 6/VIII.11</strong> a nadobúda účinnosť dňa 16.12.2011.</li>
+      </ol>
+
+      <div class="poriadok-meta">
+        <strong>Vydal:</strong> Obec Divinka, podľa § 6 zák. SNR č. 369/1990 Zb. o obecnom zriadení v znení neskorších predpisov a v súlade s § 7 ods. 2 zák. NR SR č. 138/1991 Zb. o majetku obcí.<br>
+        <strong>Schválil:</strong> Ing. Michal Krško, starosta obce
+      </div>
     </div>
   </section>
 
@@ -1038,6 +1268,10 @@
       <div class="contact-card">
         <h4>Obecný úrad Divinka</h4>
         <div class="contact-row">
+          <div class="contact-icon">👤</div>
+          <div>Starosta: <strong>Ing. Michal Krško</strong></div>
+        </div>
+        <div class="contact-row">
           <div class="contact-icon">📍</div>
           <div>Divinka 142<br>013 31 Divinka</div>
         </div>
@@ -1046,32 +1280,28 @@
           <div><a href="mailto:obec@divinka.sk">obec@divinka.sk</a></div>
         </div>
         <div class="contact-row">
-          <div class="contact-icon">📞</div>
-          <div><a href="tel:+421415971001">041 / 597 10 01</a></div>
-        </div>
-        <div class="contact-row">
           <div class="contact-icon">🌐</div>
-          <div><a href="https://www.divinka.sk" target="_blank">www.divinka.sk</a></div>
+          <div><a href="https://www.divinka-lalinok.sk" target="_blank">www.divinka-lalinok.sk</a></div>
         </div>
       </div>
 
-      <div class="contact-card">
+      <div class="contact-card" style="border-left-color: var(--green);">
         <h4>Správca ihriska</h4>
         <div class="contact-row">
           <div class="contact-icon">👤</div>
-          <div>Meno správcu (doplniť)</div>
+          <div><strong>Stanislav Rišo st.</strong></div>
         </div>
         <div class="contact-row">
           <div class="contact-icon">📞</div>
-          <div><a href="tel:+421900000000">+421 / 000 000 000</a></div>
+          <div><a href="tel:+421907576495">0907 576 495</a></div>
         </div>
         <div class="contact-row">
-          <div class="contact-icon">📧</div>
-          <div><a href="mailto:ihrisko@divinka.sk">ihrisko@divinka.sk</a></div>
+          <div class="contact-icon">📱</div>
+          <div>Mimoriadne: <a href="tel:+421907831617">0907 831 617</a></div>
         </div>
         <div class="contact-row">
           <div class="contact-icon">🕒</div>
-          <div>Rezervácie počas pracovných dní 8:00 – 16:00</div>
+          <div>Rezervácie osobne alebo telefonicky</div>
         </div>
       </div>
 
@@ -1088,8 +1318,9 @@
 </main>
 
 <footer>
-  <p><strong>Obec Divinka</strong> · Multifunkčné ihrisko Lalinok</p>
-  <p>© 2026 Rezervačný systém · Všetky práva vyhradené</p>
+  <p><strong>Obec Divinka</strong> · Multifunkčné ihrisko</p>
+  <p>Prevádzkový poriadok schválený OZ dňa 16.12.2011, uznesenie č. 6/VIII.11</p>
+  <p style="margin-top:10px; opacity:0.8;">© 2026 Obec Divinka · Rezervačný systém</p>
 </footer>
 
 <!-- ====== MODAL — DAY VIEW ====== -->
