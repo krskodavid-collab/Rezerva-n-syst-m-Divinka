@@ -863,6 +863,28 @@
     text-align: center;
     border-top: 4px solid var(--green);
   }
+  .admin-link {
+    display: inline-block;
+    margin-top: 16px;
+    color: rgba(255,255,255,0.35);
+    font-size: 11px;
+    text-decoration: none;
+    padding: 4px 10px;
+    border-radius: 4px;
+    cursor: pointer;
+    background: transparent;
+    border: 1px solid rgba(255,255,255,0.15);
+    transition: color 0.2s, border-color 0.2s;
+    font-family: inherit;
+  }
+  .admin-link:hover {
+    color: rgba(255,255,255,0.8);
+    border-color: rgba(255,255,255,0.4);
+  }
+  .admin-link.active {
+    color: var(--yellow);
+    border-color: var(--yellow);
+  }
   footer p { margin: 4px 0; font-size: 13px; opacity: 0.9; }
 
   /* === MOBILE === */
@@ -911,7 +933,6 @@
         <div class="subtitle">Obec Divinka · Prehľad obsadenosti ihriska</div>
       </div>
     </div>
-    <button class="admin-btn" id="adminBtn" onclick="toggleAdmin()">🔒 Admin prihlásenie</button>
   </div>
   <nav class="main-nav">
     <div class="nav-inner">
@@ -929,7 +950,7 @@
 <div class="hero">
   <div class="hero-inner">
     <h2>Multifunkčné ihrisko Divinka</h2>
-    <p>Mini-futbal, volejbal, basketbal, tenis a nohejbal. Táto stránka slúži <strong>iba na informáciu o obsadenosti ihriska</strong> – rezerváciu termínu si dohodnete telefonicky u správcu.</p>
+    <p>Futbal, volejbal, basketbal, tenis a nohejbal. Táto stránka slúži <strong>iba na informáciu o obsadenosti ihriska</strong> – rezerváciu termínu si dohodnete telefonicky u správcu.</p>
     <a href="#kalendar" class="cta">Zobraziť kalendár obsadenosti</a>
   </div>
 </div>
@@ -986,7 +1007,7 @@
 
       <div class="ihrisko-text">
         <p>Multifunkčné ihrisko obce Divinka je <strong>nekryté ihrisko s rozmermi 36 × 18 m</strong> s umelým trávnatým povrchom, mantinelovým systémom do výšky 1 m, ochrannou sieťou do výšky 4 m a umelým osvetlením.</p>
-        <p>Ihrisko je vybavené pre <strong>mini-futbal, tenis, volejbal, basketbal a nohejbal</strong> a je určené na športové vyžitie obyvateľov obce, telovýchovných oddielov, záujmových združení i návštevníkov z iných obcí.</p>
+        <p>Ihrisko je vybavené pre <strong>futbal, tenis, volejbal, basketbal a nohejbal</strong> a je určené na športové vyžitie obyvateľov obce, telovýchovných oddielov, záujmových združení i návštevníkov z iných obcí.</p>
 
         <div class="info-cards">
           <div class="info-card">
@@ -1071,7 +1092,7 @@
       </thead>
       <tbody>
         <tr>
-          <td class="sport">⚽ Mini-futbal, volejbal</td>
+          <td class="sport">⚽ Futbal, volejbal</td>
           <td class="free">zdarma</td>
           <td class="price">8 € / hod.</td>
         </tr>
@@ -1183,7 +1204,7 @@
       </ol>
 
       <h4>§2 Charakteristika zariadenia</h4>
-      <p>MI je nekryté ihrisko s rozmermi <strong>36 × 18 m</strong> s umelým trávnatým povrchom, vlastným oplotením tvoriacim mantinelový systém do výšky 1 m, PE oplotením z ochrannej siete do celkovej výšky 4 m, umelým osvetlením a komplexným vybavením pre <strong>mini-futbal, tenis, volejbal, basketbal a nohejbal</strong>. Ihrisko je určené pre obyvateľov obce Divinka aj iných obcí, telovýchovné a športové oddiely a záujmové združenia.</p>
+      <p>MI je nekryté ihrisko s rozmermi <strong>36 × 18 m</strong> s umelým trávnatým povrchom, vlastným oplotením tvoriacim mantinelový systém do výšky 1 m, PE oplotením z ochrannej siete do celkovej výšky 4 m, umelým osvetlením a komplexným vybavením pre <strong>futbal, tenis, volejbal, basketbal a nohejbal</strong>. Ihrisko je určené pre obyvateľov obce Divinka aj iných obcí, telovýchovné a športové oddiely a záujmové združenia.</p>
 
       <h4>§3 Čas prevádzky</h4>
       <ol>
@@ -1307,14 +1328,6 @@
         </div>
       </div>
 
-      <div class="contact-card">
-        <h4>Úradné hodiny obecného úradu</h4>
-        <div class="contact-row"><div class="contact-icon">📅</div><div><strong>Po:</strong> 7:30 – 15:30</div></div>
-        <div class="contact-row"><div class="contact-icon">📅</div><div><strong>Ut:</strong> 7:30 – 15:30</div></div>
-        <div class="contact-row"><div class="contact-icon">📅</div><div><strong>St:</strong> 7:30 – 17:00</div></div>
-        <div class="contact-row"><div class="contact-icon">📅</div><div><strong>Št:</strong> nestránkový deň</div></div>
-        <div class="contact-row"><div class="contact-icon">📅</div><div><strong>Pi:</strong> 7:30 – 13:30</div></div>
-      </div>
     </div>
   </section>
 </main>
@@ -1323,6 +1336,7 @@
   <p><strong>Obec Divinka</strong> · Multifunkčné ihrisko</p>
   <p>Prevádzkový poriadok schválený OZ dňa 16.12.2011, uznesenie č. 6/VIII.11</p>
   <p style="margin-top:10px; opacity:0.8;">© 2026 Obec Divinka · Rezervačný systém</p>
+  <button class="admin-link" id="adminBtn" onclick="toggleAdmin()" title="Prístup pre správcu">·  ·  ·</button>
 </footer>
 
 <!-- ====== MODAL — DAY VIEW ====== -->
@@ -1363,10 +1377,11 @@
 
   // === ADMIN ===
   function toggleAdmin() {
+    const adminBtn = document.getElementById("adminBtn");
     if (isAdmin) {
       isAdmin = false;
-      document.getElementById("adminBtn").textContent = "🔒 Admin prihlásenie";
-      document.getElementById("adminBtn").classList.remove("active");
+      adminBtn.textContent = "·  ·  ·";
+      adminBtn.classList.remove("active");
       document.getElementById("infoBar").classList.remove("admin-mode");
       document.getElementById("infoBar").innerHTML =
         "Kliknite na ľubovoľný deň pre zobrazenie obsadenosti. Rezervácie zapisuje výhradne správca obecného ihriska.";
@@ -1374,8 +1389,8 @@
       const pwd = prompt("Zadajte administrátorské heslo:");
       if (pwd === ADMIN_PASSWORD) {
         isAdmin = true;
-        document.getElementById("adminBtn").textContent = "✓ Admin režim (odhlásiť)";
-        document.getElementById("adminBtn").classList.add("active");
+        adminBtn.textContent = "✓ Správca prihlásený";
+        adminBtn.classList.add("active");
         document.getElementById("infoBar").classList.add("admin-mode");
         document.getElementById("infoBar").innerHTML =
           "<strong>Admin režim aktívny.</strong> Kliknite na voľné hodiny (môžete označiť aj viac naraz – napr. 5 hodín tréningu), zadajte meno klubu / osoby a uložte. Obsadenú hodinu kliknutím upravíte alebo zrušíte.";
@@ -1386,6 +1401,14 @@
     renderCalendar();
     if (selectedDate) openDay(selectedDate);
   }
+
+  // Klávesová skratka Ctrl+Shift+A pre rýchly prístup k admin režimu
+  document.addEventListener("keydown", e => {
+    if ((e.ctrlKey || e.metaKey) && e.shiftKey && e.key.toLowerCase() === "a") {
+      e.preventDefault();
+      toggleAdmin();
+    }
+  });
 
   // === CALENDAR RENDER ===
   function renderCalendar() {
