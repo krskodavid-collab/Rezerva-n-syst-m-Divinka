@@ -4,6 +4,10 @@
 <meta charset="UTF-8">
 <meta name="viewport" content="width=device-width, initial-scale=1.0">
 <title>Multifunkčné ihrisko Divinka – Lalinok</title>
+
+<!-- Firebase SDK (compat verzia – ľahšie sa s ňou pracuje) -->
+<script src="https://www.gstatic.com/firebasejs/10.7.1/firebase-app-compat.js"></script>
+<script src="https://www.gstatic.com/firebasejs/10.7.1/firebase-firestore-compat.js"></script>
 <style>
   :root {
     /* Farby obce Divinka — modrá (hlavná) + zelená (akcent) */
@@ -854,6 +858,40 @@
   .contact-row a { color: var(--green); text-decoration: none; font-weight: 600; }
   .contact-row a:hover { text-decoration: underline; color: var(--green-dark); }
 
+  /* === CLOUD STATUS BADGE === */
+  .cloud-status {
+    display: inline-flex;
+    align-items: center;
+    gap: 6px;
+    font-size: 12px;
+    padding: 4px 10px;
+    border-radius: 12px;
+    margin-left: 10px;
+    font-weight: 600;
+  }
+  .cloud-status.online {
+    background: var(--green-light);
+    color: var(--green-dark);
+  }
+  .cloud-status.offline {
+    background: #fff4d1;
+    color: #8a6d00;
+  }
+  .cloud-status.error {
+    background: var(--occupied-bg);
+    color: var(--occupied);
+  }
+  .cloud-dot {
+    width: 8px; height: 8px;
+    border-radius: 50%;
+    background: currentColor;
+    animation: pulse 2s ease-in-out infinite;
+  }
+  @keyframes pulse {
+    0%, 100% { opacity: 1; }
+    50% { opacity: 0.4; }
+  }
+
   /* === FOOTER === */
   footer {
     background: var(--blue);
@@ -1049,6 +1087,9 @@
 
     <div class="info-bar" id="infoBar">
       Kliknite na ľubovoľný deň pre zobrazenie obsadenosti. Rezervácie zapisuje výhradne správca obecného ihriska.
+      <span class="cloud-status offline" id="cloudStatus" title="Stav cloudu">
+        <span class="cloud-dot"></span><span id="cloudStatusText">Lokálny režim</span>
+      </span>
     </div>
 
     <div class="calendar-controls">
@@ -1353,6 +1394,24 @@
 <script>
   // ==== KONFIGURÁCIA ====
   const ADMIN_PASSWORD = "divinka2026"; // ZMEŇ podľa potreby
+
+  // ===========================================================================
+  // === FIREBASE KONFIGURÁCIA — SEM VLOŽ DÁTA Z FIREBASE KONZOLY ===
+  // ===========================================================================
+  // 1. Vytvor projekt na https://console.firebase.google.com
+  // 2. Aktivuj Firestore Database (Build → Firestore → Create database)
+  // 3. V nastaveniach (⚙) → Project settings → Your apps → Web (</>)
+  // 4. Skopíruj firebaseConfig objekt SEM (vymaž zátvorky nižšie a vlož svoje):
+  const firebaseConfig = {
+    // apiKey: "AIzaSy...",
+    // authDomain: "divinka-ihrisko.firebaseapp.com",
+    // projectId: "divinka-ihrisko",
+    // storageBucket: "divinka-ihrisko.appspot.com",
+    // messagingSenderId: "1234567890",
+    // appId: "1:1234567890:web:abc123"
+  };
+  // ===========================================================================
+
   const HOURS = ["08:00","09:00","10:00","11:00","12:00","13:00","14:00","15:00",
                  "16:00","17:00","18:00","19:00","20:00","21:00"];
   const MONTH_NAMES = ["Január","Február","Marec","Apríl","Máj","Jún",
@@ -1363,16 +1422,79 @@
   let viewMonth = new Date().getMonth();
   let isAdmin = false;
   let selectedDate = null;
-  let openFormHour = null;     // hodina, ktorej úprava je otvorená (obsadený slot)
-  let selectedHours = new Set(); // hodiny vybrané na hromadnú rezerváciu
+  let openFormHour = null;
+  let selectedHours = new Set();
 
-  // === STORAGE ===
+  // === CLOUD (Firebase Firestore) ===
+  let cloudReady = false;
+  let db = null;
+  let cachedBookings = {};
+
+  function setCloudStatus(state, text) {
+    const el = document.getElementById("cloudStatus");
+    const txt = document.getElementById("cloudStatusText");
+    if (!el || !txt) return;
+    el.classList.remove("online", "offline", "error");
+    el.classList.add(state);
+    txt.textContent = text;
+  }
+
+  function initCloud() {
+    if (!firebaseConfig.apiKey) {
+      setCloudStatus("offline", "Lokálny režim");
+      console.info("Firebase nie je nakonfigurovaný — používa sa localStorage.");
+      return;
+    }
+    try {
+      firebase.initializeApp(firebaseConfig);
+      db = firebase.firestore();
+      cloudReady = true;
+      setCloudStatus("online", "Pripájam...");
+
+      // Real-time odber zmien — ak admin zapíše zmenu, všetci ostatní ju vidia okamžite
+      db.collection("divinka").doc("rezervacie").onSnapshot(snap => {
+        if (snap.exists) {
+          cachedBookings = snap.data().bookings || {};
+        } else {
+          cachedBookings = {};
+        }
+        setCloudStatus("online", "Synchronizované");
+        renderCalendar();
+        if (selectedDate) openDay(selectedDate);
+      }, err => {
+        console.error("Firebase chyba:", err);
+        setCloudStatus("error", "Chyba pripojenia");
+        cloudReady = false;
+      });
+    } catch (e) {
+      console.error("Firebase init zlyhal:", e);
+      setCloudStatus("error", "Chyba inicializácie");
+      cloudReady = false;
+    }
+  }
+
+  // === STORAGE — používa cloud ak je dostupný, inak localStorage ===
   function loadBookings() {
+    if (cloudReady) return cachedBookings;
     try { return JSON.parse(localStorage.getItem("divinka_bookings") || "{}"); }
     catch (e) { return {}; }
   }
+
   function saveBookings(b) {
-    localStorage.setItem("divinka_bookings", JSON.stringify(b));
+    if (cloudReady) {
+      cachedBookings = b;
+      // Optimistický zápis — UI sa aktualizuje hneď, cloud potvrdí cez onSnapshot
+      db.collection("divinka").doc("rezervacie").set({
+        bookings: b,
+        updated: new Date().toISOString()
+      }).catch(err => {
+        console.error("Chyba zápisu:", err);
+        alert("Nepodarilo sa uložiť do cloudu: " + err.message);
+        setCloudStatus("error", "Zápis zlyhal");
+      });
+    } else {
+      localStorage.setItem("divinka_bookings", JSON.stringify(b));
+    }
   }
 
   // === ADMIN ===
@@ -1717,7 +1839,9 @@
     if (e.key === "Escape") closeModal();
   });
 
-  renderCalendar();
+  // Spustenie aplikácie
+  initCloud();        // pripojenie k Firebase (ak je nakonfigurovaný)
+  renderCalendar();   // prvé vykreslenie kalendára
 </script>
 
 </body>
