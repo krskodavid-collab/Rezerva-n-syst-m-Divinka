@@ -5,7 +5,6 @@
 <meta name="viewport" content="width=device-width, initial-scale=1.0">
 <title>Rezervačný systém obce Divinka</title>
 
-<!-- Firebase SDK -->
 <script src="https://www.gstatic.com/firebasejs/10.7.1/firebase-app-compat.js"></script>
 <script src="https://www.gstatic.com/firebasejs/10.7.1/firebase-firestore-compat.js"></script>
 
@@ -13,57 +12,62 @@
   :root {
     --blue: #003d82;
     --blue-dark: #002a5c;
-    --blue-light: #e8eef7;
+    --blue-light: #eef2f9;
+    --blue-soft: #f5f7fb;
     --green: #1a8a3e;
     --green-dark: #126a2d;
-    --green-light: #e7f4ea;
-    --yellow: #f5ecd1;
-    --yellow-dark: #d9c896;
+    --green-light: #eaf5ec;
+    --accent: #c9a961;
     --bg: #ffffff;
-    --bg-soft: #f7f9fc;
+    --bg-soft: #f8f9fb;
     --card: #ffffff;
     --text: #1a1f2e;
     --text-soft: #4a5566;
-    --border: #d8dee8;
-    --occupied: #c0392b;
-    --occupied-bg: #fdecea;
+    --text-muted: #6b7585;
+    --border: #dde2ea;
+    --border-light: #eef0f4;
+    --occupied: #b03020;
+    --occupied-bg: #fbeae7;
     --free: #1a8a3e;
-    --shadow: 0 2px 12px rgba(0,0,0,0.08);
-    --shadow-lg: 0 8px 30px rgba(0,0,0,0.12);
+    --shadow-sm: 0 1px 3px rgba(15,23,42,0.06);
+    --shadow: 0 2px 8px rgba(15,23,42,0.08);
+    --shadow-lg: 0 8px 28px rgba(15,23,42,0.12);
   }
 
   * { box-sizing: border-box; }
   html { scroll-behavior: smooth; }
   body {
     margin: 0;
-    font-family: -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, Helvetica, Arial, sans-serif;
+    font-family: -apple-system, BlinkMacSystemFont, "Segoe UI", "Inter", Roboto, Helvetica, Arial, sans-serif;
     background: var(--bg-soft);
     color: var(--text);
     min-height: 100vh;
-    line-height: 1.55;
+    line-height: 1.6;
+    -webkit-font-smoothing: antialiased;
+    font-size: 15px;
   }
 
   /* === HEADER === */
   header {
     background: white;
-    box-shadow: 0 1px 4px rgba(0,0,0,0.08);
+    border-bottom: 1px solid var(--border);
     position: sticky;
     top: 0;
     z-index: 50;
   }
   .header-top {
-    max-width: 1300px;
+    max-width: 1280px;
     margin: 0 auto;
-    padding: 14px 20px;
+    padding: 20px 24px 16px;
     display: flex;
     justify-content: space-between;
     align-items: center;
     flex-wrap: wrap;
-    gap: 12px;
+    gap: 16px;
   }
-  .logo-section { display: flex; align-items: center; gap: 14px; }
+  .logo-section { display: flex; align-items: center; gap: 18px; }
   .logo-icon {
-    width: 60px; height: 60px;
+    width: 64px; height: 64px;
     background: white;
     border-radius: 50%;
     display: flex;
@@ -74,17 +78,27 @@
     flex-shrink: 0;
   }
   .logo-icon img { width: 100%; height: 100%; object-fit: contain; }
-  .logo-icon svg { width: 48px; height: 48px; }
+  .logo-icon svg { width: 50px; height: 50px; }
 
+  .header-titles { display: flex; flex-direction: column; }
+  .header-eyebrow {
+    font-size: 11px;
+    text-transform: uppercase;
+    letter-spacing: 1.5px;
+    color: var(--text-muted);
+    font-weight: 600;
+    margin-bottom: 4px;
+  }
   h1.header-title {
     margin: 0;
     font-size: 22px;
     font-weight: 700;
     line-height: 1.2;
     color: var(--blue);
+    letter-spacing: -0.2px;
   }
   .subtitle {
-    margin: 2px 0 0;
+    margin: 3px 0 0;
     font-size: 13px;
     color: var(--text-soft);
   }
@@ -93,10 +107,9 @@
   nav.property-nav {
     background: var(--blue);
     border-top: 1px solid rgba(255,255,255,0.1);
-    overflow: hidden;
   }
   .property-nav-inner {
-    max-width: 1300px;
+    max-width: 1280px;
     margin: 0 auto;
     display: flex;
     overflow-x: auto;
@@ -109,266 +122,135 @@
     background: transparent;
     color: rgba(255,255,255,0.85);
     border: none;
-    padding: 14px 18px;
-    font-size: 14px;
-    font-weight: 600;
+    padding: 16px 22px;
+    font-size: 13.5px;
+    font-weight: 500;
     border-bottom: 3px solid transparent;
     cursor: pointer;
     white-space: nowrap;
-    display: flex;
-    align-items: center;
-    gap: 8px;
-    transition: background 0.15s, color 0.15s;
+    transition: background 0.15s, color 0.15s, border-color 0.15s;
     font-family: inherit;
+    letter-spacing: 0.1px;
   }
   .prop-tab:hover {
-    background: rgba(255,255,255,0.08);
+    background: rgba(255,255,255,0.07);
     color: white;
   }
   .prop-tab.active {
     background: white;
     color: var(--blue);
-    border-bottom-color: var(--green);
+    border-bottom-color: var(--accent);
+    font-weight: 600;
   }
-  .prop-tab .tab-icon { font-size: 18px; }
 
   /* === HERO === */
   .hero {
-    background: linear-gradient(135deg, rgba(0,61,130,0.92), rgba(0,42,92,0.95));
+    background: var(--blue);
     color: white;
-    padding: 40px 20px;
+    padding: 36px 24px;
     text-align: center;
-    border-bottom: 4px solid var(--green);
+    border-bottom: 3px solid var(--accent);
   }
-  .hero-inner { max-width: 900px; margin: 0 auto; }
+  .hero-inner { max-width: 820px; margin: 0 auto; }
   .hero h2 {
-    font-size: 28px;
+    font-size: 24px;
     margin: 0 0 10px;
     font-weight: 700;
-    text-shadow: 0 2px 8px rgba(0,0,0,0.3);
+    letter-spacing: -0.3px;
   }
   .hero p {
-    font-size: 15px;
-    opacity: 0.95;
+    font-size: 14.5px;
+    opacity: 0.92;
     margin: 0;
+    line-height: 1.6;
   }
 
   /* === MAIN === */
   main {
-    max-width: 1300px;
+    max-width: 1280px;
     margin: 0 auto;
-    padding: 30px 20px;
+    padding: 36px 24px;
   }
 
-  /* === PROPERTY SECTION === */
   .property-section { display: none; }
   .property-section.active { display: block; }
 
-  .property-header {
-    background: var(--card);
-    border-radius: 12px;
-    padding: 24px 28px;
-    box-shadow: var(--shadow);
-    margin-bottom: 24px;
-    border-left: 5px solid var(--blue);
+  /* Property header */
+  .property-intro {
+    margin-bottom: 32px;
+    padding-bottom: 24px;
+    border-bottom: 1px solid var(--border);
   }
-  .property-title {
-    display: flex;
-    align-items: center;
-    gap: 14px;
+  .property-eyebrow {
+    font-size: 11px;
+    text-transform: uppercase;
+    letter-spacing: 1.5px;
+    color: var(--text-muted);
+    font-weight: 600;
     margin-bottom: 8px;
   }
-  .property-title-icon {
-    width: 50px; height: 50px;
-    background: var(--blue);
-    color: white;
-    border-radius: 12px;
-    display: flex;
-    align-items: center;
-    justify-content: center;
-    font-size: 26px;
-    flex-shrink: 0;
-  }
-  .property-title h2 {
-    margin: 0;
-    font-size: 24px;
+  .property-name {
+    margin: 0 0 12px;
+    font-size: 30px;
     color: var(--blue);
     font-weight: 700;
-  }
-  .property-title-sub {
-    color: var(--text-soft);
-    font-size: 13px;
-    margin: 2px 0 0;
+    letter-spacing: -0.5px;
+    line-height: 1.2;
   }
   .property-desc {
     color: var(--text-soft);
-    font-size: 14px;
-    line-height: 1.6;
-    margin: 8px 0 0;
+    font-size: 15px;
+    line-height: 1.7;
+    max-width: 800px;
+    margin: 0;
   }
 
-  /* Two-column layout */
-  .property-grid {
-    display: grid;
-    grid-template-columns: 1.2fr 1fr;
-    gap: 24px;
-    margin-bottom: 24px;
+  /* === SECTION === */
+  .section {
+    margin-bottom: 44px;
   }
-
-  .photo-box {
-    width: 100%;
-    height: 280px;
-    border-radius: 12px;
-    box-shadow: var(--shadow);
-    overflow: hidden;
-    background: linear-gradient(135deg, var(--blue), var(--blue-dark));
-    position: relative;
-  }
-  .photo-box img,
-  .photo-box svg { width: 100%; height: 100%; object-fit: cover; display: block; }
-  .photo-label {
-    position: absolute;
-    bottom: 12px;
-    left: 12px;
-    background: rgba(0,0,0,0.65);
-    color: white;
-    padding: 6px 12px;
-    border-radius: 6px;
-    font-size: 12px;
-  }
-
-  .info-cards {
-    display: grid;
-    grid-template-columns: 1fr 1fr;
-    gap: 10px;
-  }
-  .info-card {
-    background: var(--card);
-    border: 1px solid var(--border);
-    border-radius: 8px;
-    padding: 12px 14px;
-    border-left: 4px solid var(--green);
-  }
-  .info-card .label {
-    font-size: 11px;
-    color: var(--text-soft);
-    text-transform: uppercase;
-    letter-spacing: 0.5px;
-    font-weight: 600;
-  }
-  .info-card .value {
-    font-size: 14px;
-    font-weight: 600;
-    color: var(--blue);
-    margin-top: 2px;
-  }
-
-  /* === SUBSECTION HEADER === */
-  .sub-header {
+  .section-header {
+    margin-bottom: 18px;
+    padding-bottom: 10px;
+    border-bottom: 2px solid var(--blue);
     display: flex;
-    align-items: center;
+    align-items: baseline;
+    justify-content: space-between;
     gap: 12px;
-    margin: 28px 0 16px;
+    flex-wrap: wrap;
   }
-  .sub-icon {
-    width: 36px; height: 36px;
-    background: var(--blue);
-    color: white;
-    border-radius: 8px;
-    display: flex;
-    align-items: center;
-    justify-content: center;
+  .section-header h3 {
     font-size: 18px;
-    flex-shrink: 0;
-  }
-  .sub-header h3 {
-    font-size: 20px;
     margin: 0;
     color: var(--blue);
     font-weight: 700;
+    letter-spacing: -0.2px;
+    text-transform: uppercase;
+    letter-spacing: 1px;
   }
-  .sub-header .accent {
-    height: 3px;
-    flex: 1;
-    background: linear-gradient(to right, var(--green), transparent);
-    border-radius: 2px;
-  }
-
-  /* === CENNÍK === */
-  .pricing-table {
-    width: 100%;
-    border-collapse: collapse;
-    background: var(--card);
-    border-radius: 10px;
-    overflow: hidden;
-    box-shadow: var(--shadow);
-  }
-  .pricing-table th {
-    background: var(--blue);
-    color: white;
-    padding: 12px 14px;
-    text-align: left;
-    font-size: 13px;
-    font-weight: 600;
-  }
-  .pricing-table td {
-    padding: 12px 14px;
-    border-bottom: 1px solid var(--border);
-    font-size: 14px;
-  }
-  .pricing-table tr:last-child td { border-bottom: none; }
-  .pricing-table tr:nth-child(even) td { background: var(--bg-soft); }
-  .pricing-table .label-col { font-weight: 600; color: var(--blue); }
-  .pricing-table .free { color: var(--green); font-weight: 700; }
-  .pricing-table .price { font-weight: 700; }
-  .pricing-note {
-    background: var(--blue-light);
-    border-left: 4px solid var(--blue);
-    padding: 12px 16px;
-    border-radius: 6px;
-    font-size: 13px;
-    margin-top: 12px;
-    line-height: 1.5;
-  }
-  .pricing-note ul { margin: 6px 0; padding-left: 20px; }
-  .pricing-note li { margin: 3px 0; }
 
   /* === KALENDÁR === */
-  .phone-notice {
+  .reservation-notice {
     background: var(--blue-light);
-    border: 2px solid var(--blue);
-    border-radius: 10px;
-    padding: 14px 18px;
+    border-left: 3px solid var(--blue);
+    padding: 16px 20px;
     margin-bottom: 16px;
-    display: flex;
-    align-items: center;
-    gap: 12px;
-    box-shadow: var(--shadow);
+    border-radius: 4px;
+    font-size: 14px;
+    line-height: 1.6;
   }
-  .phone-notice .phone-icon {
-    width: 42px; height: 42px;
-    background: var(--blue);
-    color: white;
-    border-radius: 50%;
-    display: flex;
-    align-items: center;
-    justify-content: center;
-    font-size: 20px;
-    flex-shrink: 0;
-  }
-  .phone-notice .phone-text { font-size: 14px; }
-  .phone-notice strong { color: var(--blue); }
-  .phone-notice a { color: var(--green); font-weight: 700; text-decoration: none; }
-  .phone-notice a:hover { text-decoration: underline; }
+  .reservation-notice strong { color: var(--blue); }
+  .reservation-notice a { color: var(--blue); font-weight: 600; text-decoration: underline; }
+  .reservation-notice a:hover { color: var(--blue-dark); }
 
   .info-bar {
     background: var(--card);
-    border-left: 4px solid var(--blue);
+    border: 1px solid var(--border);
     padding: 12px 16px;
     border-radius: 6px;
     margin-bottom: 16px;
-    box-shadow: var(--shadow);
     font-size: 13px;
+    color: var(--text-soft);
     display: flex;
     align-items: center;
     justify-content: space-between;
@@ -376,8 +258,9 @@
     gap: 8px;
   }
   .info-bar.admin-mode {
-    border-left-color: var(--green);
+    border-color: var(--green);
     background: var(--green-light);
+    color: var(--text);
   }
 
   .cloud-status {
@@ -385,9 +268,11 @@
     align-items: center;
     gap: 6px;
     font-size: 11px;
-    padding: 3px 9px;
+    padding: 3px 10px;
     border-radius: 12px;
     font-weight: 600;
+    letter-spacing: 0.3px;
+    text-transform: uppercase;
   }
   .cloud-status.online { background: var(--green-light); color: var(--green-dark); }
   .cloud-status.offline { background: #fff4d1; color: #8a6d00; }
@@ -396,32 +281,28 @@
     width: 7px; height: 7px;
     border-radius: 50%;
     background: currentColor;
-    animation: pulse 2s ease-in-out infinite;
-  }
-  @keyframes pulse {
-    0%, 100% { opacity: 1; }
-    50% { opacity: 0.4; }
   }
 
   .calendar-controls {
     display: flex;
     align-items: center;
     justify-content: space-between;
-    margin-bottom: 12px;
+    margin-bottom: 14px;
     background: var(--card);
-    padding: 10px 14px;
-    border-radius: 8px;
-    box-shadow: var(--shadow);
+    padding: 12px 16px;
+    border: 1px solid var(--border);
+    border-radius: 6px;
   }
   .nav-btn {
     background: var(--blue);
     color: white;
     border: none;
     width: 36px; height: 36px;
-    border-radius: 6px;
+    border-radius: 4px;
     cursor: pointer;
     font-size: 18px;
-    font-weight: bold;
+    font-weight: 500;
+    transition: background 0.15s;
   }
   .nav-btn:hover { background: var(--blue-dark); }
   .month-title {
@@ -429,24 +310,28 @@
     font-weight: 700;
     color: var(--blue);
     text-transform: capitalize;
+    letter-spacing: -0.2px;
   }
   .today-btn {
-    background: var(--green);
-    color: white;
-    border: none;
-    padding: 7px 12px;
-    border-radius: 6px;
+    background: white;
+    color: var(--blue);
+    border: 1px solid var(--blue);
+    padding: 7px 14px;
+    border-radius: 4px;
     cursor: pointer;
     font-weight: 600;
     font-size: 12px;
+    text-transform: uppercase;
+    letter-spacing: 0.5px;
+    transition: background 0.15s, color 0.15s;
   }
-  .today-btn:hover { background: var(--green-dark); }
+  .today-btn:hover { background: var(--blue); color: white; }
 
   .calendar {
     background: var(--card);
-    border-radius: 10px;
+    border: 1px solid var(--border);
+    border-radius: 6px;
     overflow: hidden;
-    box-shadow: var(--shadow);
   }
   .weekdays {
     display: grid;
@@ -456,75 +341,272 @@
     text-align: center;
     font-weight: 600;
     font-size: 12px;
+    letter-spacing: 0.5px;
+    text-transform: uppercase;
   }
-  .weekdays div { padding: 8px 4px; }
+  .weekdays div { padding: 10px 4px; }
   .days {
     display: grid;
     grid-template-columns: repeat(7, 1fr);
   }
   .day {
-    min-height: 90px;
-    border-right: 1px solid var(--border);
-    border-bottom: 1px solid var(--border);
-    padding: 5px;
+    min-height: 96px;
+    border-right: 1px solid var(--border-light);
+    border-bottom: 1px solid var(--border-light);
+    padding: 6px 7px;
     cursor: pointer;
-    transition: background 0.15s;
+    transition: background 0.12s;
     background: white;
   }
-  .day:hover { background: var(--blue-light); }
-  .day.other-month { background: #fafafa; color: #bbb; }
-  .day.today { background: var(--yellow); }
+  .day:nth-child(7n) { border-right: none; }
+  .day:hover { background: var(--blue-soft); }
+  .day.other-month { background: #fafbfc; color: #c4cad3; }
+  .day.today { background: #fdf8e8; }
   .day.today .day-num { color: var(--blue); font-weight: 800; }
   .day.has-bookings { border-left: 3px solid var(--occupied); }
   .day.all-day-booked {
     background: var(--occupied-bg);
     border-left-color: var(--occupied);
   }
-  .day-num { font-size: 13px; font-weight: 600; margin-bottom: 3px; }
-  .day-bookings {
-    display: flex;
-    flex-direction: column;
-    gap: 2px;
-  }
+  .day-num { font-size: 13px; font-weight: 600; margin-bottom: 4px; color: var(--text); }
+  .day-bookings { display: flex; flex-direction: column; gap: 2px; }
   .booking-pill {
     background: var(--occupied);
     color: white;
-    font-size: 9px;
-    padding: 1px 4px;
-    border-radius: 3px;
+    font-size: 10px;
+    padding: 2px 5px;
+    border-radius: 2px;
     white-space: nowrap;
     overflow: hidden;
     text-overflow: ellipsis;
+    font-weight: 500;
   }
-  .booking-pill.allday {
-    background: var(--blue);
-  }
-  .booking-count { font-size: 9px; color: var(--occupied); font-weight: 600; }
+  .booking-pill.allday { background: var(--blue); }
+  .booking-count { font-size: 10px; color: var(--occupied); font-weight: 600; }
 
   .legend {
     display: flex;
-    gap: 14px;
+    gap: 18px;
     flex-wrap: wrap;
     font-size: 12px;
-    margin-top: 12px;
-    padding: 10px 14px;
+    color: var(--text-soft);
+    margin-top: 14px;
+    padding: 12px 16px;
     background: var(--card);
+    border: 1px solid var(--border);
     border-radius: 6px;
-    box-shadow: var(--shadow);
   }
-  .legend-item { display: flex; align-items: center; gap: 5px; }
+  .legend-item { display: flex; align-items: center; gap: 7px; }
   .legend-box {
     width: 14px; height: 14px;
-    border-radius: 3px;
+    border-radius: 2px;
     border: 1px solid var(--border);
   }
+
+  /* === O OBJEKTE === */
+  .property-grid {
+    display: grid;
+    grid-template-columns: 1.3fr 1fr;
+    gap: 28px;
+    align-items: start;
+  }
+  .photo-box {
+    width: 100%;
+    height: 280px;
+    border-radius: 6px;
+    overflow: hidden;
+    background: var(--blue);
+    position: relative;
+    border: 1px solid var(--border);
+  }
+  .photo-box img { width: 100%; height: 100%; object-fit: cover; display: block; }
+  .photo-placeholder {
+    width: 100%; height: 100%;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    color: rgba(255,255,255,0.7);
+    font-size: 13px;
+    font-style: italic;
+    background: linear-gradient(135deg, var(--blue), var(--blue-dark));
+  }
+
+  .info-table {
+    width: 100%;
+    border-collapse: collapse;
+    background: var(--card);
+    border: 1px solid var(--border);
+    border-radius: 6px;
+    overflow: hidden;
+  }
+  .info-table tr { border-bottom: 1px solid var(--border-light); }
+  .info-table tr:last-child { border-bottom: none; }
+  .info-table td {
+    padding: 12px 16px;
+    font-size: 14px;
+  }
+  .info-table .info-label {
+    color: var(--text-muted);
+    font-size: 12px;
+    text-transform: uppercase;
+    letter-spacing: 0.5px;
+    font-weight: 600;
+    width: 45%;
+  }
+  .info-table .info-value {
+    color: var(--text);
+    font-weight: 600;
+    text-align: right;
+  }
+
+  /* === CENNÍK === */
+  .pricing-table {
+    width: 100%;
+    border-collapse: collapse;
+    background: var(--card);
+    border: 1px solid var(--border);
+    border-radius: 6px;
+    overflow: hidden;
+  }
+  .pricing-table th {
+    background: var(--blue);
+    color: white;
+    padding: 14px 18px;
+    text-align: left;
+    font-size: 12px;
+    font-weight: 600;
+    text-transform: uppercase;
+    letter-spacing: 0.5px;
+  }
+  .pricing-table td {
+    padding: 14px 18px;
+    border-bottom: 1px solid var(--border-light);
+    font-size: 14px;
+  }
+  .pricing-table tr:last-child td { border-bottom: none; }
+  .pricing-table tr:hover td { background: var(--blue-soft); }
+  .pricing-table .label-col { font-weight: 500; color: var(--text); }
+  .pricing-table .free { color: var(--green-dark); font-weight: 600; }
+  .pricing-table .price { font-weight: 600; color: var(--text); }
+
+  .pricing-note {
+    background: var(--blue-soft);
+    border: 1px solid var(--border);
+    padding: 16px 20px;
+    border-radius: 6px;
+    font-size: 13.5px;
+    margin-top: 14px;
+    color: var(--text-soft);
+    line-height: 1.65;
+  }
+  .pricing-note .note-title {
+    font-weight: 700;
+    color: var(--blue);
+    text-transform: uppercase;
+    letter-spacing: 0.5px;
+    font-size: 12px;
+    margin-bottom: 8px;
+  }
+  .pricing-note ul { margin: 0; padding-left: 20px; }
+  .pricing-note li { margin: 4px 0; }
+
+  /* === PRAVIDLÁ === */
+  .rules-grid {
+    display: grid;
+    grid-template-columns: repeat(auto-fit, minmax(280px, 1fr));
+    gap: 16px;
+  }
+  .rule-card {
+    background: var(--card);
+    border: 1px solid var(--border);
+    border-left: 3px solid var(--blue);
+    border-radius: 4px;
+    padding: 18px 20px;
+    transition: box-shadow 0.15s;
+  }
+  .rule-card:hover { box-shadow: var(--shadow); }
+  .rule-card h4 {
+    margin: 0 0 8px;
+    font-size: 14px;
+    color: var(--blue);
+    font-weight: 700;
+    text-transform: uppercase;
+    letter-spacing: 0.5px;
+  }
+  .rule-card p {
+    margin: 0;
+    font-size: 13.5px;
+    color: var(--text-soft);
+    line-height: 1.6;
+  }
+
+  .rules-list {
+    background: var(--card);
+    border: 1px solid var(--border);
+    border-left: 3px solid var(--occupied);
+    border-radius: 4px;
+    padding: 20px 24px;
+    margin-top: 20px;
+  }
+  .rules-list h4 {
+    margin: 0 0 12px;
+    color: var(--blue);
+    font-size: 14px;
+    font-weight: 700;
+    text-transform: uppercase;
+    letter-spacing: 0.5px;
+  }
+  .rules-list ol, .rules-list ul {
+    margin: 0;
+    padding-left: 22px;
+    color: var(--text-soft);
+  }
+  .rules-list li {
+    margin-bottom: 6px;
+    font-size: 13.5px;
+    line-height: 1.6;
+  }
+
+  /* === KONTAKT === */
+  .contact-block {
+    background: var(--card);
+    border: 1px solid var(--border);
+    border-radius: 6px;
+    padding: 24px 28px;
+    max-width: 540px;
+  }
+  .contact-block h4 {
+    margin: 0 0 16px;
+    color: var(--blue);
+    font-size: 18px;
+    font-weight: 700;
+  }
+  .contact-row {
+    display: flex;
+    margin-bottom: 10px;
+    font-size: 14px;
+    align-items: baseline;
+  }
+  .contact-row:last-child { margin-bottom: 0; }
+  .contact-row .contact-label {
+    width: 130px;
+    flex-shrink: 0;
+    color: var(--text-muted);
+    font-size: 12px;
+    text-transform: uppercase;
+    letter-spacing: 0.5px;
+    font-weight: 600;
+  }
+  .contact-row .contact-value { color: var(--text); }
+  .contact-row a { color: var(--blue); text-decoration: none; font-weight: 600; }
+  .contact-row a:hover { text-decoration: underline; }
 
   /* === MODAL === */
   .modal-overlay {
     display: none;
     position: fixed;
     inset: 0;
-    background: rgba(0,0,0,0.55);
+    background: rgba(15,23,42,0.55);
     z-index: 100;
     align-items: center;
     justify-content: center;
@@ -533,29 +615,32 @@
   .modal-overlay.show { display: flex; }
   .modal {
     background: white;
-    border-radius: 12px;
+    border-radius: 8px;
     max-width: 760px;
     width: 100%;
     max-height: 92vh;
     display: flex;
     flex-direction: column;
-    box-shadow: 0 20px 60px rgba(0,0,0,0.3);
+    box-shadow: 0 24px 60px rgba(0,0,0,0.3);
     overflow: hidden;
   }
   .modal-header {
-    background: linear-gradient(135deg, var(--blue), var(--blue-dark));
+    background: var(--blue);
     color: white;
-    padding: 16px 22px;
-    border-bottom: 3px solid var(--green);
+    padding: 18px 24px;
+    border-bottom: 3px solid var(--accent);
     display: flex;
     justify-content: space-between;
     align-items: center;
   }
-  .modal-header h2 { margin: 0; font-size: 17px; }
+  .modal-header h2 { margin: 0; font-size: 17px; font-weight: 700; letter-spacing: -0.1px; }
   .modal-header .modal-prop {
     font-size: 11px;
-    opacity: 0.8;
-    margin-top: 2px;
+    opacity: 0.85;
+    margin-top: 3px;
+    text-transform: uppercase;
+    letter-spacing: 1px;
+    font-weight: 500;
   }
   .close-btn {
     background: transparent;
@@ -565,80 +650,81 @@
     cursor: pointer;
     line-height: 1;
     padding: 0 4px;
+    opacity: 0.85;
   }
-  .modal-body { padding: 18px 22px; overflow-y: auto; flex: 1; }
+  .close-btn:hover { opacity: 1; }
+  .modal-body { padding: 22px 24px; overflow-y: auto; flex: 1; }
 
-  /* Day mode tabs (hodinový vs celodenný) */
   .mode-tabs {
     display: flex;
     background: var(--bg-soft);
-    border-radius: 8px;
-    padding: 4px;
-    margin-bottom: 16px;
+    border-radius: 6px;
+    padding: 3px;
+    margin-bottom: 18px;
     border: 1px solid var(--border);
   }
   .mode-tab {
     flex: 1;
-    padding: 9px 12px;
+    padding: 10px 14px;
     border: none;
     background: transparent;
-    border-radius: 6px;
+    border-radius: 4px;
     cursor: pointer;
     font-weight: 600;
     font-size: 13px;
-    color: var(--text-soft);
+    color: var(--text-muted);
     font-family: inherit;
+    text-transform: uppercase;
+    letter-spacing: 0.5px;
   }
   .mode-tab.active {
     background: white;
     color: var(--blue);
-    box-shadow: 0 1px 3px rgba(0,0,0,0.08);
+    box-shadow: var(--shadow-sm);
   }
 
   .day-summary {
     display: flex;
-    gap: 10px;
-    margin-bottom: 14px;
-    flex-wrap: wrap;
+    gap: 12px;
+    margin-bottom: 16px;
   }
   .summary-pill {
     flex: 1;
-    min-width: 110px;
-    background: var(--green-light);
-    border-radius: 8px;
-    padding: 8px 12px;
-    text-align: center;
+    background: var(--card);
+    border: 1px solid var(--border);
+    border-left: 3px solid var(--green);
+    border-radius: 4px;
+    padding: 12px 16px;
   }
-  .summary-pill.occupied-pill { background: var(--occupied-bg); }
+  .summary-pill.occupied-pill { border-left-color: var(--occupied); }
   .summary-pill .num {
-    font-size: 20px;
+    font-size: 22px;
     font-weight: 700;
-    color: var(--green);
+    color: var(--green-dark);
     line-height: 1;
   }
   .summary-pill.occupied-pill .num { color: var(--occupied); }
   .summary-pill .lbl {
     font-size: 11px;
-    color: var(--text-soft);
-    margin-top: 3px;
+    color: var(--text-muted);
+    margin-top: 5px;
+    text-transform: uppercase;
+    letter-spacing: 0.5px;
+    font-weight: 600;
   }
 
-  /* Slots */
-  .timeline {
-    display: flex;
-    flex-direction: column;
-    gap: 5px;
-  }
+  .timeline { display: flex; flex-direction: column; gap: 4px; }
   .slot {
     display: flex;
     align-items: stretch;
     border: 1px solid var(--border);
-    border-radius: 8px;
+    border-radius: 4px;
     overflow: hidden;
     background: white;
+    transition: box-shadow 0.12s;
   }
   .slot.admin-mode { cursor: pointer; }
-  .slot.admin-mode:hover { box-shadow: var(--shadow); }
+  .slot.admin-mode:hover { box-shadow: var(--shadow-sm); }
   .slot.occupied { background: var(--occupied-bg); border-color: var(--occupied); }
   .slot.selected {
     background: var(--blue-light);
@@ -648,38 +734,45 @@
   .slot-time {
     background: var(--blue);
     color: white;
-    padding: 10px 12px;
+    padding: 11px 14px;
     font-weight: 700;
     font-size: 13px;
     display: flex;
     align-items: center;
     justify-content: center;
-    min-width: 95px;
+    min-width: 105px;
     flex-shrink: 0;
+    letter-spacing: 0.3px;
   }
   .slot.occupied .slot-time { background: var(--occupied); }
-  .slot.selected .slot-time { background: var(--green); }
+  .slot.selected .slot-time { background: var(--green-dark); }
   .slot-info {
     flex: 1;
-    padding: 9px 12px;
+    padding: 10px 14px;
     display: flex;
     align-items: center;
     justify-content: space-between;
     gap: 10px;
   }
-  .slot-status { font-weight: 600; font-size: 13px; color: var(--free); }
+  .slot-status { font-weight: 600; font-size: 13px; color: var(--green-dark); display: flex; align-items: center; gap: 8px; }
   .slot.occupied .slot-status { color: var(--occupied); }
-  .slot.selected .slot-status { color: var(--blue); font-weight: 700; }
-  .slot-name { font-size: 12px; color: var(--text-soft); margin-top: 2px; }
-  .slot-action { font-size: 11px; color: var(--text-soft); font-style: italic; }
+  .slot.selected .slot-status { color: var(--blue); }
+  .status-dot {
+    width: 8px; height: 8px;
+    border-radius: 50%;
+    background: currentColor;
+    display: inline-block;
+  }
+  .slot-name { font-size: 12.5px; color: var(--text-soft); margin-top: 3px; padding-left: 16px; }
+  .slot-action { font-size: 11px; color: var(--text-muted); font-style: italic; }
   .slot-checkbox {
     display: inline-flex;
     align-items: center;
     justify-content: center;
     width: 20px; height: 20px;
     border: 2px solid var(--border);
-    border-radius: 4px;
-    margin-right: 10px;
+    border-radius: 3px;
+    margin-right: 12px;
     background: white;
     color: white;
     font-size: 13px;
@@ -689,242 +782,178 @@
   .slot.selected .slot-checkbox {
     background: var(--green);
     border-color: var(--green);
-    color: white;
   }
 
   .reservation-form {
     background: white;
-    padding: 12px 14px;
+    padding: 14px 16px;
     border-top: 1px dashed var(--border);
   }
   .reservation-form input {
     width: 100%;
-    padding: 8px 10px;
+    padding: 9px 12px;
     border: 1px solid var(--border);
-    border-radius: 6px;
-    font-size: 14px;
+    border-radius: 4px;
+    font-size: 13.5px;
     font-family: inherit;
+  }
+  .reservation-form input:focus {
+    outline: none;
+    border-color: var(--blue);
   }
   .reservation-form .row {
     display: flex;
     gap: 8px;
-    margin-top: 8px;
+    margin-top: 10px;
     flex-wrap: wrap;
   }
   .btn {
     border: none;
-    padding: 9px 14px;
-    border-radius: 6px;
+    padding: 10px 18px;
+    border-radius: 4px;
     cursor: pointer;
     font-weight: 600;
     font-size: 13px;
     font-family: inherit;
+    text-transform: uppercase;
+    letter-spacing: 0.4px;
+    transition: background 0.15s, color 0.15s;
   }
   .btn-primary { background: var(--blue); color: white; }
   .btn-primary:hover { background: var(--blue-dark); }
   .btn-success { background: var(--green); color: white; }
   .btn-success:hover { background: var(--green-dark); }
   .btn-danger { background: var(--occupied); color: white; }
-  .btn-danger:hover { background: #a02818; }
-  .btn-ghost { background: transparent; color: var(--text-soft); }
+  .btn-danger:hover { background: #8a2418; }
+  .btn-ghost {
+    background: transparent;
+    color: var(--text-soft);
+    border: 1px solid var(--border);
+  }
+  .btn-ghost:hover { background: var(--bg-soft); }
 
-  /* Bulk action bar */
   .bulk-bar {
     background: white;
     border-top: 3px solid var(--green);
-    padding: 14px 18px;
-    margin: 16px -22px -18px;
+    padding: 16px 20px;
+    margin: 18px -24px -22px;
     box-shadow: 0 -4px 12px rgba(0,0,0,0.08);
   }
   .bulk-bar .bulk-title {
     font-weight: 700;
     color: var(--blue);
-    font-size: 14px;
+    font-size: 13px;
     margin-bottom: 6px;
+    text-transform: uppercase;
+    letter-spacing: 0.5px;
   }
   .bulk-bar .bulk-summary {
-    font-size: 12px;
+    font-size: 13px;
     color: var(--text-soft);
-    margin-bottom: 8px;
+    margin-bottom: 10px;
   }
   .bulk-bar input {
     width: 100%;
-    padding: 8px 11px;
+    padding: 9px 12px;
     border: 1px solid var(--border);
-    border-radius: 6px;
-    font-size: 13px;
+    border-radius: 4px;
+    font-size: 13.5px;
     font-family: inherit;
-    margin-bottom: 5px;
+    margin-bottom: 6px;
   }
 
-  /* All day card */
   .allday-card {
     background: white;
     border: 1px solid var(--border);
-    border-radius: 10px;
-    padding: 18px;
+    border-left: 3px solid var(--green);
+    border-radius: 4px;
+    padding: 20px 24px;
   }
-  .allday-card.occupied {
-    background: var(--occupied-bg);
-    border-color: var(--occupied);
-  }
+  .allday-card.occupied { border-left-color: var(--occupied); background: var(--occupied-bg); }
   .allday-card .allday-status {
-    font-size: 16px;
+    font-size: 15px;
     font-weight: 700;
-    color: var(--free);
+    color: var(--green-dark);
     margin-bottom: 10px;
+    text-transform: uppercase;
+    letter-spacing: 0.5px;
+    display: flex;
+    align-items: center;
+    gap: 10px;
   }
   .allday-card.occupied .allday-status { color: var(--occupied); }
   .allday-card .allday-info {
     font-size: 14px;
     color: var(--text-soft);
-    margin-bottom: 12px;
+    margin-bottom: 8px;
   }
   .allday-card .allday-info strong { color: var(--text); }
 
-  /* === RULES === */
-  .rules-grid {
-    display: grid;
-    grid-template-columns: repeat(auto-fit, minmax(260px, 1fr));
-    gap: 14px;
-  }
-  .rule-card {
-    background: var(--card);
-    border-radius: 10px;
-    padding: 16px;
-    box-shadow: var(--shadow);
-    border-top: 3px solid var(--blue);
-  }
-  .rule-card .rule-icon {
-    width: 36px; height: 36px;
+  .admin-tip {
+    font-size: 12.5px;
+    color: var(--text-soft);
+    margin-bottom: 14px;
+    padding: 10px 14px;
     background: var(--blue-light);
-    color: var(--blue);
-    border-radius: 8px;
-    display: flex;
-    align-items: center;
-    justify-content: center;
-    font-size: 18px;
-    margin-bottom: 10px;
-  }
-  .rule-card h4 {
-    margin: 0 0 6px;
-    font-size: 14px;
-    color: var(--blue);
-  }
-  .rule-card p {
-    margin: 0;
-    font-size: 13px;
-    color: var(--text-soft);
+    border-radius: 4px;
+    border-left: 3px solid var(--blue);
     line-height: 1.5;
   }
-
-  .rules-list {
-    background: var(--card);
-    border-radius: 10px;
-    padding: 18px 22px;
-    box-shadow: var(--shadow);
-    margin-top: 16px;
-    border-left: 4px solid var(--green);
-  }
-  .rules-list h4 {
-    margin: 0 0 10px;
-    color: var(--blue);
-    font-size: 15px;
-  }
-  .rules-list ol, .rules-list ul {
-    margin: 0;
-    padding-left: 20px;
-    color: var(--text-soft);
-  }
-  .rules-list li {
-    margin-bottom: 6px;
-    font-size: 13px;
-    line-height: 1.5;
-  }
-
-  /* === KONTAKT === */
-  .contact-card {
-    background: var(--card);
-    border-radius: 10px;
-    padding: 18px;
-    box-shadow: var(--shadow);
-    border-left: 4px solid var(--green);
-  }
-  .contact-card h4 {
-    margin: 0 0 12px;
-    color: var(--blue);
-    font-size: 15px;
-  }
-  .contact-row {
-    display: flex;
-    align-items: center;
-    gap: 10px;
-    margin-bottom: 6px;
-    font-size: 13px;
-    color: var(--text-soft);
-  }
-  .contact-icon {
-    width: 28px; height: 28px;
-    background: var(--green-light);
-    color: var(--green);
-    border-radius: 6px;
-    display: flex;
-    align-items: center;
-    justify-content: center;
-    flex-shrink: 0;
-    font-size: 14px;
-  }
-  .contact-row a { color: var(--green); text-decoration: none; font-weight: 600; }
-  .contact-row a:hover { text-decoration: underline; color: var(--green-dark); }
+  .admin-tip strong { color: var(--blue); }
 
   /* === FOOTER === */
   footer {
-    background: var(--blue);
+    background: var(--blue-dark);
     color: white;
-    padding: 28px 16px 18px;
-    margin-top: 50px;
+    padding: 36px 24px 24px;
+    margin-top: 60px;
     text-align: center;
-    border-top: 4px solid var(--green);
+    border-top: 3px solid var(--accent);
   }
-  footer p { margin: 3px 0; font-size: 13px; opacity: 0.9; }
+  footer p { margin: 4px 0; font-size: 13px; opacity: 0.92; }
+  footer p.org-name { font-weight: 700; font-size: 15px; opacity: 1; margin-bottom: 8px; }
   .admin-link {
     display: inline-block;
-    margin-top: 14px;
-    color: rgba(255,255,255,0.35);
+    margin-top: 18px;
+    color: rgba(255,255,255,0.3);
     font-size: 11px;
     text-decoration: none;
-    padding: 4px 10px;
-    border-radius: 4px;
+    padding: 4px 12px;
+    border-radius: 3px;
     cursor: pointer;
     background: transparent;
     border: 1px solid rgba(255,255,255,0.15);
     font-family: inherit;
+    letter-spacing: 2px;
+    transition: color 0.2s, border-color 0.2s;
   }
   .admin-link:hover {
-    color: rgba(255,255,255,0.8);
+    color: rgba(255,255,255,0.7);
     border-color: rgba(255,255,255,0.4);
   }
   .admin-link.active {
-    color: var(--yellow);
-    border-color: var(--yellow);
+    color: var(--accent);
+    border-color: var(--accent);
+    letter-spacing: 0.5px;
   }
 
   /* === MOBILE === */
   @media (max-width: 800px) {
     .property-grid { grid-template-columns: 1fr; }
-    .photo-box { height: 200px; }
-    h1.header-title { font-size: 16px; }
-    .subtitle { font-size: 11px; }
-    .hero h2 { font-size: 20px; }
-    .hero { padding: 30px 16px; }
-    .day { min-height: 60px; padding: 3px; }
-    .day-num { font-size: 11px; }
-    .booking-pill { font-size: 8px; padding: 1px 3px; }
-    .property-title h2 { font-size: 18px; }
-    .property-title-icon { width: 40px; height: 40px; font-size: 22px; }
-    .info-cards { grid-template-columns: 1fr; }
-    .prop-tab { padding: 12px 14px; font-size: 13px; }
-    .slot-time { min-width: 80px; padding: 9px; font-size: 12px; }
+    .photo-box { height: 220px; }
+    h1.header-title { font-size: 17px; }
+    .subtitle { font-size: 12px; }
+    .property-name { font-size: 22px; }
+    .hero h2 { font-size: 19px; }
+    .hero { padding: 28px 16px; }
+    .day { min-height: 64px; padding: 4px; }
+    .day-num { font-size: 12px; }
+    .booking-pill { font-size: 9px; padding: 1px 3px; }
+    .prop-tab { padding: 14px 16px; font-size: 12.5px; }
+    .slot-time { min-width: 88px; padding: 10px; font-size: 12px; }
+    .contact-row { flex-direction: column; gap: 2px; }
+    .contact-row .contact-label { width: auto; }
+    main { padding: 24px 16px; }
   }
 </style>
 </head>
@@ -944,40 +973,37 @@
           <path d="M22 90 Q35 96 50 90 Q65 84 78 90" stroke="#f5ecd1" stroke-width="2.5" fill="none"/>
         </svg>
       </div>
-      <div>
-        <h1 class="header-title">Rezervačný systém obce Divinka</h1>
-        <div class="subtitle">Kalendár obsadenosti obecných objektov</div>
+      <div class="header-titles">
+        <div class="header-eyebrow">Obec Divinka</div>
+        <h1 class="header-title">Rezervačný systém obecných objektov</h1>
+        <div class="subtitle">Kalendár obsadenosti športových a kultúrnych priestorov obce</div>
       </div>
     </div>
   </div>
   <nav class="property-nav">
-    <div class="property-nav-inner" id="propertyNav">
-      <!-- Záložky sa generujú JS -->
-    </div>
+    <div class="property-nav-inner" id="propertyNav"></div>
   </nav>
 </header>
 
 <div class="hero">
   <div class="hero-inner">
-    <h2>Rezervácia obecných objektov</h2>
-    <p>Stránka slúži <strong>iba na zobrazenie obsadenosti</strong>. Rezerváciu si dohodnite osobne alebo telefonicky u správcu / na obecnom úrade. Zmeny v kalendári zapisuje výhradne správca.</p>
+    <h2>Prehľad obsadenosti obecných priestorov</h2>
+    <p>Stránka slúži výhradne na zobrazenie obsadenosti. Rezerváciu termínu si dohodnite osobne alebo telefonicky u správcu, prípadne na obecnom úrade. Zmeny v kalendári zapisuje výhradne poverená osoba.</p>
   </div>
 </div>
 
 <main>
-  <div id="propertySections">
-    <!-- Sekcie pre jednotlivé objekty sa generujú JS -->
-  </div>
+  <div id="propertySections"></div>
 </main>
 
 <footer>
-  <p><strong>Obec Divinka</strong> · Rezervačný systém obecných objektov</p>
+  <p class="org-name">Obec Divinka</p>
+  <p>Rezervačný systém obecných objektov</p>
   <p>Prevádzkové poriadky schválené Obecným zastupiteľstvom v Divinke</p>
-  <p style="margin-top:8px; opacity:0.8;">© 2026 Obec Divinka</p>
+  <p style="margin-top:10px; opacity:0.7;">© 2026 Obec Divinka. Všetky práva vyhradené.</p>
   <button class="admin-link" id="adminBtn" onclick="toggleAdmin()" title="Prístup pre správcu">·  ·  ·</button>
 </footer>
 
-<!-- MODAL -->
 <div class="modal-overlay" id="modal" onclick="closeModalOnOverlay(event)">
   <div class="modal">
     <div class="modal-header">
@@ -993,7 +1019,7 @@
 
 <script>
   // =============================================================================
-  // === KONFIGURÁCIA ============================================================
+  // KONFIGURÁCIA
   // =============================================================================
   const ADMIN_PASSWORD = "divinka2026";
 
@@ -1010,58 +1036,65 @@
                        "Júl","August","September","Október","November","December"];
   const DAY_NAMES = ["Nedeľa","Pondelok","Utorok","Streda","Štvrtok","Piatok","Sobota"];
 
-  // Spoločné kontakty
-  const SPRAVCA_SPORT = { name: "Stanislav Rišo st.", phone: "0907 576 495", phoneAlt: "0907 831 617" };
-  const KONTAKT_OU = { name: "Obecný úrad Divinka", phone: "041/597 1001", email: "obec@divinka.sk", address: "Divinka 142, 013 31 Divinka" };
+  const SPRAVCA_SPORT = {
+    name: "Stanislav Rišo st.",
+    phone: "0907 576 495",
+    phoneAlt: "0907 831 617"
+  };
+  const KONTAKT_OU = {
+    name: "Obecný úrad Divinka",
+    phone: "041/597 1001",
+    email: "obec@divinka.sk",
+    address: "Divinka 142, 013 31 Divinka"
+  };
 
   // =============================================================================
-  // === DEFINÍCIA OBJEKTOV ======================================================
+  // DEFINÍCIA OBJEKTOV
   // =============================================================================
   const PROPERTIES = [
     {
       id: "mi_divinka",
       name: "Multifunkčné ihrisko Divinka",
-      short: "MI Divinka",
-      icon: "⚽",
       type: "sport",
-      mode: "hourly", // hourly | mixed
+      mode: "hourly",
       hours: { fixed: [8, 22] },
       photo: "ihrisko_divinka.jpg",
-      desc: "Nekryté ihrisko s rozmermi 36 × 18 m s umelým trávnatým povrchom, mantinelmi do 1 m, ochrannou sieťou do 4 m a umelým osvetlením. Vybavené pre futbal, tenis, volejbal, basketbal a nohejbal.",
+      desc: "Nekryté multifunkčné ihrisko obce Divinka s rozmermi 36 × 18 metrov, s umelým trávnatým povrchom, mantinelovým systémom do výšky 1 m, ochrannou sieťou do výšky 4 m a umelým osvetlením. Vybavené pre mini-futbal, tenis, volejbal, basketbal a nohejbal.",
       info: [
         { label: "Prevádzková doba", value: "8:00 – 22:00 (celoročne)" },
         { label: "Rozmery", value: "36 × 18 m" },
         { label: "Povrch", value: "Umelá tráva" },
-        { label: "Osvetlenie", value: "Áno (4 €/hod)" }
+        { label: "Osvetlenie", value: "Áno (4 € / hod.)" }
       ],
       pricing: {
         rows: [
-          { label: "⚽ Futbal, volejbal, hokejbal", občan: "zdarma", ostatní: "8 € / hod." },
-          { label: "🎾 Tenis, nohejbal, basketbal", občan: "zdarma", ostatní: "4 € / hod." },
-          { label: "💡 Použitie osvetlenia (pre všetkých)", občan: "4 € / hod.", ostatní: "4 € / hod." }
+          { label: "Futbal, volejbal, hokejbal", občan: "zdarma", ostatní: "8 € / hod." },
+          { label: "Tenis, nohejbal, basketbal", občan: "zdarma", ostatní: "4 € / hod." },
+          { label: "Použitie osvetlenia", občan: "4 € / hod.", ostatní: "4 € / hod." }
         ],
         notes: [
-          "Skupina <strong>viac ako 4 účastníkov</strong> bez trvalého pobytu v obci sa pri futbale/volejbale považuje za cudziu (8 €/hod).",
-          "Pri tenise/nohejbale/basketbale sa za cudzích účtuje pri <strong>2 a viac účastníkoch</strong> bez trvalého pobytu.",
+          "Skupina <strong>viac ako 4 účastníkov</strong> bez trvalého pobytu v obci sa pri futbale a volejbale považuje za cudziu (8 € / hod.).",
+          "Pri tenise, nohejbale a basketbale sa za cudzích účtuje pri <strong>2 a viac účastníkoch</strong> bez trvalého pobytu v obci.",
           "Poplatok sa účtuje za každú aj <strong>začatú pol hodinu</strong>.",
-          "Platba v hotovosti u správcu, vystavený doklad o zaplatení.",
-          "Pri dlhodobom prenájme platba <strong>vopred</strong>; pri nevyužití sa nájomné nevracia."
+          "Platba prebieha v hotovosti u správcu, ktorý vystaví doklad o zaplatení.",
+          "Pri dlhodobom pravidelnom prenájme sa nájomné platí <strong>vopred</strong>; v prípade nevyužitia sa nevracia."
         ]
       },
       rules: {
         cards: [
-          { icon: "⏰", title: "Prevádzková doba", text: "Denne <strong>8:00 – 22:00</strong>. Pri nepriaznivom počasí môže správca rozhodnúť o zatvorení." },
-          { icon: "📞", title: "Rezervácia", text: "Iba <strong>osobne alebo telefonicky u správcu</strong>. Stránka slúži len na prehľad obsadenosti." },
-          { icon: "👟", title: "Vhodná obuv", text: "Zákaz: kopačky s oceľovými klincami, tretrá, kolieskové korčule, podpätky, znečistená obuv." },
-          { icon: "🚭", title: "Zákazy", text: "Fajčenie, alkohol, omamné látky. Vstup pod vplyvom je zakázaný." },
-          { icon: "🐕", title: "Žiadne psy a bicykle", text: "Vstup s bicyklom alebo psom <strong>zakázaný</strong>. Bez znečisťovania areálu." },
-          { icon: "👨‍👧", title: "Vstup detí", text: "Deti do 12 rokov musia byť sprevádzané osobou nad 18 r." },
-          { icon: "⏱️", title: "Meškanie", text: "Pri nedostavení sa do <strong>15 min</strong> môže správca prenajať ihrisko inému." },
-          { icon: "🧗", title: "Zákaz lezenia", text: "Liezť na konštrukcie, kôš, brány a preliezať ploty je zakázané." }
+          { title: "Prevádzková doba", text: "Ihrisko je v prevádzke denne od 8:00 do 22:00. V prípade nepriaznivého počasia môže správca rozhodnúť o zatvorení." },
+          { title: "Rezervácia termínu", text: "Termín je možné objednať <strong>osobne alebo telefonicky u správcu</strong>. Cez túto stránku nie je možné rezervovať." },
+          { title: "Vhodná obuv", text: "Zakázané sú kopačky s oceľovými klincami, atletické tretrá, kolieskové korčule, topánky na podpätku a znečistená obuv." },
+          { title: "Zákazy v areáli", text: "Fajčenie, požívanie alkoholu a iných návykových látok. Vstup pod vplyvom alkoholu nie je dovolený." },
+          { title: "Zákaz vstupu so psami a bicyklami", text: "Do areálu je zakázané vodiť psov, vstupovať s bicyklom a znečisťovať priestor odpadkami." },
+          { title: "Bezpečnosť", text: "Zakázané je liezť na konštrukcie, basketbalový kôš, futbalové brány a preliezať ploty alebo brány." },
+          { title: "Vstup detí", text: "Deti do 12 rokov musia byť sprevádzané osobou nad 18 rokov. Žiaci ZŠ a MŠ vstupujú v sprievode učiteľa." },
+          { title: "Meškanie na rezerváciu", text: "Pri nedostavení sa do <strong>15 minút</strong> od začiatku rezervácie môže správca prenajať ihrisko inému záujemcovi." }
         ],
         sankcie: [
-          "Pokuta <strong>až 33 €</strong> alebo zákaz vstupu až <strong>12 mesiacov</strong>.",
-          "Pri poškodení majetku <strong>náhrada v plnej výške</strong>."
+          "Pri porušení prevádzkového poriadku môže starosta obce uložiť pokutu <strong>až do výšky 33 €</strong>.",
+          "Alternatívne môže byť osobe uložený <strong>zákaz vstupu do areálu až na 12 mesiacov</strong>.",
+          "Pri poškodení majetku ihriska bude voči zodpovednej osobe uplatnená <strong>náhrada škody v plnej výške</strong>."
         ]
       },
       contact: SPRAVCA_SPORT
@@ -1070,43 +1103,42 @@
     {
       id: "mi_lalinok",
       name: "Multifunkčné ihrisko Lalinok",
-      short: "MI Lalinok",
-      icon: "🥅",
       type: "sport",
       mode: "hourly",
-      hours: { seasonal: { winter: [8, 20], summer: [8, 21] } }, // nov-apr / máj-okt
+      hours: { seasonal: { winter: [8, 20], summer: [8, 21] } },
       photo: "ihrisko_lalinok.jpg",
-      desc: "Multifunkčné ihrisko s povrchom EPDM a oplotením. Rozmery 25 × 12 m. Slúži na futbal, nohejbal, tenis, volejbal a v zime (po zaľadnení) hokej.",
+      desc: "Multifunkčné ihrisko v miestnej časti Lalinok s rozmermi 25 × 12 metrov, povrchom EPDM a oplotením. Slúži na futbal, nohejbal, tenis, volejbal a v zime po zaľadnení aj na hokej.",
       info: [
-        { label: "Letná doba (máj–okt)", value: "8:00 – 21:00" },
-        { label: "Zimná doba (nov–apr)", value: "8:00 – 20:00" },
+        { label: "Letná prevádzka (máj – október)", value: "8:00 – 21:00" },
+        { label: "Zimná prevádzka (november – apríl)", value: "8:00 – 20:00" },
         { label: "Rozmery", value: "25 × 12 m" },
         { label: "Povrch", value: "EPDM" }
       ],
       pricing: {
         rows: [
           { label: "Vstup pre všetkých", občan: "bezplatne", ostatní: "bezplatne" },
-          { label: "💡 Použitie osvetlenia", občan: "podľa cenníka obce", ostatní: "podľa cenníka obce" }
+          { label: "Použitie osvetlenia", občan: "podľa cenníka obce", ostatní: "podľa cenníka obce" }
         ],
         notes: [
-          "Vstup je bezplatný – platí sa iba poplatok za <strong>použitie osvetlenia</strong>.",
+          "Vstup je <strong>bezplatný</strong> – platí sa iba poplatok za použitie osvetlenia.",
           "Detailné podmienky overte u správcu alebo na obecnom úrade."
         ]
       },
       rules: {
         cards: [
-          { icon: "⏰", title: "Sezónna prevádzka", text: "<strong>Máj – Október:</strong> 8:00 – 21:00<br><strong>November – Apríl:</strong> 8:00 – 20:00" },
-          { icon: "⚽", title: "Možné športy", text: "Futbal, nohejbal, tenis, volejbal, v zime po zaľadnení aj hokej." },
-          { icon: "👟", title: "Vhodná obuv", text: "Zákaz: kopačky s oceľovými klincami, kolieskové korčule, podpätky, nevhodná obuv." },
-          { icon: "🚭", title: "Zákazy", text: "Fajčenie, alkohol, omamné látky, jedlo a nápoje na ploche, oheň, kyseliny." },
-          { icon: "🐕", title: "Žiadne zvieratá", text: "Vodenie zvierat a bicyklov do areálu je <strong>zakázané</strong>." },
-          { icon: "👨‍👧", title: "Vstup detí", text: "Deti do 12 rokov musia byť v sprievode osoby staršej ako 18 r." },
-          { icon: "🧗", title: "Bezpečnosť", text: "Zákaz preliezania plotov, lezenia na bránky, koše a stĺpy." },
-          { icon: "🔇", title: "Hlučnosť", text: "Minimalizovať búchanie a kopanie lôpt o mantinely – elimináciou hluku." }
+          { title: "Sezónna prevádzka", text: "Máj – október: 8:00 – 21:00. November – apríl: 8:00 – 20:00." },
+          { title: "Možné športy", text: "Futbal, nohejbal, tenis, volejbal a v zimnom období po zaľadnení aj hokej." },
+          { title: "Vhodná obuv", text: "Zakázané sú kopačky s oceľovými klincami, kolieskové korčule, topánky na podpätku a iná nevhodná obuv." },
+          { title: "Zákazy v areáli", text: "Fajčenie, alkohol, omamné látky, vnášanie jedla a nápojov na hraciu plochu, manipulácia s ohňom." },
+          { title: "Zákaz vstupu zvierat", text: "Vodenie zvierat a vstup s bicyklom je v areáli zakázaný." },
+          { title: "Vstup detí", text: "Deti do 12 rokov musia byť v sprievode osoby staršej ako 18 rokov." },
+          { title: "Bezpečnosť", text: "Zakázané je preliezať ploty, liezť na bránky, basketbalové koše a stĺpy." },
+          { title: "Hlučnosť", text: "Pri športovej činnosti minimalizovať búchanie a kopanie lôpt o mantinely za účelom eliminácie hluku." }
         ],
         sankcie: [
-          "Pokuta <strong>až 33 €</strong> alebo zákaz vstupu až <strong>12 mesiacov</strong>.",
-          "Pri poškodení majetku <strong>náhrada v plnej výške</strong>."
+          "Pri porušení prevádzkového poriadku môže byť uložená pokuta <strong>až do výšky 33 €</strong>.",
+          "Alternatívne môže byť osobe uložený <strong>zákaz vstupu do areálu až na 12 mesiacov</strong>.",
+          "Pri poškodení majetku náhrada v plnej výške."
         ]
       },
       contact: SPRAVCA_SPORT
@@ -1115,40 +1147,38 @@
     {
       id: "futbal",
       name: "Futbalové ihrisko Divinka",
-      short: "Futbalové ihrisko",
-      icon: "🏟️",
       type: "sport",
       mode: "hourly",
       hours: { fixed: [8, 22] },
       photo: "futbalove_ihrisko.jpg",
-      desc: "Futbalové ihrisko obce Divinka s prírodným trávnatým povrchom a šatňami. Vhodné pre tréningy, zápasy a podujatia.",
+      desc: "Futbalové ihrisko obce Divinka s prírodným trávnatým povrchom a šatňami. Vhodné na tréningy, zápasy a športové podujatia.",
       info: [
         { label: "Prevádzková doba", value: "8:00 – 22:00" },
         { label: "Povrch", value: "Prírodná tráva" },
-        { label: "Šatne", value: "Áno (samostatný poplatok)" },
-        { label: "Kapacita", value: "Tréning / zápas" }
+        { label: "Šatne", value: "K dispozícii (samostatný poplatok)" },
+        { label: "Využitie", value: "Tréning, zápas, podujatie" }
       ],
       pricing: {
         rows: [
-          { label: "🏟️ Prenájom ihriska", občan: "80 € / hod.", ostatní: "80 € / hod." },
-          { label: "🚿 Šatne", občan: "20 €", ostatní: "20 €" }
+          { label: "Prenájom ihriska", občan: "80 € / hod.", ostatní: "80 € / hod." },
+          { label: "Šatne", občan: "20 €", ostatní: "20 €" }
         ],
         notes: [
-          "Ceny platia rovnako pre občanov obce aj externých nájomcov.",
+          "Cena platí rovnako pre občanov obce aj externých nájomcov.",
           "Šatne sa účtujú samostatne k prenájmu ihriska."
         ]
       },
       rules: {
         cards: [
-          { icon: "⏰", title: "Prevádzková doba", text: "Denne <strong>8:00 – 22:00</strong>, podľa dohody so správcom." },
-          { icon: "📞", title: "Rezervácia", text: "Iba u správcu – telefonicky alebo osobne." },
-          { icon: "⚽", title: "Použitie", text: "Tréningy, zápasy, organizované podujatia." },
-          { icon: "🚭", title: "Zákazy", text: "Alkohol, fajčenie, návykové látky v priestore ihriska." },
-          { icon: "🛡️", title: "Zodpovednosť", text: "Každý hráč nesie plnú zodpovednosť za svoje zdravie." }
+          { title: "Prevádzková doba", text: "Denne 8:00 – 22:00 podľa dohody so správcom ihriska." },
+          { title: "Rezervácia termínu", text: "Termín je možné objednať osobne alebo telefonicky u správcu." },
+          { title: "Využitie", text: "Tréningy, súťažné zápasy, organizované športové podujatia." },
+          { title: "Zákazy", text: "Alkohol, fajčenie a návykové látky v priestore ihriska sú zakázané." },
+          { title: "Zodpovednosť", text: "Každý hráč nesie plnú zodpovednosť za svoje zdravie počas využívania ihriska." }
         ],
         sankcie: [
-          "Pri poškodení trávnika alebo zariadenia <strong>náhrada v plnej výške</strong>.",
-          "Pri opakovanom porušovaní pravidiel obmedzenie prístupu."
+          "Pri poškodení trávnika alebo zariadenia bude uplatnená <strong>náhrada škody v plnej výške</strong>.",
+          "Pri opakovanom porušovaní pravidiel môže byť obmedzený prístup."
         ]
       },
       contact: SPRAVCA_SPORT
@@ -1157,8 +1187,6 @@
     {
       id: "altanok",
       name: "Altánok v športovom areáli Divinka",
-      short: "Altánok",
-      icon: "🏠",
       type: "kultura",
       mode: "mixed",
       hours: { fixed: [8, 22] },
@@ -1167,33 +1195,30 @@
       info: [
         { label: "Prevádzková doba", value: "8:00 – 22:00" },
         { label: "Krátky prenájom", value: "do 3 hodín" },
-        { label: "Celodenný prenájom", value: "max. 1 deň" },
-        { label: "Bonus", value: "MI bez osvetlenia v cene" }
+        { label: "Celodenný prenájom", value: "maximálne 1 deň" },
+        { label: "Bonus", value: "Ihrisko bez osvetlenia v cene" }
       ],
       pricing: {
         rows: [
-          { label: "🕐 Krátky prenájom (do 3 hod) – občan", občan: "7 € / hod. + energie", ostatní: "—" },
-          { label: "🕐 Krátky prenájom (do 3 hod) – ostatní", občan: "—", ostatní: "15 € / hod. + energie" },
-          { label: "📆 Celodenný prenájom (nad 3 hod) – občan", občan: "50 € / akcia + energie", ostatní: "—" },
-          { label: "📆 Celodenný prenájom (nad 3 hod) – ostatní", občan: "—", ostatní: "100 € / akcia + energie" }
+          { label: "Krátky prenájom (do 3 hodín)", občan: "7 € / hod. + energie", ostatní: "15 € / hod. + energie" },
+          { label: "Celodenný prenájom (nad 3 hodín)", občan: "50 € / akcia + energie", ostatní: "100 € / akcia + energie" }
         ],
         notes: [
-          "Pri prenájme altánku môžete využívať aj <strong>multifunkčné ihrisko (bez osvetlenia)</strong>, ak nie je obsadené.",
-          "Nájomca je povinný priestor po skončení prenájmu <strong>upratať</strong>.",
-          "V opačnom prípade sa účtuje <strong>sankcia 30 €</strong> za neupratanie.",
-          "K cene sa vždy pripočítavajú <strong>energie</strong> podľa spotreby."
+          "Pri prenájme altánku môžete využívať aj <strong>multifunkčné ihrisko bez osvetlenia</strong>, ak nie je obsadené.",
+          "Nájomca je povinný priestor po skončení prenájmu <strong>upratať</strong>; v opačnom prípade sa účtuje <strong>sankcia 30 €</strong>.",
+          "K cene sa vždy pripočítavajú <strong>energie podľa skutočnej spotreby</strong>."
         ]
       },
       rules: {
         cards: [
-          { icon: "⏰", title: "Otváracia doba", text: "Denne <strong>8:00 – 22:00</strong>." },
-          { icon: "📞", title: "Rezervácia", text: "Telefonicky alebo osobne u správcu športového areálu." },
-          { icon: "🧹", title: "Upratanie", text: "Po skončení akcie je <strong>povinné upratanie</strong>. Inak sankcia <strong>30 €</strong>." },
-          { icon: "🚭", title: "Zákazy", text: "Fajčenie a alkohol mimo dohodnutých podmienok. Prihliadať na susedov a tichú nočnú hodinu." },
-          { icon: "♻️", title: "Odpad", text: "Odpadky odhadzovať do pripravených košov, nie do areálu ihriska." }
+          { title: "Prevádzková doba", text: "Denne 8:00 – 22:00." },
+          { title: "Rezervácia termínu", text: "Telefonicky alebo osobne u správcu športového areálu." },
+          { title: "Povinné upratanie", text: "Po skončení akcie je nájomca povinný priestor upratať. V opačnom prípade sankcia <strong>30 €</strong>." },
+          { title: "Zákazy", text: "Fajčenie a alkohol mimo dohodnutých podmienok. Rešpektovať susedov a tichú nočnú hodinu." },
+          { title: "Odpad", text: "Odpadky odhadzovať do pripravených košov, nie do priestoru ihriska." }
         ],
         sankcie: [
-          "<strong>30 €</strong> – sankcia za neupratanie po skončení prenájmu.",
+          "<strong>30 €</strong> za neupratanie priestoru po skončení prenájmu.",
           "Pri poškodení majetku náhrada v plnej výške."
         ]
       },
@@ -1203,44 +1228,42 @@
     {
       id: "kd_lalinok",
       name: "Kultúrny dom Lalinok",
-      short: "KD Lalinok",
-      icon: "🎉",
       type: "kultura",
       mode: "mixed",
       hours: { fixed: [8, 24] },
       photo: "kd_lalinok.jpg",
-      desc: "Kultúrny dom v miestnej časti Lalinok – priestor na svadby, oslavy, kultúrne podujatia, cvičenia, školenia a kary. K dispozícii kuchynka.",
+      desc: "Kultúrny dom v miestnej časti Lalinok – priestor na svadby, oslavy, kultúrne podujatia, cvičenia, školenia a kary. K dispozícii je vybavená kuchynka.",
       info: [
         { label: "Účel", value: "Svadby, oslavy, kultúra, cvičenia" },
-        { label: "Kuchynka", value: "K dispozícii (10 €/akcia)" },
-        { label: "Rezervácia", value: "Cez obecný úrad" },
+        { label: "Kuchynka", value: "K dispozícii (10 € / akcia)" },
+        { label: "Rezervácia", value: "Cez Obecný úrad Divinka" },
         { label: "Upratanie", value: "10 € (ak nie je upratané)" }
       ],
       pricing: {
         rows: [
-          { label: "💍 Svadby, oslavy, kult. podujatia", občan: "50 € / akcia + energie", ostatní: "100 € / akcia + energie" },
-          { label: "🤸 Cvičenia, šport, školenia", občan: "5 € / hod. + energie", ostatní: "10 € / hod. + energie" },
-          { label: "🕯️ Kar", občan: "10 € / kar + energie", ostatní: "40 € / kar + energie" },
-          { label: "🍳 Kuchynka", občan: "10 € / akcia", ostatní: "10 € / akcia" },
-          { label: "🧹 Upratanie (ak nie je upratané)", občan: "10 €", ostatní: "10 €" }
+          { label: "Svadby, oslavy, kultúrne podujatia", občan: "50 € / akcia + energie", ostatní: "100 € / akcia + energie" },
+          { label: "Cvičenia, športová činnosť, školenia", občan: "5 € / hod. + energie", ostatní: "10 € / hod. + energie" },
+          { label: "Kar", občan: "10 € / kar + energie", ostatní: "40 € / kar + energie" },
+          { label: "Použitie kuchynky", občan: "10 € / akcia", ostatní: "10 € / akcia" },
+          { label: "Upratanie (ak nie je upratané)", občan: "10 €", ostatní: "10 €" }
         ],
         notes: [
           'Sadzba „občan" platí pre <strong>občanov s trvalým pobytom v obci</strong>; pri kare pre <strong>zosnulých s trvalým pobytom v obci</strong>.',
-          "K cene sa pripočítavajú <strong>energie podľa spotreby</strong>.",
-          "Poplatok za upratanie iba ak nájomca vráti priestory <strong>neupratané</strong>."
+          "K cene sa pripočítavajú <strong>energie podľa skutočnej spotreby</strong>.",
+          "Poplatok za upratanie sa účtuje iba ak nájomca vráti priestory neupratané."
         ]
       },
       rules: {
         cards: [
-          { icon: "📞", title: "Rezervácia cez OcÚ", text: "Termín si dohodnite na <strong>obecnom úrade</strong>. Nutné podpísať nájomnú zmluvu." },
-          { icon: "🔑", title: "Kľúče", text: "Vyzdvihnutie kľúčov u zodpovednej osoby na OcÚ." },
-          { icon: "🍳", title: "Kuchynka", text: "Pri použití kuchynky sa účtuje samostatný poplatok <strong>10 €</strong>." },
-          { icon: "🧹", title: "Upratanie", text: "Po akcii je <strong>povinné upratanie</strong>. Inak poplatok 10 €." },
-          { icon: "⚡", title: "Energie", text: "Spotrebu energie (elektrina, voda) hradí nájomca podľa skutočnosti." },
-          { icon: "🔇", title: "Tichá nočná hodina", text: "Rešpektovať pokoj v okolí a tichú nočnú hodinu (22:00 – 06:00)." }
+          { title: "Rezervácia cez OcÚ", text: "Termín si dohodnite na <strong>obecnom úrade</strong>. Pri väčších akciách sa podpisuje nájomná zmluva." },
+          { title: "Prevzatie kľúčov", text: "Vyzdvihnutie kľúčov u zodpovednej osoby na obecnom úrade." },
+          { title: "Použitie kuchynky", text: "Pri použití kuchynky sa účtuje samostatný poplatok <strong>10 €</strong>." },
+          { title: "Povinné upratanie", text: "Po skončení akcie je povinné upratanie priestorov. V opačnom prípade poplatok 10 €." },
+          { title: "Energie", text: "Spotrebu energie (elektrina, voda) hradí nájomca podľa skutočnosti." },
+          { title: "Tichá nočná hodina", text: "Rešpektovať pokoj v okolí a tichú nočnú hodinu medzi 22:00 a 06:00." }
         ],
         sankcie: [
-          "Poplatok <strong>10 €</strong> za neupratanie priestorov.",
+          "<strong>10 €</strong> za neupratanie priestorov po skončení akcie.",
           "Pri poškodení majetku obce náhrada v plnej výške."
         ]
       },
@@ -1250,44 +1273,42 @@
     {
       id: "zasadacka",
       name: "Zasadačka Obecného úradu Divinka",
-      short: "Zasadačka OcÚ",
-      icon: "🏛️",
       type: "kultura",
       mode: "mixed",
       hours: { fixed: [8, 22] },
       photo: "zasadacka.jpg",
-      desc: "Zasadačka v budove Obecného úradu Divinka – priestor na školenia, porady, menšie oslavy, kary a kultúrne podujatia. K dispozícii kuchynka.",
+      desc: "Zasadačka v budove Obecného úradu Divinka – priestor na školenia, porady, menšie oslavy, kary a kultúrne podujatia. K dispozícii je kuchynka a štandardné vybavenie.",
       info: [
         { label: "Účel", value: "Školenia, porady, oslavy, kar" },
-        { label: "Kuchynka", value: "K dispozícii (10 €/akcia)" },
-        { label: "Rezervácia", value: "Cez obecný úrad" },
+        { label: "Kuchynka", value: "K dispozícii (10 € / akcia)" },
+        { label: "Rezervácia", value: "Cez Obecný úrad Divinka" },
         { label: "Upratanie", value: "10 € (ak nie je upratané)" }
       ],
       pricing: {
         rows: [
-          { label: "💍 Svadby, oslavy, kult. podujatia", občan: "50 € / akcia + energie", ostatní: "70 € / akcia + energie" },
-          { label: "🎓 Školenia, porady", občan: "5 € / hod. + energie", ostatní: "7 € / hod. + energie" },
-          { label: "🕯️ Kar", občan: "10 € / kar + energie", ostatní: "40 € / kar + energie" },
-          { label: "🍳 Kuchynka", občan: "10 € / akcia", ostatní: "10 € / akcia" },
-          { label: "🧹 Upratanie (ak nie je upratané)", občan: "10 €", ostatní: "10 €" }
+          { label: "Svadby, oslavy, kultúrne podujatia", občan: "50 € / akcia + energie", ostatní: "70 € / akcia + energie" },
+          { label: "Školenia, porady", občan: "5 € / hod. + energie", ostatní: "7 € / hod. + energie" },
+          { label: "Kar", občan: "10 € / kar + energie", ostatní: "40 € / kar + energie" },
+          { label: "Použitie kuchynky", občan: "10 € / akcia", ostatní: "10 € / akcia" },
+          { label: "Upratanie (ak nie je upratané)", občan: "10 €", ostatní: "10 €" }
         ],
         notes: [
           'Sadzba „občan" platí pre <strong>občanov s trvalým pobytom v obci</strong>.',
-          "K cene sa pripočítavajú <strong>energie podľa spotreby</strong>.",
-          "Pri kare sa zvýhodnený poplatok vzťahuje na zosnulých s <strong>trvalým pobytom v obci</strong>."
+          "K cene sa pripočítavajú <strong>energie podľa skutočnej spotreby</strong>.",
+          "Pri kare sa zvýhodnený poplatok vzťahuje na zosnulých s trvalým pobytom v obci."
         ]
       },
       rules: {
         cards: [
-          { icon: "📞", title: "Rezervácia cez OcÚ", text: "Termín si dohodnite na obecnom úrade. Pri väčších akciách potrebná zmluva." },
-          { icon: "🔑", title: "Kľúče", text: "Vyzdvihnutie u zodpovednej osoby na OcÚ podľa dohody." },
-          { icon: "🪑", title: "Vybavenie", text: "Stoly, stoličky, projektor (na vyžiadanie). Inventár OcÚ za poplatok." },
-          { icon: "🍳", title: "Kuchynka", text: "Pri použití samostatný poplatok <strong>10 €</strong>." },
-          { icon: "🧹", title: "Upratanie", text: "Po skončení akcie je povinné upratanie. Inak poplatok 10 €." },
-          { icon: "⚡", title: "Energie", text: "Spotrebu energie hradí nájomca podľa skutočnosti." }
+          { title: "Rezervácia cez OcÚ", text: "Termín si dohodnite na obecnom úrade. Pri väčších akciách sa podpisuje zmluva." },
+          { title: "Prevzatie kľúčov", text: "Vyzdvihnutie kľúčov u zodpovednej osoby na obecnom úrade podľa dohody." },
+          { title: "Vybavenie", text: "Stoly, stoličky, projektor (na vyžiadanie). Inventár OcÚ za samostatný poplatok." },
+          { title: "Použitie kuchynky", text: "Pri použití kuchynky sa účtuje samostatný poplatok <strong>10 €</strong>." },
+          { title: "Povinné upratanie", text: "Po skončení akcie je povinné upratanie. V opačnom prípade poplatok 10 €." },
+          { title: "Energie", text: "Spotrebu energie hradí nájomca podľa skutočnosti." }
         ],
         sankcie: [
-          "Poplatok 10 € za neupratanie priestorov.",
+          "<strong>10 €</strong> za neupratanie priestorov.",
           "Pri poškodení majetku obce náhrada v plnej výške."
         ]
       },
@@ -1296,7 +1317,7 @@
   ];
 
   // =============================================================================
-  // === STAV ====================================================================
+  // STAV
   // =============================================================================
   let activePropertyId = PROPERTIES[0].id;
   let viewYear = new Date().getFullYear();
@@ -1305,63 +1326,48 @@
   let selectedDate = null;
   let openFormHour = null;
   let selectedHours = new Set();
-  let modalMode = "hourly"; // hourly | allday
+  let modalMode = "hourly";
 
-  // Cloud — jeden objekt na property
   let cloudReady = false;
   let db = null;
-  // Štruktúra: { propertyId: { "YYYY-MM-DD": { "HH:MM": {name, note}, "_allDay": {name, note} } } }
   let bookingsByProperty = {};
   PROPERTIES.forEach(p => bookingsByProperty[p.id] = {});
 
   // =============================================================================
-  // === HELPERS =================================================================
+  // HELPERS
   // =============================================================================
   function getActiveProperty() {
     return PROPERTIES.find(p => p.id === activePropertyId) || PROPERTIES[0];
   }
-
   function getHoursForDate(prop, dt) {
     if (prop.hours.fixed) return prop.hours.fixed;
     if (prop.hours.seasonal) {
-      const m = dt.getMonth(); // 0=Jan
-      // Letná: máj (4) – október (9). Zimná: november (10) – apríl (3)
+      const m = dt.getMonth();
       const isSummer = m >= 4 && m <= 9;
       return isSummer ? prop.hours.seasonal.summer : prop.hours.seasonal.winter;
     }
     return [8, 22];
   }
-
   function generateHourSlots(startH, endH) {
     const slots = [];
-    for (let h = startH; h < endH; h++) {
-      slots.push(String(h).padStart(2, "0") + ":00");
-    }
+    for (let h = startH; h < endH; h++) slots.push(String(h).padStart(2, "0") + ":00");
     return slots;
   }
-
   function dateKey(dt) {
     return dt.getFullYear() + "-" +
            String(dt.getMonth() + 1).padStart(2, "0") + "-" +
            String(dt.getDate()).padStart(2, "0");
   }
-
   function escapeHtml(s) {
     return String(s).replace(/[&<>"']/g, c => ({
       '&':'&amp;','<':'&lt;','>':'&gt;','"':'&quot;',"'":'&#39;'
     })[c]);
   }
-
-  function getBookings(propId) {
-    return bookingsByProperty[propId] || {};
-  }
-
-  function getDayBookings(propId, key) {
-    return getBookings(propId)[key] || {};
-  }
+  function getBookings(propId) { return bookingsByProperty[propId] || {}; }
+  function getDayBookings(propId, key) { return getBookings(propId)[key] || {}; }
 
   // =============================================================================
-  // === CLOUD ===================================================================
+  // CLOUD
   // =============================================================================
   function setCloudStatus(state, text) {
     document.querySelectorAll(".cloud-status").forEach(el => {
@@ -1381,9 +1387,8 @@
       firebase.initializeApp(firebaseConfig);
       db = firebase.firestore();
       cloudReady = true;
-      setCloudStatus("online", "Pripájam...");
+      setCloudStatus("online", "Pripájam");
 
-      // Pre každý objekt nasadíme samostatný real-time listener
       PROPERTIES.forEach(prop => {
         db.collection("divinka").doc(prop.id).onSnapshot(snap => {
           bookingsByProperty[prop.id] = (snap.exists && snap.data().bookings) || {};
@@ -1427,7 +1432,7 @@
   }
 
   // =============================================================================
-  // === RENDER: TAB NAVIGATION ==================================================
+  // TAB NAVIGATION
   // =============================================================================
   function renderTabs() {
     const nav = document.getElementById("propertyNav");
@@ -1435,7 +1440,7 @@
     PROPERTIES.forEach(p => {
       const btn = document.createElement("button");
       btn.className = "prop-tab" + (p.id === activePropertyId ? " active" : "");
-      btn.innerHTML = '<span class="tab-icon">' + p.icon + '</span><span>' + p.short + '</span>';
+      btn.textContent = p.name;
       btn.onclick = () => switchProperty(p.id);
       nav.appendChild(btn);
     });
@@ -1452,7 +1457,7 @@
   }
 
   // =============================================================================
-  // === RENDER: PROPERTY SECTIONS ==============================================
+  // PROPERTY SECTIONS
   // =============================================================================
   function renderPropertySections() {
     const root = document.getElementById("propertySections");
@@ -1464,98 +1469,100 @@
       sec.innerHTML = renderPropertyHTML(p);
       root.appendChild(sec);
     });
-    // Po vykreslení vlož callbacks
-    attachCalendarHandlers();
   }
 
   function renderPropertyHTML(p) {
     let html = "";
 
-    // Header
-    html += '<div class="property-header">';
-    html += '<div class="property-title">';
-    html += '<div class="property-title-icon">' + p.icon + '</div>';
-    html += '<div><h2>' + escapeHtml(p.name) + '</h2>';
-    html += '<div class="property-title-sub">' + (p.type === "sport" ? "Športový objekt" : "Kultúrno-spoločenský objekt") + ' · Obec Divinka</div></div>';
-    html += '</div>';
+    // Intro
+    html += '<div class="property-intro">';
+    html += '<div class="property-eyebrow">' + (p.type === "sport" ? "Športový objekt" : "Kultúrno-spoločenský objekt") + ' · Obec Divinka</div>';
+    html += '<h1 class="property-name">' + escapeHtml(p.name) + '</h1>';
     html += '<p class="property-desc">' + escapeHtml(p.desc) + '</p>';
     html += '</div>';
 
-    // Photo + info
-    html += '<div class="property-grid">';
-    html += '<div class="photo-box">';
-    html += '<img src="' + p.photo + '" alt="' + escapeHtml(p.name) + '" onerror="this.style.display=\'none\';" />';
-    html += '<div class="photo-label">📸 ' + escapeHtml(p.name) + '</div>';
-    html += '</div>';
-    html += '<div class="info-cards">';
-    p.info.forEach(c => {
-      html += '<div class="info-card"><div class="label">' + escapeHtml(c.label) + '</div><div class="value">' + escapeHtml(c.value) + '</div></div>';
-    });
-    html += '</div></div>';
+    // KALENDÁR (na začiatku každej sekcie)
+    html += '<div class="section">';
+    html += '<div class="section-header"><h3>Kalendár obsadenosti</h3></div>';
 
-    // Cenník
-    html += '<div class="sub-header"><div class="sub-icon">💶</div><h3>Cenník</h3><div class="accent"></div></div>';
-    html += '<table class="pricing-table"><thead><tr><th>Položka</th><th>Občan obce Divinka</th><th>Ostatní</th></tr></thead><tbody>';
-    p.pricing.rows.forEach(r => {
-      const obcanCls = r.občan === "zdarma" || r.občan === "bezplatne" ? "free" : "price";
-      const ostCls = r.ostatní === "zdarma" || r.ostatní === "bezplatne" ? "free" : "price";
-      html += '<tr><td class="label-col">' + r.label + '</td>' +
-              '<td class="' + obcanCls + '">' + r.občan + '</td>' +
-              '<td class="' + ostCls + '">' + r.ostatní + '</td></tr>';
-    });
-    html += '</tbody></table>';
-    if (p.pricing.notes && p.pricing.notes.length) {
-      html += '<div class="pricing-note"><strong>Dôležité informácie:</strong><ul>';
-      p.pricing.notes.forEach(n => html += '<li>' + n + '</li>');
-      html += '</ul></div>';
-    }
-
-    // Kalendár
-    html += '<div class="sub-header"><div class="sub-icon">📅</div><h3>Kalendár obsadenosti</h3><div class="accent"></div></div>';
     const c = p.contact;
-    html += '<div class="phone-notice">';
-    html += '<div class="phone-icon">📞</div>';
-    html += '<div class="phone-text"><strong>Rezerváciu nie je možné vytvoriť cez túto stránku.</strong><br>';
+    html += '<div class="reservation-notice">';
+    html += '<strong>Rezerváciu nie je možné vytvoriť cez túto stránku.</strong> ';
     if (c.email) {
-      html += 'Termín si dohodnite cez <strong>' + escapeHtml(c.name) + '</strong>: <a href="tel:' + c.phone.replace(/\s/g,"") + '">' + escapeHtml(c.phone) + '</a>';
-      html += ' · <a href="mailto:' + c.email + '">' + escapeHtml(c.email) + '</a>';
+      html += 'Termín si dohodnite cez <strong>' + escapeHtml(c.name) + '</strong> – tel. <a href="tel:' + c.phone.replace(/\s/g,"") + '">' + escapeHtml(c.phone) + '</a>';
+      html += ', e-mail <a href="mailto:' + c.email + '">' + escapeHtml(c.email) + '</a>.';
     } else {
-      html += 'Termín si dohodnite osobne alebo telefonicky u <strong>' + escapeHtml(c.name) + '</strong>: <a href="tel:' + c.phone.replace(/\s/g,"") + '">' + escapeHtml(c.phone) + '</a>';
+      html += 'Termín si dohodnite osobne alebo telefonicky u <strong>' + escapeHtml(c.name) + '</strong> – <a href="tel:' + c.phone.replace(/\s/g,"") + '">' + escapeHtml(c.phone) + '</a>';
       if (c.phoneAlt) html += ' (mimoriadne <a href="tel:' + c.phoneAlt.replace(/\s/g,"") + '">' + escapeHtml(c.phoneAlt) + '</a>)';
+      html += '.';
     }
-    html += '. Stránka slúži <em>iba na zobrazenie obsadenosti</em>.</div></div>';
+    html += ' Kalendár slúži výhradne na zobrazenie obsadenosti.';
+    html += '</div>';
 
     html += '<div class="info-bar" id="infoBar-' + p.id + '">';
-    html += 'Kliknite na deň pre zobrazenie obsadenosti. Rezervácie zapisuje výhradne ' + (p.type === "sport" ? "správca ihriska" : "obecný úrad") + '.';
+    html += '<span>Kliknite na deň pre zobrazenie obsadenosti. Rezervácie zapisuje výhradne ' + (p.type === "sport" ? "správca ihriska" : "obecný úrad") + '.</span>';
     html += '<span class="cloud-status offline"><span class="cloud-dot"></span><span class="cloud-status-text">Lokálny režim</span></span>';
     html += '</div>';
 
     html += '<div class="calendar-controls">';
     html += '<button class="nav-btn" onclick="changeMonth(-1)">‹</button>';
-    html += '<div style="display:flex; align-items:center; gap:10px;"><div class="month-title" id="monthTitle-' + p.id + '"></div>';
+    html += '<div style="display:flex; align-items:center; gap:14px;"><div class="month-title" id="monthTitle-' + p.id + '"></div>';
     html += '<button class="today-btn" onclick="goToToday()">Dnes</button></div>';
     html += '<button class="nav-btn" onclick="changeMonth(1)">›</button>';
     html += '</div>';
 
-    html += '<div class="calendar"><div class="weekdays"><div>Po</div><div>Ut</div><div>St</div><div>Št</div><div>Pi</div><div>So</div><div>Ne</div></div>';
+    html += '<div class="calendar"><div class="weekdays"><div>Pon</div><div>Uto</div><div>Str</div><div>Štv</div><div>Pia</div><div>Sob</div><div>Ned</div></div>';
     html += '<div class="days" id="daysGrid-' + p.id + '"></div></div>';
 
     html += '<div class="legend">';
-    html += '<div class="legend-item"><div class="legend-box" style="background:white;"></div> Voľné</div>';
-    html += '<div class="legend-item"><div class="legend-box" style="background:#c0392b; border-color:#c0392b;"></div> Obsadené</div>';
+    html += '<div class="legend-item"><div class="legend-box" style="background:white;"></div><span>Voľný termín</span></div>';
+    html += '<div class="legend-item"><div class="legend-box" style="background:#b03020; border-color:#b03020;"></div><span>Obsadené hodiny</span></div>';
     if (p.mode === "mixed") {
-      html += '<div class="legend-item"><div class="legend-box" style="background:#003d82; border-color:#003d82;"></div> Celý deň</div>';
+      html += '<div class="legend-item"><div class="legend-box" style="background:#003d82; border-color:#003d82;"></div><span>Celodenná akcia</span></div>';
     }
-    html += '<div class="legend-item"><div class="legend-box" style="background:#f5ecd1; border-color:#d9c896;"></div> Dnešný deň</div>';
+    html += '<div class="legend-item"><div class="legend-box" style="background:#fdf8e8; border-color:#d9c896;"></div><span>Dnešný deň</span></div>';
+    html += '</div></div>';
+
+    // O OBJEKTE
+    html += '<div class="section">';
+    html += '<div class="section-header"><h3>O objekte</h3></div>';
+    html += '<div class="property-grid">';
+    html += '<div class="photo-box">';
+    html += '<img src="' + p.photo + '" alt="' + escapeHtml(p.name) + '" onerror="this.style.display=\'none\'; this.nextElementSibling.style.display=\'flex\';" />';
+    html += '<div class="photo-placeholder" style="display:none;">Fotografia objektu</div>';
+    html += '</div>';
+    html += '<table class="info-table">';
+    p.info.forEach(c => {
+      html += '<tr><td class="info-label">' + escapeHtml(c.label) + '</td><td class="info-value">' + escapeHtml(c.value) + '</td></tr>';
+    });
+    html += '</table>';
+    html += '</div></div>';
+
+    // CENNÍK
+    html += '<div class="section">';
+    html += '<div class="section-header"><h3>Cenník prenájmu</h3></div>';
+    html += '<table class="pricing-table"><thead><tr><th>Položka</th><th>Občan obce Divinka</th><th>Ostatní</th></tr></thead><tbody>';
+    p.pricing.rows.forEach(r => {
+      const obcanCls = r.občan === "zdarma" || r.občan === "bezplatne" ? "free" : "price";
+      const ostCls = r.ostatní === "zdarma" || r.ostatní === "bezplatne" ? "free" : "price";
+      html += '<tr><td class="label-col">' + escapeHtml(r.label) + '</td>' +
+              '<td class="' + obcanCls + '">' + r.občan + '</td>' +
+              '<td class="' + ostCls + '">' + r.ostatní + '</td></tr>';
+    });
+    html += '</tbody></table>';
+    if (p.pricing.notes && p.pricing.notes.length) {
+      html += '<div class="pricing-note"><div class="note-title">Dôležité informácie</div><ul>';
+      p.pricing.notes.forEach(n => html += '<li>' + n + '</li>');
+      html += '</ul></div>';
+    }
     html += '</div>';
 
-    // Pravidlá
-    html += '<div class="sub-header"><div class="sub-icon">📋</div><h3>Pravidlá užívania</h3><div class="accent"></div></div>';
+    // PRAVIDLÁ
+    html += '<div class="section">';
+    html += '<div class="section-header"><h3>Pravidlá užívania</h3></div>';
     html += '<div class="rules-grid">';
     p.rules.cards.forEach(r => {
-      html += '<div class="rule-card"><div class="rule-icon">' + r.icon + '</div>';
-      html += '<h4>' + escapeHtml(r.title) + '</h4>';
-      html += '<p>' + r.text + '</p></div>';
+      html += '<div class="rule-card"><h4>' + escapeHtml(r.title) + '</h4><p>' + r.text + '</p></div>';
     });
     html += '</div>';
     if (p.rules.sankcie && p.rules.sankcie.length) {
@@ -1563,32 +1570,30 @@
       p.rules.sankcie.forEach(s => html += '<li>' + s + '</li>');
       html += '</ol></div>';
     }
+    html += '</div>';
 
-    // Kontakt
-    html += '<div class="sub-header"><div class="sub-icon">📞</div><h3>Kontakt</h3><div class="accent"></div></div>';
-    html += '<div class="contact-card">';
+    // KONTAKT
+    html += '<div class="section">';
+    html += '<div class="section-header"><h3>Kontakt</h3></div>';
+    html += '<div class="contact-block">';
     html += '<h4>' + escapeHtml(c.name) + '</h4>';
-    html += '<div class="contact-row"><div class="contact-icon">📞</div><div><a href="tel:' + c.phone.replace(/\s/g,"") + '">' + escapeHtml(c.phone) + '</a></div></div>';
+    html += '<div class="contact-row"><div class="contact-label">Telefón</div><div class="contact-value"><a href="tel:' + c.phone.replace(/\s/g,"") + '">' + escapeHtml(c.phone) + '</a></div></div>';
     if (c.phoneAlt) {
-      html += '<div class="contact-row"><div class="contact-icon">📱</div><div>Mimoriadne: <a href="tel:' + c.phoneAlt.replace(/\s/g,"") + '">' + escapeHtml(c.phoneAlt) + '</a></div></div>';
+      html += '<div class="contact-row"><div class="contact-label">Mimoriadne</div><div class="contact-value"><a href="tel:' + c.phoneAlt.replace(/\s/g,"") + '">' + escapeHtml(c.phoneAlt) + '</a></div></div>';
     }
     if (c.email) {
-      html += '<div class="contact-row"><div class="contact-icon">📧</div><div><a href="mailto:' + c.email + '">' + escapeHtml(c.email) + '</a></div></div>';
+      html += '<div class="contact-row"><div class="contact-label">E-mail</div><div class="contact-value"><a href="mailto:' + c.email + '">' + escapeHtml(c.email) + '</a></div></div>';
     }
     if (c.address) {
-      html += '<div class="contact-row"><div class="contact-icon">📍</div><div>' + escapeHtml(c.address) + '</div></div>';
+      html += '<div class="contact-row"><div class="contact-label">Adresa</div><div class="contact-value">' + escapeHtml(c.address) + '</div></div>';
     }
-    html += '</div>';
+    html += '</div></div>';
 
     return html;
   }
 
-  function attachCalendarHandlers() {
-    // Žiadne explicitné — onclick handlers sú v HTML
-  }
-
   // =============================================================================
-  // === KALENDÁR ===============================================================
+  // KALENDÁR RENDER
   // =============================================================================
   function renderCalendar() {
     const p = getActiveProperty();
@@ -1643,7 +1648,7 @@
       wrap.className = "day-bookings";
       const pill = document.createElement("div");
       pill.className = "booking-pill allday";
-      pill.textContent = "📌 " + (allDay.name || "Celý deň obsadený");
+      pill.textContent = allDay.name || "Celý deň";
       pill.title = allDay.name + (allDay.note ? " – " + allDay.note : "");
       wrap.appendChild(pill);
       cell.appendChild(wrap);
@@ -1674,7 +1679,7 @@
   }
 
   // =============================================================================
-  // === MODAL — DAY VIEW ========================================================
+  // MODAL — DAY VIEW
   // =============================================================================
   function openDay(dt) {
     const newKey = dateKey(dt);
@@ -1689,18 +1694,17 @@
     const dayBookings = getDayBookings(p.id, key);
     const allDay = dayBookings._allDay;
 
-    const title = DAY_NAMES[dt.getDay()] + " " + dt.getDate() + ". " +
+    const title = DAY_NAMES[dt.getDay()] + ", " + dt.getDate() + ". " +
                   MONTH_NAMES[dt.getMonth()].toLowerCase() + " " + dt.getFullYear();
     document.getElementById("modalTitle").textContent = title;
-    document.getElementById("modalProp").textContent = p.icon + " " + p.name;
+    document.getElementById("modalProp").textContent = p.name;
 
     let html = "";
 
-    // Mode tabs (iba pri "mixed" objektoch)
     if (p.mode === "mixed") {
       html += '<div class="mode-tabs">';
-      html += '<button class="mode-tab' + (modalMode === "hourly" ? " active" : "") + '" onclick="switchMode(\'hourly\')">⏱️ Po hodinách</button>';
-      html += '<button class="mode-tab' + (modalMode === "allday" ? " active" : "") + '" onclick="switchMode(\'allday\')">📆 Celodenná akcia</button>';
+      html += '<button class="mode-tab' + (modalMode === "hourly" ? " active" : "") + '" onclick="switchMode(\'hourly\')">Po hodinách</button>';
+      html += '<button class="mode-tab' + (modalMode === "allday" ? " active" : "") + '" onclick="switchMode(\'allday\')">Celodenná akcia</button>';
       html += '</div>';
     }
 
@@ -1723,12 +1727,12 @@
 
     let html = "";
 
-    // Ak je celý deň obsadený, nezobrazujeme hodinové sloty (len pre mixed mode info)
     if (allDay && p.mode === "mixed" && modalMode === "hourly") {
-      html += '<div style="background:var(--blue-light); border:2px solid var(--blue); border-radius:10px; padding:14px 18px; margin-bottom:14px;">';
-      html += '<strong style="color:var(--blue);">📌 Celý deň je rezervovaný:</strong> ' + escapeHtml(allDay.name || "") + '<br>';
-      if (allDay.note) html += '<small>' + escapeHtml(allDay.note) + '</small><br>';
-      html += '<small>Pre úpravu prepnite na záložku „Celodenná akcia".</small>';
+      html += '<div class="allday-card occupied">';
+      html += '<div class="allday-status"><span class="status-dot"></span>Celý deň je rezervovaný</div>';
+      html += '<div class="allday-info"><strong>' + escapeHtml(allDay.name || "") + '</strong></div>';
+      if (allDay.note) html += '<div class="allday-info">' + escapeHtml(allDay.note) + '</div>';
+      html += '<div class="allday-info" style="margin-top:8px; font-style:italic;">Pre úpravu prepnite na záložku „Celodenná akcia".</div>';
       html += '</div>';
       return html;
     }
@@ -1739,9 +1743,7 @@
     html += '</div>';
 
     if (isAdmin && selectedHours.size === 0 && openFormHour === null) {
-      html += '<div style="font-size:12px; color:var(--text-soft); margin-bottom:10px; padding:8px 10px; background:var(--blue-light); border-radius:6px; border-left:3px solid var(--blue);">' +
-              '💡 <strong>Tip:</strong> Kliknite na viac voľných hodín naraz a uložte všetky pod jedno meno (napr. tréning).' +
-              '</div>';
+      html += '<div class="admin-tip"><strong>Tip:</strong> Kliknite na voľné hodiny (možno označiť aj viac naraz) a uložte rezerváciu pod jedno meno.</div>';
     }
 
     html += '<div class="timeline">';
@@ -1761,7 +1763,7 @@
       }
 
       html += '<div class="slot' + (isOccupied ? " occupied" : "") + adminCls + selectedCls + '"' + onClickAttr + '>';
-      html += '<div class="slot-time">' + h + '–' + slotEnd + '</div>';
+      html += '<div class="slot-time">' + h + ' – ' + slotEnd + '</div>';
       html += '<div class="slot-info">';
       html += '<div style="display:flex; align-items:center;">';
       if (isAdmin && !isOccupied) {
@@ -1769,32 +1771,31 @@
       }
       html += '<div>';
       let statusText;
-      if (isOccupied) statusText = "🔴 Obsadené";
-      else if (isSelected) statusText = "🔵 Vybrané";
-      else statusText = "🟢 Voľné";
-      html += '<div class="slot-status">' + statusText + '</div>';
-      if (isOccupied && booking.name) html += '<div class="slot-name">👥 ' + escapeHtml(booking.name) + '</div>';
-      if (isOccupied && booking.note) html += '<div class="slot-name">📝 ' + escapeHtml(booking.note) + '</div>';
+      if (isOccupied) statusText = "Obsadené";
+      else if (isSelected) statusText = "Vybrané";
+      else statusText = "Voľné";
+      html += '<div class="slot-status"><span class="status-dot"></span>' + statusText + '</div>';
+      if (isOccupied && booking.name) html += '<div class="slot-name"><strong>' + escapeHtml(booking.name) + '</strong></div>';
+      if (isOccupied && booking.note) html += '<div class="slot-name">' + escapeHtml(booking.note) + '</div>';
       html += '</div></div>';
       if (isAdmin && isOccupied) {
-        html += '<div class="slot-action">' + (formOpen ? "▲ Zavrieť" : "✏️ Upraviť") + '</div>';
+        html += '<div class="slot-action">' + (formOpen ? "Zatvoriť" : "Upraviť") + '</div>';
       }
       html += '</div></div>';
 
       if (formOpen) {
         html += '<div class="reservation-form" onclick="event.stopPropagation()">';
-        html += '<input type="text" id="resName_' + h + '" placeholder="Meno / klub" value="' + escapeHtml(booking.name || "") + '" />';
+        html += '<input type="text" id="resName_' + h + '" placeholder="Meno alebo názov klubu" value="' + escapeHtml(booking.name || "") + '" />';
         html += '<input type="text" id="resNote_' + h + '" placeholder="Poznámka (voliteľné)" value="' + escapeHtml(booking.note || "") + '" style="margin-top:6px;" />';
         html += '<div class="row">';
-        html += '<button class="btn btn-primary" onclick="saveSingleReservation(\'' + key + '\', \'' + h + '\')">💾 Uložiť</button>';
-        html += '<button class="btn btn-danger" onclick="deleteHourReservation(\'' + key + '\', \'' + h + '\')">🗑 Zrušiť rezerváciu</button>';
+        html += '<button class="btn btn-primary" onclick="saveSingleReservation(\'' + key + '\', \'' + h + '\')">Uložiť</button>';
+        html += '<button class="btn btn-danger" onclick="deleteHourReservation(\'' + key + '\', \'' + h + '\')">Zrušiť rezerváciu</button>';
         html += '<button class="btn btn-ghost" onclick="toggleEditForm(null)">Zatvoriť</button>';
         html += '</div></div>';
       }
     });
     html += '</div>';
 
-    // Bulk panel
     if (isAdmin && selectedHours.size > 0) {
       const sorted = [...selectedHours].sort();
       const first = sorted[0];
@@ -1803,17 +1804,17 @@
       const isContinuous = sorted.every((h, i) => i === 0 ||
         HOURS.indexOf(h) === HOURS.indexOf(sorted[i - 1]) + 1);
       const rangeText = isContinuous
-        ? first + "–" + lastEnd + " (" + sorted.length + " hodín)"
+        ? first + " – " + lastEnd + " (" + sorted.length + " hodín)"
         : sorted.join(", ") + " (" + sorted.length + " hodín)";
 
       html += '<div class="bulk-bar">';
-      html += '<div class="bulk-title">📝 Nová rezervácia – ' + sorted.length + ' ' +
+      html += '<div class="bulk-title">Nová rezervácia – ' + sorted.length + ' ' +
               (sorted.length === 1 ? "hodina" : (sorted.length < 5 ? "hodiny" : "hodín")) + '</div>';
       html += '<div class="bulk-summary">Rozsah: <strong>' + rangeText + '</strong></div>';
-      html += '<input type="text" id="bulkName" placeholder="Meno / klub (napr. FK Divinka)" autofocus />';
-      html += '<input type="text" id="bulkNote" placeholder="Poznámka (voliteľné, napr. tréning U15)" />';
-      html += '<div class="row" style="margin-top:6px;">';
-      html += '<button class="btn btn-primary" onclick="saveBulkReservation()">✓ Uložiť rezerváciu</button>';
+      html += '<input type="text" id="bulkName" placeholder="Meno alebo názov klubu" autofocus />';
+      html += '<input type="text" id="bulkNote" placeholder="Poznámka (voliteľné)" />';
+      html += '<div class="row" style="margin-top:8px;">';
+      html += '<button class="btn btn-primary" onclick="saveBulkReservation()">Uložiť rezerváciu</button>';
       html += '<button class="btn btn-ghost" onclick="clearSelection()">Zrušiť výber</button>';
       html += '</div></div>';
     }
@@ -1824,25 +1825,25 @@
   function renderAllDayView(p, key, allDay) {
     let html = '<div class="allday-card' + (allDay ? " occupied" : "") + '">';
     if (allDay) {
-      html += '<div class="allday-status">🔴 Celý deň je obsadený</div>';
+      html += '<div class="allday-status"><span class="status-dot"></span>Celý deň je rezervovaný</div>';
       html += '<div class="allday-info"><strong>Akcia / nájomca:</strong> ' + escapeHtml(allDay.name || "—") + '</div>';
       if (allDay.note) html += '<div class="allday-info"><strong>Poznámka:</strong> ' + escapeHtml(allDay.note) + '</div>';
     } else {
-      html += '<div class="allday-status">🟢 Tento deň je voľný</div>';
+      html += '<div class="allday-status"><span class="status-dot"></span>Tento deň je voľný</div>';
       html += '<div class="allday-info">Pre celodenné rezervácie (svadby, oslavy, kary, väčšie akcie) označte celý deň ako obsadený.</div>';
     }
     html += '</div>';
 
     if (isAdmin) {
-      html += '<div class="reservation-form" style="margin-top:14px; border:1px solid var(--border); border-radius:10px;" onclick="event.stopPropagation()">';
-      html += '<input type="text" id="alldayName" placeholder="Akcia / meno (napr. Svadba Novákovci)" value="' + escapeHtml(allDay ? allDay.name || "" : "") + '" />';
+      html += '<div class="reservation-form" style="margin-top:14px; border:1px solid var(--border); border-radius:6px; border-top:1px solid var(--border);" onclick="event.stopPropagation()">';
+      html += '<input type="text" id="alldayName" placeholder="Názov akcie alebo meno (napr. Svadba Novákovci)" value="' + escapeHtml(allDay ? allDay.name || "" : "") + '" />';
       html += '<input type="text" id="alldayNote" placeholder="Poznámka (voliteľné)" value="' + escapeHtml(allDay ? allDay.note || "" : "") + '" style="margin-top:6px;" />';
       html += '<div class="row">';
       if (allDay) {
-        html += '<button class="btn btn-primary" onclick="saveAllDay(\'' + key + '\')">💾 Uložiť zmeny</button>';
-        html += '<button class="btn btn-danger" onclick="deleteAllDay(\'' + key + '\')">🗑 Zrušiť rezerváciu</button>';
+        html += '<button class="btn btn-primary" onclick="saveAllDay(\'' + key + '\')">Uložiť zmeny</button>';
+        html += '<button class="btn btn-danger" onclick="deleteAllDay(\'' + key + '\')">Zrušiť rezerváciu</button>';
       } else {
-        html += '<button class="btn btn-primary" onclick="saveAllDay(\'' + key + '\')">📌 Označiť celý deň ako obsadený</button>';
+        html += '<button class="btn btn-primary" onclick="saveAllDay(\'' + key + '\')">Označiť celý deň ako obsadený</button>';
       }
       html += '</div></div>';
     }
@@ -1855,7 +1856,6 @@
     openFormHour = null;
     openDay(selectedDate);
   }
-
   function toggleSelection(hour) {
     if (!isAdmin) return;
     if (selectedHours.has(hour)) selectedHours.delete(hour);
@@ -1863,12 +1863,7 @@
     openFormHour = null;
     openDay(selectedDate);
   }
-
-  function clearSelection() {
-    selectedHours.clear();
-    openDay(selectedDate);
-  }
-
+  function clearSelection() { selectedHours.clear(); openDay(selectedDate); }
   function toggleEditForm(hour) {
     if (!isAdmin) return;
     openFormHour = (openFormHour === hour || hour === null) ? null : hour;
@@ -1877,7 +1872,7 @@
   }
 
   // =============================================================================
-  // === CRUD ====================================================================
+  // CRUD
   // =============================================================================
   function saveBulkReservation() {
     const nameInput = document.getElementById("bulkName");
@@ -1898,14 +1893,12 @@
     openDay(selectedDate);
     renderCalendar();
   }
-
   function saveSingleReservation(key, hour) {
     const nameInput = document.getElementById("resName_" + hour);
     const noteInput = document.getElementById("resNote_" + hour);
     const name = (nameInput?.value || "").trim();
     const note = (noteInput?.value || "").trim();
     if (!name) { alert("Zadajte meno alebo názov klubu."); return; }
-
     const propId = activePropertyId;
     const b = JSON.parse(JSON.stringify(getBookings(propId)));
     if (!b[key]) b[key] = {};
@@ -1919,7 +1912,6 @@
     openDay(selectedDate);
     renderCalendar();
   }
-
   function deleteHourReservation(key, hour) {
     if (!confirm("Naozaj chcete zrušiť túto rezerváciu?")) return;
     const propId = activePropertyId;
@@ -1933,14 +1925,12 @@
     openDay(selectedDate);
     renderCalendar();
   }
-
   function saveAllDay(key) {
     const nameInput = document.getElementById("alldayName");
     const noteInput = document.getElementById("alldayNote");
     const name = (nameInput?.value || "").trim();
     const note = (noteInput?.value || "").trim();
     if (!name) { alert("Zadajte názov akcie alebo meno."); nameInput?.focus(); return; }
-
     const propId = activePropertyId;
     const b = JSON.parse(JSON.stringify(getBookings(propId)));
     if (!b[key]) b[key] = {};
@@ -1953,7 +1943,6 @@
     openDay(selectedDate);
     renderCalendar();
   }
-
   function deleteAllDay(key) {
     if (!confirm("Naozaj chcete zrušiť celodennú rezerváciu?")) return;
     const propId = activePropertyId;
@@ -1990,7 +1979,7 @@
   }
 
   // =============================================================================
-  // === ADMIN ===================================================================
+  // ADMIN
   // =============================================================================
   function toggleAdmin() {
     const adminBtn = document.getElementById("adminBtn");
@@ -2003,7 +1992,7 @@
       const pwd = prompt("Zadajte administrátorské heslo:");
       if (pwd === ADMIN_PASSWORD) {
         isAdmin = true;
-        adminBtn.textContent = "✓ Správca prihlásený";
+        adminBtn.textContent = "Správca prihlásený";
         adminBtn.classList.add("active");
         updateInfoBars(true);
       } else if (pwd !== null) {
@@ -2021,7 +2010,7 @@
       const statusHtml = status ? status.outerHTML : "";
       const p = PROPERTIES.find(pp => el.id === "infoBar-" + pp.id);
       if (adminOn) {
-        el.innerHTML = '<span><strong>Admin režim aktívny.</strong> Kliknite na deň, vyberte hodiny (alebo „Celodenná akcia") a uložte rezerváciu.</span>' + statusHtml;
+        el.innerHTML = '<span><strong>Admin režim aktívny.</strong> Kliknite na deň a uložte rezerváciu po hodinách alebo na celý deň.</span>' + statusHtml;
       } else {
         const what = p && p.type === "sport" ? "správca ihriska" : "obecný úrad";
         el.innerHTML = '<span>Kliknite na deň pre zobrazenie obsadenosti. Rezervácie zapisuje výhradne ' + what + '.</span>' + statusHtml;
@@ -2029,7 +2018,6 @@
     });
   }
 
-  // Klávesová skratka Ctrl+Shift+A / Cmd+Shift+A
   document.addEventListener("keydown", e => {
     if ((e.ctrlKey || e.metaKey) && e.shiftKey && e.key.toLowerCase() === "a") {
       e.preventDefault();
@@ -2039,7 +2027,7 @@
   });
 
   // =============================================================================
-  // === SPUSTENIE ==============================================================
+  // SPUSTENIE
   // =============================================================================
   loadFallback();
   renderTabs();
